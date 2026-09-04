@@ -1,7 +1,13 @@
 import { PanelLeft, LayoutGrid, Search, Bell } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export function DashboardTopbar() {
+type DashboardTopbarProps = {
+  title?: string;
+  icon?: LucideIcon;
+};
+
+export function DashboardTopbar({ title = "Dashboard", icon: Icon = LayoutGrid }: DashboardTopbarProps) {
   return (
     <header className="flex h-14 shrink-0 items-center gap-3 border-b border-border bg-background px-4 sm:px-6">
       <button className="rounded-md p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground">
@@ -9,8 +15,8 @@ export function DashboardTopbar() {
       </button>
       <div className="h-4 w-px bg-border" />
       <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-        <LayoutGrid className="h-4 w-4 text-muted-foreground" />
-        Dashboard
+        <Icon className="h-4 w-4 text-muted-foreground" />
+        {title}
       </div>
 
       <div className="ml-auto flex items-center gap-3">

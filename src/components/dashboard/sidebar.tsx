@@ -1,6 +1,11 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   ChevronsUpDown,
   LayoutGrid,
+  Users,
   BarChart3,
   Briefcase,
   Plug,
@@ -11,13 +16,16 @@ import {
 import { SelviaLogoBadge } from "@/components/dashboard/logo";
 
 const platformItems = [
-  { label: "Dashboard", icon: LayoutGrid, active: true, chevron: false },
-  { label: "Analytics", icon: BarChart3, active: false, chevron: false },
-  { label: "Projects", icon: Briefcase, active: false, chevron: true },
-  { label: "Integrations", icon: Plug, active: false, chevron: false },
+  { label: "Dashboard", icon: LayoutGrid, href: "/", chevron: false },
+  { label: "Patients", icon: Users, href: "/patients", chevron: false },
+  { label: "Analytics", icon: BarChart3, href: "#", chevron: false },
+  { label: "Projects", icon: Briefcase, href: "#", chevron: true },
+  { label: "Integrations", icon: Plug, href: "#", chevron: false },
 ];
 
 export function DashboardSidebar() {
+  const pathname = usePathname();
+
   return (
     <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-sidebar px-3 py-4 md:flex">
       <div className="flex items-center gap-2 px-2 pb-6">
@@ -39,21 +47,24 @@ export function DashboardSidebar() {
         Platform
       </div>
       <nav className="mb-6 flex flex-col gap-0.5">
-        {platformItems.map((item) => (
-          <a
-            key={item.label}
-            href="#"
-            className={`flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition-colors ${
-              item.active
-                ? "bg-[#4D5C45]/10 font-medium text-[#4D5C45]"
-                : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
-            }`}
-          >
-            <item.icon className="h-4 w-4" />
-            <span className="flex-1">{item.label}</span>
-            {item.chevron && <ChevronRight className="h-3.5 w-3.5" />}
-          </a>
-        ))}
+        {platformItems.map((item) => {
+          const active = pathname === item.href;
+          return (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={`flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition-colors ${
+                active
+                  ? "bg-[#4D5C45]/10 font-medium text-[#4D5C45]"
+                  : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
+              }`}
+            >
+              <item.icon className="h-4 w-4" />
+              <span className="flex-1">{item.label}</span>
+              {item.chevron && <ChevronRight className="h-3.5 w-3.5" />}
+            </Link>
+          );
+        })}
       </nav>
 
       <div className="mb-2 px-2 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">

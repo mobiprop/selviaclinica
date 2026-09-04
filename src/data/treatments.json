@@ -1,0 +1,812 @@
+[
+  {
+    "name": "Armonización facial",
+    "category": "Tratamientos Faciales",
+    "price": 0
+  },
+  {
+    "name": "Cejas Microblading",
+    "category": "Tratamientos Faciales",
+    "price": 250000
+  },
+  {
+    "name": "Cejas hibridas",
+    "category": "Tratamientos Faciales",
+    "price": 290000
+  },
+  {
+    "name": "Consulta tricologica",
+    "category": "Tratamientos Faciales",
+    "price": 70000
+  },
+  {
+    "name": "Depilacion de bozo o menton",
+    "category": "Tratamientos Faciales",
+    "price": 20000
+  },
+  {
+    "name": "Depilacion de fosas nasales",
+    "category": "Tratamientos Faciales",
+    "price": 25000
+  },
+  {
+    "name": "Depilacion rostro entero (Incluyendo diseño y perfilado de cejas)",
+    "category": "Tratamientos Faciales",
+    "price": 45000
+  },
+  {
+    "name": "Dermapen (microneedling)",
+    "category": "Tratamientos Faciales",
+    "price": 90000
+  },
+  {
+    "name": "Dermaplaning",
+    "category": "Tratamientos Faciales",
+    "price": 70000
+  },
+  {
+    "name": "Diseño y perfilado de cejas",
+    "category": "Tratamientos Faciales",
+    "price": 30000
+  },
+  {
+    "name": "Diseño y perfilado de cejas + tintura",
+    "category": "Tratamientos Faciales",
+    "price": 50000
+  },
+  {
+    "name": "Exilis (rostro completo, cuello y escote)",
+    "category": "Tratamientos Faciales",
+    "price": 168000
+  },
+  {
+    "name": "Exilis (rostro completo, y cuello)",
+    "category": "Tratamientos Faciales",
+    "price": 120000
+  },
+  {
+    "name": "Frax facial (rostro entero, papada, cuello)",
+    "category": "Tratamientos Faciales",
+    "price": 130000
+  },
+  {
+    "name": "HIFU - Facial",
+    "category": "Tratamientos Faciales",
+    "price": 200000
+  },
+  {
+    "name": "HIFU 7D (rostro y papada)",
+    "category": "Tratamientos Faciales",
+    "price": 100000
+  },
+  {
+    "name": "HIFU 7D (rostro, papada y cuello)",
+    "category": "Tratamientos Faciales",
+    "price": 100000
+  },
+  {
+    "name": "HIFU 7D (rostro, papada, cuello y escote)",
+    "category": "Tratamientos Faciales",
+    "price": 100000
+  },
+  {
+    "name": "Hialuronidasa",
+    "category": "Tratamientos Faciales",
+    "price": 290000
+  },
+  {
+    "name": "Hilos bioestimuladores de PDO - Facial (10 hilos)",
+    "category": "Tratamientos Faciales",
+    "price": null
+  },
+  {
+    "name": "Implantes de pelo",
+    "category": "Tratamientos Faciales",
+    "price": null
+  },
+  {
+    "name": "Laminado de cejas con keratina",
+    "category": "Tratamientos Faciales",
+    "price": 50000
+  },
+  {
+    "name": "Lifting de pestañas",
+    "category": "Tratamientos Faciales",
+    "price": 45000
+  },
+  {
+    "name": "Limpieza Facial + Microdermoabrasión + Dermapen con Exosomas Coreanos",
+    "category": "Tratamientos Faciales",
+    "price": 170000
+  },
+  {
+    "name": "Limpieza Facial + Microdermoabrasión + Dermapen con Peptonas",
+    "category": "Tratamientos Faciales",
+    "price": 95000
+  },
+  {
+    "name": "Limpieza Facial + Microdermoabrasión + Dermapen con S-Booster (PDRN) – Mesoterapia Coreana",
+    "category": "Tratamientos Faciales",
+    "price": 170000
+  },
+  {
+    "name": "Limpieza Facial con Microdermoabrasión + Dermapen con Ampollas Francesas",
+    "category": "Tratamientos Faciales",
+    "price": 160000
+  },
+  {
+    "name": "Limpieza facial profunda",
+    "category": "Tratamientos Faciales",
+    "price": 70000
+  },
+  {
+    "name": "Long Lasting (skinbooster de larga duración)",
+    "category": "Tratamientos Faciales",
+    "price": null
+  },
+  {
+    "name": "Luz pulsada intensa (IPL)",
+    "category": "Tratamientos Faciales",
+    "price": 200000
+  },
+  {
+    "name": "Masaje Facial Kobido",
+    "category": "Tratamientos Faciales",
+    "price": 60000
+  },
+  {
+    "name": "Mesoterapia capilar",
+    "category": "Tratamientos Faciales",
+    "price": 80000
+  },
+  {
+    "name": "Mesoterapia facial",
+    "category": "Tratamientos Faciales",
+    "price": 80000
+  },
+  {
+    "name": "Mesoterapia francesa",
+    "category": "Tratamientos Faciales",
+    "price": 150000
+  },
+  {
+    "name": "Microshading",
+    "category": "Tratamientos Faciales",
+    "price": 270000
+  },
+  {
+    "name": "Peeling Químico (otros acidos)",
+    "category": "Tratamientos Faciales",
+    "price": 85000
+  },
+  {
+    "name": "Peeling TCA Y retinoico",
+    "category": "Tratamientos Faciales",
+    "price": 100000
+  },
+  {
+    "name": "Profhilo Facial",
+    "category": "Tratamientos Faciales",
+    "price": null
+  },
+  {
+    "name": "Péptidos",
+    "category": "Tratamientos Faciales",
+    "price": 130000
+  },
+  {
+    "name": "Radiesse Facial",
+    "category": "Tratamientos Faciales",
+    "price": null
+  },
+  {
+    "name": "Relleno: Sculptra",
+    "category": "Tratamientos Faciales",
+    "price": 640000
+  },
+  {
+    "name": "Relleno: Sculptra Facial",
+    "category": "Tratamientos Faciales",
+    "price": null
+  },
+  {
+    "name": "Rellenos con ácido hialurónico",
+    "category": "Tratamientos Faciales",
+    "price": null
+  },
+  {
+    "name": "Sunekos Facial",
+    "category": "Tratamientos Faciales",
+    "price": null
+  },
+  {
+    "name": "Toxina botulínica",
+    "category": "Tratamientos Faciales",
+    "price": 430000
+  },
+  {
+    "name": "Tratamiento para malapraxis de lifting, botox reconstructivo (Pestañas dañadas)",
+    "category": "Tratamientos Faciales",
+    "price": 50000
+  },
+  {
+    "name": "· LIMPIEZA FACIAL PROFUNDA + MESOTERAPIA FACIAL NACIONAL",
+    "category": "Tratamientos Faciales",
+    "price": 120000
+  },
+  {
+    "name": "· LIMPIEZA FACIAL PROFUNDA + PEELING",
+    "category": "Tratamientos Faciales",
+    "price": 110000
+  },
+  {
+    "name": "· LIMPIEZA FACIAL PROFUNDA Y PRP EN CARA",
+    "category": "Tratamientos Faciales",
+    "price": 160000
+  },
+  {
+    "name": "· PEELING + PRP EN CARA",
+    "category": "Tratamientos Faciales",
+    "price": 180000
+  },
+  {
+    "name": "· PEELING + PRP EN CARA, CUELLO Y ESCOTE",
+    "category": "Tratamientos Faciales",
+    "price": 230000
+  },
+  {
+    "name": "· PEELING FACIAL + DERMAPEN",
+    "category": "Tratamientos Faciales",
+    "price": 150000
+  },
+  {
+    "name": "· PEELING FACIAL + MESOTERAPIA NAC",
+    "category": "Tratamientos Faciales",
+    "price": 135000
+  },
+  {
+    "name": "Asesoria de imagen",
+    "category": "Tratamientos Corporales",
+    "price": 300000
+  },
+  {
+    "name": "Camuflaje de Estrías",
+    "category": "Tratamientos Corporales",
+    "price": 150000
+  },
+  {
+    "name": "Consulta de Sobrepeso y Descenso de Peso",
+    "category": "Tratamientos Corporales",
+    "price": 70000
+  },
+  {
+    "name": "Consulta de medicina funcional y orthomolecular",
+    "category": "Tratamientos Corporales",
+    "price": 70000
+  },
+  {
+    "name": "Criolipólisis",
+    "category": "Tratamientos Corporales",
+    "price": 50000
+  },
+  {
+    "name": "Desenso de peso 6 sesiones nutricion + 3 de consulta medica",
+    "category": "Tratamientos Corporales",
+    "price": 440000
+  },
+  {
+    "name": "Desenso de peso 6 sesiones nutricion + 3 de consulta medica + 8 sesiones de tratamiento",
+    "category": "Tratamientos Corporales",
+    "price": 980000
+  },
+  {
+    "name": "Drenaje Linfático Manual",
+    "category": "Tratamientos Corporales",
+    "price": 80000
+  },
+  {
+    "name": "Drenaje Linfático Manual con Kinesiologa",
+    "category": "Tratamientos Corporales",
+    "price": 70000
+  },
+  {
+    "name": "Exilis (abdomen)",
+    "category": "Tratamientos Corporales",
+    "price": 84000
+  },
+  {
+    "name": "Exilis (abductores)",
+    "category": "Tratamientos Corporales",
+    "price": 84000
+  },
+  {
+    "name": "Exilis (pantalon de montar)",
+    "category": "Tratamientos Corporales",
+    "price": 84000
+  },
+  {
+    "name": "Exilis (rodillas)",
+    "category": "Tratamientos Corporales",
+    "price": 60000
+  },
+  {
+    "name": "HIFU - Coporal",
+    "category": "Tratamientos Corporales",
+    "price": 200000
+  },
+  {
+    "name": "HIFU 7D (abdomen)",
+    "category": "Tratamientos Corporales",
+    "price": 100000
+  },
+  {
+    "name": "HIFU 7D (abductores)",
+    "category": "Tratamientos Corporales",
+    "price": 100000
+  },
+  {
+    "name": "HIFU 7D (brazos)",
+    "category": "Tratamientos Corporales",
+    "price": 100000
+  },
+  {
+    "name": "HIFU 7D (gluteos)",
+    "category": "Tratamientos Corporales",
+    "price": 100000
+  },
+  {
+    "name": "HIFU 7D (pantalon de montar)",
+    "category": "Tratamientos Corporales",
+    "price": 100000
+  },
+  {
+    "name": "HIFU 7D (tira de espalda)",
+    "category": "Tratamientos Corporales",
+    "price": 100000
+  },
+  {
+    "name": "Hilos bioestimuladores de PDO - Corporal (10 hilos)",
+    "category": "Tratamientos Corporales",
+    "price": null
+  },
+  {
+    "name": "Kinesiologia",
+    "category": "Tratamientos Corporales",
+    "price": 80000
+  },
+  {
+    "name": "Liposonix (abdomen)",
+    "category": "Tratamientos Corporales",
+    "price": 96000
+  },
+  {
+    "name": "Liposonix (abductores)",
+    "category": "Tratamientos Corporales",
+    "price": 96000
+  },
+  {
+    "name": "Liposonix (brazos)",
+    "category": "Tratamientos Corporales",
+    "price": 70000
+  },
+  {
+    "name": "Liposonix (gluteos)",
+    "category": "Tratamientos Corporales",
+    "price": 96000
+  },
+  {
+    "name": "Liposonix (pantalon de montar)",
+    "category": "Tratamientos Corporales",
+    "price": 96000
+  },
+  {
+    "name": "Liposonix (tira de espalda)",
+    "category": "Tratamientos Corporales",
+    "price": 70000
+  },
+  {
+    "name": "Maderoterapia",
+    "category": "Tratamientos Corporales",
+    "price": 90000
+  },
+  {
+    "name": "Masaje Deportivo",
+    "category": "Tratamientos Corporales",
+    "price": 80000
+  },
+  {
+    "name": "Masaje Reductor",
+    "category": "Tratamientos Corporales",
+    "price": 80000
+  },
+  {
+    "name": "Masajes descontracturantes",
+    "category": "Tratamientos Corporales",
+    "price": 60000
+  },
+  {
+    "name": "Masjaes relajantes",
+    "category": "Tratamientos Corporales",
+    "price": 60000
+  },
+  {
+    "name": "Mesoterapia corporal",
+    "category": "Tratamientos Corporales",
+    "price": 80000
+  },
+  {
+    "name": "Nutricionista",
+    "category": "Tratamientos Corporales",
+    "price": 50000
+  },
+  {
+    "name": "Osteopatía",
+    "category": "Tratamientos Corporales",
+    "price": 80000
+  },
+  {
+    "name": "Profhilo Corporal",
+    "category": "Tratamientos Corporales",
+    "price": null
+  },
+  {
+    "name": "Radiesse Corporal",
+    "category": "Tratamientos Corporales",
+    "price": null
+  },
+  {
+    "name": "Reflexología",
+    "category": "Tratamientos Corporales",
+    "price": 60000
+  },
+  {
+    "name": "Relleno: Sculptra Corporal",
+    "category": "Tratamientos Corporales",
+    "price": null
+  },
+  {
+    "name": "Suelo pelvico",
+    "category": "Tratamientos Corporales",
+    "price": 80000
+  },
+  {
+    "name": "Sunekos corporal",
+    "category": "Tratamientos Corporales",
+    "price": null
+  },
+  {
+    "name": "Tratamiento de celulitis y adiposidad localizada",
+    "category": "Tratamientos Corporales",
+    "price": 0
+  },
+  {
+    "name": "Ultracavitación",
+    "category": "Tratamientos Corporales",
+    "price": 50000
+  },
+  {
+    "name": "Biopsias",
+    "category": "Tratamientos Faciales y Corporales",
+    "price": null
+  },
+  {
+    "name": "Consulta dermatológica",
+    "category": "Tratamientos Faciales y Corporales",
+    "price": 70000
+  },
+  {
+    "name": "Go Pro",
+    "category": "Tratamientos Faciales y Corporales",
+    "price": 0
+  },
+  {
+    "name": "Plasma rico en plaquetas (PRP) facial, capilar o corporal - 1 ZONA",
+    "category": "Tratamientos Faciales y Corporales",
+    "price": 120000
+  },
+  {
+    "name": "Plasma rico en plaquetas (PRP) facial, capilar o corporal - 2 ZONAS",
+    "category": "Tratamientos Faciales y Corporales",
+    "price": 160000
+  },
+  {
+    "name": "Plasma rico en plaquetas (PRP) facial, capilar o corporal - 3 ZONAS",
+    "category": "Tratamientos Faciales y Corporales",
+    "price": 190000
+  },
+  {
+    "name": "Ultrasonido 3 MHz",
+    "category": "Tratamientos Faciales y Corporales",
+    "price": 0
+  },
+  {
+    "name": "Depilación Definitiva",
+    "category": "Depilación",
+    "price": 0
+  },
+  {
+    "name": "Depilación Definitiva: abdomen bajo",
+    "category": "Depilación",
+    "price": 25000
+  },
+  {
+    "name": "Depilación Definitiva: abdomen y pecho",
+    "category": "Depilación",
+    "price": 35000
+  },
+  {
+    "name": "Depilación Definitiva: antebrazos",
+    "category": "Depilación",
+    "price": 30000
+  },
+  {
+    "name": "Depilación Definitiva: axilas y cavado",
+    "category": "Depilación",
+    "price": 40000
+  },
+  {
+    "name": "Depilación Definitiva: bozo",
+    "category": "Depilación",
+    "price": 20000
+  },
+  {
+    "name": "Depilación Definitiva: brazos completos",
+    "category": "Depilación",
+    "price": 35000
+  },
+  {
+    "name": "Depilación Definitiva: cavado y tira de cola",
+    "category": "Depilación",
+    "price": 40000
+  },
+  {
+    "name": "Depilación Definitiva: espalda completa",
+    "category": "Depilación",
+    "price": 45000
+  },
+  {
+    "name": "Depilación Definitiva: glúteos",
+    "category": "Depilación",
+    "price": 25000
+  },
+  {
+    "name": "Depilación Definitiva: hombros",
+    "category": "Depilación",
+    "price": 20000
+  },
+  {
+    "name": "Depilación Definitiva: manos",
+    "category": "Depilación",
+    "price": 20000
+  },
+  {
+    "name": "Depilación Definitiva: media pierna, cavado, tira de cola, axilas",
+    "category": "Depilación",
+    "price": 70000
+  },
+  {
+    "name": "Depilación Definitiva: mentón",
+    "category": "Depilación",
+    "price": 20000
+  },
+  {
+    "name": "Depilación Definitiva: pierna entera, cavado, tira de cola, axilas",
+    "category": "Depilación",
+    "price": 80000
+  },
+  {
+    "name": "Depilación Definitiva: pies",
+    "category": "Depilación",
+    "price": 20000
+  },
+  {
+    "name": "Depilación Definitiva: rostro completo",
+    "category": "Depilación",
+    "price": 30000
+  },
+  {
+    "name": "Depilación Definitiva: tira de cola",
+    "category": "Depilación",
+    "price": 200000
+  },
+  {
+    "name": "Limpieza Facial produnda con productos Arbell",
+    "category": "Depilación",
+    "price": 60000
+  },
+  {
+    "name": "Belleza de Manos y Pies para Hombres",
+    "category": "Belleza",
+    "price": 20000
+  },
+  {
+    "name": "Belleza manos tradicional",
+    "category": "Belleza",
+    "price": 20000
+  },
+  {
+    "name": "Diseño por uña",
+    "category": "Belleza",
+    "price": 2000
+  },
+  {
+    "name": "Manos - French- Baby Boomer",
+    "category": "Belleza",
+    "price": 8000
+  },
+  {
+    "name": "Manos / Pies– Esmaltado OPI",
+    "category": "Belleza",
+    "price": 8000
+  },
+  {
+    "name": "Manos – Efecto Holográfico",
+    "category": "Belleza",
+    "price": 5000
+  },
+  {
+    "name": "Manos – Esculpidas con Gel + Semipermanente OPI",
+    "category": "Belleza",
+    "price": 37000
+  },
+  {
+    "name": "Manos – Esmaltado Semipermanente",
+    "category": "Belleza",
+    "price": 30000
+  },
+  {
+    "name": "Manos – Remoción de Uñas Esculpidas",
+    "category": "Belleza",
+    "price": 15000
+  },
+  {
+    "name": "Manos – Remoción de Uñas Kapping",
+    "category": "Belleza",
+    "price": 12000
+  },
+  {
+    "name": "Manos – Remoción de Uñas Semi",
+    "category": "Belleza",
+    "price": 8000
+  },
+  {
+    "name": "Manos – Semipermanente + Kapping",
+    "category": "Belleza",
+    "price": 33000
+  },
+  {
+    "name": "Manos- Arreglo Esculpida",
+    "category": "Belleza",
+    "price": 3700
+  },
+  {
+    "name": "Maquillaje",
+    "category": "Belleza",
+    "price": null
+  },
+  {
+    "name": "Pies - Semipermanente + SPA",
+    "category": "Belleza",
+    "price": 40000
+  },
+  {
+    "name": "Pies – Esmaltado Semipermanente",
+    "category": "Belleza",
+    "price": 34000
+  },
+  {
+    "name": "Armonización y Alineación Energética",
+    "category": "Holístico y Conexión",
+    "price": 60000
+  },
+  {
+    "name": "Barras de Access",
+    "category": "Holístico y Conexión",
+    "price": 84000
+  },
+  {
+    "name": "Baño Sonoro con Cuencos Tibetanos",
+    "category": "Holístico y Conexión",
+    "price": null
+  },
+  {
+    "name": "Biodecodificación Biológica",
+    "category": "Holístico y Conexión",
+    "price": null
+  },
+  {
+    "name": "Coach Espiritual",
+    "category": "Holístico y Conexión",
+    "price": 60000
+  },
+  {
+    "name": "EFT Tapping",
+    "category": "Holístico y Conexión",
+    "price": null
+  },
+  {
+    "name": "Evento Cumpleaños – Experiencia Beauty (hasta 6 Personas)",
+    "category": "Holístico y Conexión",
+    "price": null
+  },
+  {
+    "name": "Guardarroba inteligente",
+    "category": "Holístico y Conexión",
+    "price": null
+  },
+  {
+    "name": "Personal Shopper",
+    "category": "Holístico y Conexión",
+    "price": null
+  },
+  {
+    "name": "Reiki Usui",
+    "category": "Holístico y Conexión",
+    "price": null
+  },
+  {
+    "name": "Ritual Facial Holistico Consciente",
+    "category": "Holístico y Conexión",
+    "price": 80000
+  },
+  {
+    "name": "Sesión de Flores de Bach",
+    "category": "Holístico y Conexión",
+    "price": 60000
+  },
+  {
+    "name": "Sesión de Registros Akáshicos",
+    "category": "Holístico y Conexión",
+    "price": 70000
+  },
+  {
+    "name": "Spa de Amigas – Experiencia Beauty & Relax",
+    "category": "Holístico y Conexión",
+    "price": null
+  },
+  {
+    "name": "Spa para Parejas – Experiencia Relax",
+    "category": "Holístico y Conexión",
+    "price": null
+  },
+  {
+    "name": "Talleres – Espacios de Aprendizaje y Bienestar",
+    "category": "Holístico y Conexión",
+    "price": 40000
+  },
+  {
+    "name": "Yoga Facial",
+    "category": "Holístico y Conexión",
+    "price": null
+  },
+  {
+    "name": "Yoga Integrativo",
+    "category": "Holístico y Conexión",
+    "price": null
+  },
+  {
+    "name": "Cirugía Plástica",
+    "category": "Otros",
+    "price": null
+  },
+  {
+    "name": "Consultas Cirugías",
+    "category": "Otros",
+    "price": 60000
+  },
+  {
+    "name": "Esclerodermia",
+    "category": "Otros",
+    "price": null
+  },
+  {
+    "name": "Neutralizacion de pigmentacion anterior (solo si se hace otro tratamiento complementario)",
+    "category": "Otros",
+    "price": 40000
+  },
+  {
+    "name": "Rellenos con ácido hialurónico (Restylane)",
+    "category": "Otros",
+    "price": 340000
+  }
+]
