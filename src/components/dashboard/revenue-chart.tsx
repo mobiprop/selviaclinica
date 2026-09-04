@@ -1,35 +1,134 @@
-const VALUES = [
-  24.0, 23.4, 19.6, 20.0, 20.6, 19.8, 21.0, 21.9, 20.5, 19.2, 19.8, 20.3, 19.5,
-  20.8, 21.6, 20.2, 19.0, 18.2, 17.5, 18.3, 17.2, 16.5, 15.8, 16.5, 17.8, 16.9,
-  15.9, 16.8, 17.3, 17.0,
-];
+"use client";
 
-const X_LABELS = ["Mar 29", "Apr 3", "Apr 8", "Apr 13", "Apr 18", "Apr 23", "Apr 28"];
-const Y_LABELS = [25, 20, 15, 10, 5, 0];
+import { useMemo, useState } from "react";
+import { Pencil, Check } from "lucide-react";
+import { useAppointments } from "@/lib/appointments-context";
+import { rangeStart, type DashboardRange } from "@/lib/dashboard-range";
 
 const WIDTH = 1200;
 const HEIGHT = 280;
-const MAX = 25;
+const DAILY_TARGET_RATE_DIVISOR = 30;
 
-function toPoint(i: number, value: number) {
-  const x = (i / (VALUES.length - 1)) * WIDTH;
-  const y = HEIGHT - (value / MAX) * HEIGHT;
-  return [x, y] as const;
+function formatCompact(value: number) {
+  if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(1)}M`;
+  if (value >= 1_000) return `$${Math.round(value / 1000)}K`;
+  return `$${Math.round(value)}`;
 }
 
-export function RevenueChart() {
-  const points = VALUES.map((v, i) => toPoint(i, v));
-  const linePath = points
-    .map(([x, y], i) => `${i === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`)
+function toPath(values: number[], max: number) {
+  return values
+    .map((v, i) => {
+      const x = (i / Math.max(values.length - 1, 1)) * WIDTH;
+      const y = HEIGHT - (max > 0 ? (v / max) * HEIGHT : 0);
+      return `${i === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
+    })
     .join(" ");
-  const areaPath = `${linePath} L${WIDTH},${HEIGHT} L0,${HEIGHT} Z`;
+}
+
+export function RevenueChart({ range }: { range: DashboardRange }) {
+  const { appointments, monthlyTarget, setMonthlyTarget } = useAppointments();
+  const [editingTarget, setEditingTarget] = useState(false);
+  const [targetInput, setTargetInput] = useState(String(monthlyTarget));
+
+  const { actual, target, labels } = useMemo(() => {
+    const today = new Date();
+    const start = rangeStart(range, today);
+    const days: Date[] = [];
+    for (let d = new Date(start); d <= today; d.setDate(d.getDate() + 1)) {
+      days.push(new Date(d));
+    }
+
+    const dailyTarget = monthlyTarget / DAILY_TARGET_RATE_DIVISOR;
+    let runningActual = 0;
+    let runningTarget = 0;
+
+    const actualValues: number[] = [];
+    const targetValues: number[] = [];
+    const dayLabels: string[] = [];
+
+    for (const day of days) {
+      const dateStr = day.toISOString().slice(0, 10);
+      const dayRevenue = appointments
+        .filter((a) => a.status === "Completed" && a.appointmentDate === dateStr)
+        .reduce((sum, a) => sum + a.price, 0);
+
+      runningActual += dayRevenue;
+      runningTarget += dailyTarget;
+
+      actualValues.push(runningActual);
+      targetValues.push(runningTarget);
+      dayLabels.push(day.toLocaleDateString("en-US", { month: "short", day: "numeric" }));
+    }
+
+    return { actual: actualValues, target: targetValues, labels: dayLabels };
+  }, [appointments, monthlyTarget, range]);
+
+  const max = Math.max(actual[actual.length - 1] ?? 0, target[target.length - 1] ?? 0, 1) * 1.15;
+  const yLabels = [1, 0.75, 0.5, 0.25, 0].map((f) => Math.round(max * f));
+
+  const labelStep = Math.max(Math.ceil(labels.length / 7), 1);
+  const visibleLabels = labels.filter((_, i) => i % labelStep === 0 || i === labels.length - 1);
+
+  const actualPath = toPath(actual, max);
+  const targetPath = toPath(target, max);
+  const areaPath = `${actualPath} L${WIDTH},${HEIGHT} L0,${HEIGHT} Z`;
+
+  function saveTarget() {
+    const value = Number(targetInput);
+    if (!Number.isNaN(value) && value > 0) setMonthlyTarget(value);
+    setEditingTarget(false);
+  }
 
   return (
     <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-4 text-xs">
+          <span className="flex items-center gap-1.5 text-muted-foreground">
+            <span className="h-0.5 w-4 rounded-full bg-[#4D5C45]" />
+            Revenue
+          </span>
+          <span className="flex items-center gap-1.5 text-muted-foreground">
+            <span className="h-0.5 w-4 rounded-full border-t-2 border-dashed border-muted-foreground/50" />
+            Target
+          </span>
+        </div>
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          Monthly target:
+          {editingTarget ? (
+            <>
+              <input
+                autoFocus
+                type="number"
+                value={targetInput}
+                onChange={(e) => setTargetInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && saveTarget()}
+                className="h-6 w-28 rounded border border-border bg-background px-1.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+              />
+              <button onClick={saveTarget} className="text-[#4D5C45]">
+                <Check className="h-3.5 w-3.5" />
+              </button>
+            </>
+          ) : (
+            <>
+              <span className="font-medium text-foreground">{formatCompact(monthlyTarget)}</span>
+              <button
+                onClick={() => {
+                  setTargetInput(String(monthlyTarget));
+                  setEditingTarget(true);
+                }}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <Pencil className="h-3 w-3" />
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
       <div className="flex text-xs text-muted-foreground">
-        <div className="flex w-10 flex-col justify-between py-1 text-right sm:w-12">
-          {Y_LABELS.map((label) => (
-            <span key={label}>{label === 0 ? "0" : `${label}k`}</span>
+        <div className="flex w-14 flex-col justify-between py-1 text-right">
+          {yLabels.map((label, i) => (
+            <span key={i}>{formatCompact(label)}</span>
           ))}
         </div>
         <div className="relative flex-1">
@@ -44,11 +143,11 @@ export function RevenueChart() {
                 <stop offset="100%" stopColor="#4D5C45" stopOpacity="0" />
               </linearGradient>
             </defs>
-            {Y_LABELS.map((label) => {
-              const y = HEIGHT - (label / MAX) * HEIGHT;
+            {yLabels.map((label, i) => {
+              const y = HEIGHT - (max > 0 ? (label / max) * HEIGHT : 0);
               return (
                 <line
-                  key={label}
+                  key={i}
                   x1={0}
                   x2={WIDTH}
                   y1={y}
@@ -61,7 +160,16 @@ export function RevenueChart() {
             })}
             <path d={areaPath} fill="url(#revenueFill)" stroke="none" />
             <path
-              d={linePath}
+              d={targetPath}
+              fill="none"
+              stroke="#898781"
+              strokeWidth={1.5}
+              strokeDasharray="6 5"
+              strokeLinejoin="round"
+              strokeLinecap="round"
+            />
+            <path
+              d={actualPath}
               fill="none"
               stroke="#4D5C45"
               strokeWidth={2}
@@ -70,8 +178,8 @@ export function RevenueChart() {
             />
           </svg>
           <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-            {X_LABELS.map((label) => (
-              <span key={label}>{label}</span>
+            {visibleLabels.map((label, i) => (
+              <span key={i}>{label}</span>
             ))}
           </div>
         </div>

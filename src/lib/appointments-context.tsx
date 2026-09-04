@@ -8,12 +8,17 @@ type AppointmentsContextValue = {
   appointments: Appointment[];
   addAppointment: (appointment: Appointment) => void;
   updateAppointment: (id: string, patch: Partial<Appointment>) => void;
+  monthlyTarget: number;
+  setMonthlyTarget: (value: number) => void;
 };
 
 const AppointmentsContext = createContext<AppointmentsContextValue | null>(null);
 
+const DEFAULT_MONTHLY_TARGET = 2000000;
+
 export function AppointmentsProvider({ children }: { children: ReactNode }) {
   const [appointments, setAppointments] = useState<Appointment[]>(SEED_APPOINTMENTS);
+  const [monthlyTarget, setMonthlyTarget] = useState<number>(DEFAULT_MONTHLY_TARGET);
 
   function addAppointment(appointment: Appointment) {
     setAppointments((prev) => [appointment, ...prev]);
@@ -24,7 +29,9 @@ export function AppointmentsProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AppointmentsContext.Provider value={{ appointments, addAppointment, updateAppointment }}>
+    <AppointmentsContext.Provider
+      value={{ appointments, addAppointment, updateAppointment, monthlyTarget, setMonthlyTarget }}
+    >
       {children}
     </AppointmentsContext.Provider>
   );

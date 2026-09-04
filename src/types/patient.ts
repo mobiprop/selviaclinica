@@ -1,5 +1,7 @@
 export type AppointmentStatus = "Scheduled" | "Completed" | "Returned";
 
+export type PatientSource = "Marketing" | "Website" | "Instagram" | "Referral" | "Email" | "Social";
+
 export type Appointment = {
   id: string;
   firstName: string;
@@ -11,4 +13,5 @@ export type Appointment = {
   price: number;
   reservation: number;
   status: AppointmentStatus;
+  source: PatientSource;
 };

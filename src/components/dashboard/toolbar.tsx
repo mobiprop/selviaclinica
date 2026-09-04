@@ -1,27 +1,29 @@
 "use client";
 
-import { useState } from "react";
 import { Download, MoreHorizontal } from "lucide-react";
+import { DASHBOARD_RANGE_OPTIONS, type DashboardRange } from "@/lib/dashboard-range";
 
-const ranges = ["7 Days", "1 Month", "3 Months", "6 Months"];
-
-export function DashboardToolbar() {
-  const [active, setActive] = useState("1 Month");
-
+export function DashboardToolbar({
+  value,
+  onChange,
+}: {
+  value: DashboardRange;
+  onChange: (range: DashboardRange) => void;
+}) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div className="inline-flex items-center gap-1 rounded-lg border border-border bg-muted/50 p-1">
-        {ranges.map((range) => (
+        {DASHBOARD_RANGE_OPTIONS.map((option) => (
           <button
-            key={range}
-            onClick={() => setActive(range)}
+            key={option.value}
+            onClick={() => onChange(option.value)}
             className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-              active === range
+              value === option.value
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            {range}
+            {option.label}
           </button>
         ))}
       </div>

@@ -1,7 +1,18 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { CheckCircle2, Clock, Undo2 } from "lucide-react";
+import {
+  CheckCircle2,
+  Clock,
+  Undo2,
+  Megaphone,
+  Globe,
+  AtSign,
+  Users2,
+  Mail,
+  Share2,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,7 +33,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TreatmentCombobox } from "@/components/patients/treatment-combobox";
-import type { Appointment, AppointmentStatus } from "@/types/patient";
+import type { Appointment, AppointmentStatus, PatientSource } from "@/types/patient";
+
+const SOURCES: { value: PatientSource; icon: LucideIcon }[] = [
+  { value: "Marketing", icon: Megaphone },
+  { value: "Website", icon: Globe },
+  { value: "Instagram", icon: AtSign },
+  { value: "Referral", icon: Users2 },
+  { value: "Email", icon: Mail },
+  { value: "Social", icon: Share2 },
+];
 
 type FormState = {
   firstName: string;
@@ -34,6 +54,7 @@ type FormState = {
   price: string;
   reservation: string;
   status: AppointmentStatus;
+  source: PatientSource;
 };
 
 const EMPTY_FORM: FormState = {
@@ -46,6 +67,7 @@ const EMPTY_FORM: FormState = {
   price: "",
   reservation: "",
   status: "Scheduled",
+  source: "Website",
 };
 
 function toFormState(appointment: Appointment): FormState {
@@ -59,6 +81,7 @@ function toFormState(appointment: Appointment): FormState {
     price: String(appointment.price),
     reservation: String(appointment.reservation),
     status: appointment.status,
+    source: appointment.source,
   };
 }
 
@@ -111,6 +134,7 @@ export function AppointmentFormDialog({
       price: Number(form.price),
       reservation: form.reservation === "" ? 0 : Number(form.reservation),
       status: form.status,
+      source: form.source,
     });
 
     onOpenChange(false);
@@ -201,6 +225,22 @@ export function AppointmentFormDialog({
                     <Undo2 className="h-3.5 w-3.5" />
                     Returned
                   </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="col-span-2 flex flex-col gap-1.5">
+              <Label htmlFor="source">Source</Label>
+              <Select value={form.source} onValueChange={(v) => update("source", v as PatientSource)}>
+                <SelectTrigger id="source" className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {SOURCES.map(({ value, icon: Icon }) => (
+                    <SelectItem key={value} value={value}>
+                      <Icon className="h-3.5 w-3.5" />
+                      {value}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

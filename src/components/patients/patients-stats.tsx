@@ -1,18 +1,14 @@
 import { Users, CalendarClock, Wallet, TrendingUp } from "lucide-react";
 import type { Appointment } from "@/types/patient";
 import { formatCurrency } from "@/lib/format";
+import { expectedRevenue, completedPayments, upcomingCount } from "@/lib/metrics";
 
 export function PatientsStats({ appointments }: { appointments: Appointment[] }) {
-  const totalPatients = appointments.length;
-  const upcoming = appointments.filter((a) => a.status === "Scheduled").length;
-  const completedPayments = appointments.reduce((sum, a) => sum + a.reservation, 0);
-  const expectedRevenue = appointments.reduce((sum, a) => sum + a.price, 0);
-
   const stats = [
-    { label: "Total Patients", icon: Users, value: String(totalPatients) },
-    { label: "Upcoming Appointments", icon: CalendarClock, value: String(upcoming) },
-    { label: "Completed Payments", icon: Wallet, value: formatCurrency(completedPayments) },
-    { label: "Expected Revenue", icon: TrendingUp, value: formatCurrency(expectedRevenue) },
+    { label: "Total Patients", icon: Users, value: String(appointments.length) },
+    { label: "Upcoming Appointments", icon: CalendarClock, value: String(upcomingCount(appointments)) },
+    { label: "Completed Payments", icon: Wallet, value: formatCurrency(completedPayments(appointments)) },
+    { label: "Expected Revenue", icon: TrendingUp, value: formatCurrency(expectedRevenue(appointments)) },
   ];
 
   return (
