@@ -2,8 +2,11 @@
 // src/app/api/integrations/google/callback/route.ts using GOOGLE_CLIENT_SECRET,
 // so the popup here only ever sees an authorization code, never a token.
 
+// Calendar uses the events-only (not full "calendar") scope: it can
+// create/edit/delete events without also being able to manage or delete
+// the calendars themselves.
 export const GOOGLE_SCOPES = {
-  "google-calendar": "https://www.googleapis.com/auth/calendar.readonly email",
+  "google-calendar": "https://www.googleapis.com/auth/calendar.events email",
   "google-drive": "https://www.googleapis.com/auth/drive.readonly email",
 };
 
