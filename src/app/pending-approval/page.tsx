@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Clock3, XCircle } from "lucide-react";
-import { AuthLayout } from "@/components/auth/auth-layout";
+import { AuthLayout, AuthHeading, AuthIcon } from "@/components/auth/auth-layout";
 import { Button } from "@/components/ui/button";
 
 export default function PendingApprovalPage() {
@@ -40,20 +40,16 @@ export default function PendingApprovalPage() {
   return (
     <AuthLayout>
       <div className="flex flex-col items-center gap-3 text-center">
-        {denied ? (
-          <XCircle className="h-10 w-10 text-red-600" />
-        ) : (
-          <Clock3 className="h-10 w-10 text-amber-600" />
-        )}
-        <h1 className="text-lg font-semibold tracking-tight text-foreground">
-          {denied ? "Access denied" : "Waiting for approval"}
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          {denied
-            ? "An admin has denied this account's access request. If you think this is a mistake, contact your clinic administrator."
-            : "Your account has been created and is waiting on an admin to approve access. You'll be able to sign in as soon as that happens."}
-        </p>
-        <Button variant="outline" onClick={handleSignOut} className="mt-2">
+        <AuthIcon icon={denied ? <XCircle className="text-red-600" /> : <Clock3 className="text-amber-600" />} />
+        <AuthHeading
+          title={denied ? "Access denied" : "Waiting for approval"}
+          subtitle={
+            denied
+              ? "An admin has denied this account's access request. If you think this is a mistake, contact your clinic administrator."
+              : "Your account has been created and is waiting on an admin to approve access. You'll be able to sign in as soon as that happens."
+          }
+        />
+        <Button variant="outline" onClick={handleSignOut}>
           Sign out
         </Button>
       </div>

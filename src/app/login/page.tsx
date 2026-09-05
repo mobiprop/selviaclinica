@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AlertCircle, ExternalLink } from "lucide-react";
-import { AuthLayout } from "@/components/auth/auth-layout";
+import { AuthLayout, AuthHeading } from "@/components/auth/auth-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -41,10 +41,7 @@ export default function LoginPage() {
 
   return (
     <AuthLayout>
-      <div className="mb-6 flex flex-col items-center gap-1 text-center">
-        <h1 className="text-lg font-semibold tracking-tight text-foreground">Welcome back</h1>
-        <p className="text-sm text-muted-foreground">Glad to see you again — sign in to your dashboard.</p>
-      </div>
+      <AuthHeading title="Welcome back" subtitle="Glad to see you again — sign in to your dashboard." />
 
       {!SUPABASE_CONFIGURED ? (
         <div className="flex flex-col gap-3 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">

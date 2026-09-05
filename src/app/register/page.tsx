@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
-import { AuthLayout } from "@/components/auth/auth-layout";
+import { AuthLayout, AuthHeading, AuthIcon } from "@/components/auth/auth-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -55,13 +55,12 @@ export default function RegisterPage() {
     return (
       <AuthLayout>
         <div className="flex flex-col items-center gap-3 text-center">
-          <CheckCircle2 className="h-10 w-10 text-emerald-600" />
-          <h1 className="text-lg font-semibold tracking-tight text-foreground">Request submitted</h1>
-          <p className="text-sm text-muted-foreground">
-            An admin needs to approve your account before you can sign in. You&apos;ll be able to log in as soon as
-            that happens.
-          </p>
-          <Link href="/login" className="mt-2 text-sm font-medium text-primary hover:underline">
+          <AuthIcon icon={<CheckCircle2 className="text-emerald-600" />} />
+          <AuthHeading
+            title="Request submitted"
+            subtitle="An admin needs to approve your account before you can sign in. You'll be able to log in as soon as that happens."
+          />
+          <Link href="/login" className="text-sm font-medium text-primary hover:underline">
             Back to sign in
           </Link>
         </div>
@@ -71,10 +70,7 @@ export default function RegisterPage() {
 
   return (
     <AuthLayout>
-      <div className="mb-6 flex flex-col items-center gap-1 text-center">
-        <h1 className="text-lg font-semibold tracking-tight text-foreground">Create your account</h1>
-        <p className="text-sm text-muted-foreground">Enter your details to request access.</p>
-      </div>
+      <AuthHeading title="Create your account" subtitle="Enter your details to request access." />
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">

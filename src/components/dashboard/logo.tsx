@@ -1,5 +1,8 @@
+import type { CSSProperties } from "react";
+
 type LogoProps = {
   className?: string;
+  style?: CSSProperties;
 };
 
 /**
@@ -18,12 +21,14 @@ export function SelviaMark({ className }: LogoProps) {
   );
 }
 
-export function SelviaLogoBadge({ className }: LogoProps) {
+export function SelviaLogoBadge({ className, style }: LogoProps) {
   return (
     <div
       className={`flex items-center justify-center rounded-md bg-[#4D5C45] text-[#F5F2EA] ${className ?? "h-7 w-7"}`}
+      style={style}
     >
-      <SelviaMark className="h-4 w-4" />
+      {/* Percentage-sized so the mark scales proportionally with whatever size the badge itself is given, instead of staying a fixed pixel size inside a resized box. */}
+      <SelviaMark className="h-[55%] w-[55%]" />
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { AuthChangeEvent } from "@supabase/supabase-js";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
-import { AuthLayout } from "@/components/auth/auth-layout";
+import { AuthLayout, AuthHeading, AuthIcon } from "@/components/auth/auth-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -93,9 +93,8 @@ export default function ResetPasswordPage() {
     return (
       <AuthLayout>
         <div className="flex flex-col items-center gap-3 text-center">
-          <CheckCircle2 className="h-10 w-10 text-emerald-600" />
-          <h1 className="text-lg font-semibold tracking-tight text-foreground">Password updated</h1>
-          <p className="text-sm text-muted-foreground">Taking you to your dashboard...</p>
+          <AuthIcon icon={<CheckCircle2 className="text-emerald-600" />} />
+          <AuthHeading title="Password updated" subtitle="Taking you to your dashboard..." />
         </div>
       </AuthLayout>
     );
@@ -104,10 +103,7 @@ export default function ResetPasswordPage() {
   if (mode === "update") {
     return (
       <AuthLayout>
-        <div className="mb-6 flex flex-col items-center gap-1 text-center">
-          <h1 className="text-lg font-semibold tracking-tight text-foreground">Set a new password</h1>
-          <p className="text-sm text-muted-foreground">Choose a new password for your account.</p>
-        </div>
+        <AuthHeading title="Set a new password" subtitle="Choose a new password for your account." />
         <form onSubmit={handleUpdate} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="password">New Password</Label>
@@ -149,12 +145,16 @@ export default function ResetPasswordPage() {
     return (
       <AuthLayout>
         <div className="flex flex-col items-center gap-3 text-center">
-          <CheckCircle2 className="h-10 w-10 text-emerald-600" />
-          <h1 className="text-lg font-semibold tracking-tight text-foreground">Check your email</h1>
-          <p className="text-sm text-muted-foreground">
-            We sent a password reset link to <span className="font-medium text-foreground">{email}</span>.
-          </p>
-          <Link href="/login" className="mt-2 text-sm font-medium text-primary hover:underline">
+          <AuthIcon icon={<CheckCircle2 className="text-emerald-600" />} />
+          <AuthHeading
+            title="Check your email"
+            subtitle={
+              <>
+                We sent a password reset link to <span className="font-medium text-foreground">{email}</span>.
+              </>
+            }
+          />
+          <Link href="/login" className="text-sm font-medium text-primary hover:underline">
             Back to sign in
           </Link>
         </div>
@@ -164,10 +164,7 @@ export default function ResetPasswordPage() {
 
   return (
     <AuthLayout>
-      <div className="mb-6 flex flex-col items-center gap-1 text-center">
-        <h1 className="text-lg font-semibold tracking-tight text-foreground">Reset your password</h1>
-        <p className="text-sm text-muted-foreground">Enter your email and we&apos;ll send you a reset link.</p>
-      </div>
+      <AuthHeading title="Reset your password" subtitle="Enter your email and we'll send you a reset link." />
       <form onSubmit={handleRequest} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="email">Email Address</Label>
