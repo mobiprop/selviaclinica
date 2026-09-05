@@ -35,7 +35,8 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const { pathname } = request.nextUrl;
-  const isAuthRoute = pathname.startsWith("/login");
+  const isAuthRoute = pathname.startsWith("/login") || pathname.startsWith("/register") || pathname.startsWith("/reset-password");
+  const isPendingRoute = pathname.startsWith("/pending-approval");
   // Exact match only — this is the MCP protocol endpoint itself, which
   // authenticates via its own Bearer key instead of a browser session.
   // Everything else under /api/mcp/* (like /api/mcp/token) must still go
@@ -52,6 +53,35 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);
+  }
+
+  // A freshly-registered account already holds a valid session before an
+  // admin approves it — gate every other route on approval status here too,
+  // not just at the RLS layer, so an unapproved user's first click doesn't
+  // land on a half-rendered dashboard.
+  //
+  // Fails open on a genuine query error (e.g. migration 0003 hasn't been
+  // applied yet, so the `status` column doesn't exist) rather than treating
+  // it as "not approved" — RLS is the real enforcement boundary either way,
+  // this is just the UX-level redirect, and failing closed here would lock
+  // every existing user (including the admin) out the instant this code
+  // deploys ahead of that migration.
+  if (user && !isMcpRoute) {
+    const { data: profile, error } = await supabase.from("profiles").select("status").eq("id", user.id).maybeSingle();
+
+    if (!error) {
+      const approved = profile?.status === "approved";
+      if (!approved && !isPendingRoute) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/pending-approval";
+        return NextResponse.redirect(url);
+      }
+      if (approved && isPendingRoute) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/";
+        return NextResponse.redirect(url);
+      }
+    }
   }
 
   return response;

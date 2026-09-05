@@ -19,11 +19,12 @@ export async function POST(request: Request) {
   }
 
   const admin = createServiceRoleClient();
-  const { error } = await admin.from("integration_connections").upsert({
-    kind: "mcp",
-    connected_by: user.id,
-    connected_at: new Date().toISOString(),
-  });
+  const { error } = await admin
+    .from("integration_connections")
+    .upsert(
+      { kind: "mcp", user_id: user.id, connected_at: new Date().toISOString() },
+      { onConflict: "kind,user_id" }
+    );
   if (error) return Response.json({ error: error.message }, { status: 500 });
 
   return Response.json({ ok: true });
@@ -36,11 +37,17 @@ export async function DELETE(request: Request) {
   const { kind } = await request.json();
   const admin = createServiceRoleClient();
 
-  const { error: connectionError } = await admin.from("integration_connections").delete().eq("kind", kind);
+  // Scoped to the caller's own row even for the shared kinds (mcp, meta-ads)
+  // — disconnecting shouldn't be able to rip out someone else's connection.
+  const { error: connectionError } = await admin
+    .from("integration_connections")
+    .delete()
+    .eq("kind", kind)
+    .eq("user_id", user.id);
   if (connectionError) return Response.json({ error: connectionError.message }, { status: 500 });
 
   if (kind !== "mcp") {
-    await admin.from("integration_tokens").delete().eq("kind", kind);
+    await admin.from("integration_tokens").delete().eq("kind", kind).eq("user_id", user.id);
   }
 
   return Response.json({ ok: true });

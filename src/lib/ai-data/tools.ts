@@ -6,7 +6,7 @@ export const AI_DATA_TOOLS: Anthropic.Tool[] = [
   {
     name: "get_appointments",
     description:
-      "Look up patient appointments, optionally filtered by status and/or date range. Returns patient name, treatment, doctor, date, price, and net revenue for each match.",
+      "Look up patient appointments, optionally filtered by status and/or date range. Returns patient name, treatment, doctor, date, price, and net income for each match.",
     input_schema: {
       type: "object",
       properties: {
@@ -36,7 +36,7 @@ export const AI_DATA_TOOLS: Anthropic.Tool[] = [
   {
     name: "get_revenue_summary",
     description:
-      "Aggregate net revenue, price billed, incoming (pending) revenue, and appointment counts by status over an optional date range. Use this for questions about revenue, income, pending/incoming revenue, or how many patients/appointments happened.",
+      "Aggregate net income, price billed, incoming (pending) revenue, and appointment counts by status over an optional date range. Use this for questions about revenue, income, pending/incoming revenue, or how many patients/appointments happened.",
     input_schema: {
       type: "object",
       properties: {
@@ -71,7 +71,7 @@ export async function executeAiDataTool(
       status: a.status,
       price: a.price,
       reservation: a.reservation,
-      netRevenue: a.netRevenue,
+      netIncome: a.netIncome,
     }));
   }
 
@@ -90,14 +90,14 @@ export async function executeAiDataTool(
   }
 
   if (name === "get_revenue_summary") {
-    let q = supabase.from("appointments").select("status,net_revenue,price,reservation,appointment_date");
+    let q = supabase.from("appointments").select("status,net_income,price,reservation,appointment_date");
     if (typeof input.start_date === "string") q = q.gte("appointment_date", input.start_date);
     if (typeof input.end_date === "string") q = q.lte("appointment_date", input.end_date);
     const { data, error } = await q;
     if (error) throw new Error(error.message);
-    const rows = (data ?? []) as { status: string; net_revenue: number; price: number; reservation: number }[];
+    const rows = (data ?? []) as { status: string; net_income: number; price: number; reservation: number }[];
     const completed = rows.filter((r) => r.status === "Completed");
-    const totalNetRevenue = completed.reduce((sum, r) => sum + Number(r.net_revenue), 0);
+    const totalNetIncome = completed.reduce((sum, r) => sum + Number(r.net_income), 0);
     const totalPriceBilled = completed.reduce((sum, r) => sum + Number(r.price), 0);
     // Incoming revenue = total billed price of appointments that haven't
     // happened yet. A Completed or Returned appointment is no longer
@@ -110,10 +110,10 @@ export async function executeAiDataTool(
       completedAppointments: completed.length,
       scheduledAppointments: rows.filter((r) => r.status === "Scheduled").length,
       returnedAppointments: rows.filter((r) => r.status === "Returned").length,
-      totalNetRevenue,
+      totalNetIncome,
       totalPriceBilled,
       incomingRevenue,
-      averageNetRevenue: completed.length > 0 ? Math.round(totalNetRevenue / completed.length) : 0,
+      averageNetIncome: completed.length > 0 ? Math.round(totalNetIncome / completed.length) : 0,
     };
   }
 

@@ -1,22 +1,38 @@
 import { createServiceRoleClient } from "@/lib/supabase/server";
 
 type TokenRow = {
+  id: string;
   access_token: string;
   refresh_token: string | null;
   expires_at: string | null;
 };
 
+type GoogleKind = "google-calendar" | "google-drive";
+
 /**
- * Returns a valid (non-expired) Google access token for the given connected
- * integration, refreshing it via the stored refresh_token first if needed.
+ * Returns a valid (non-expired) Google access token for the given kind,
+ * refreshing it via the stored refresh_token first if needed.
+ *
+ * Calendar/Drive connections are personal — pass the signed-in user's id to
+ * get *their* token. Callers with no browser session to draw a user from
+ * (currently only the MCP server) can omit it, which falls back to whichever
+ * account holds the admin role.
+ *
  * Server-only — reads/writes the service-role-only integration_tokens table.
  */
-export async function getValidGoogleAccessToken(kind: "google-calendar" | "google-drive"): Promise<string> {
+export async function getValidGoogleAccessToken(kind: GoogleKind, userId?: string): Promise<string> {
   const supabase = createServiceRoleClient();
+
+  const resolvedUserId = userId ?? (await resolveAdminUserId(supabase));
+  if (!resolvedUserId) {
+    throw new Error(`${kind} isn't connected yet — connect it from the Integrations page first.`);
+  }
+
   const { data, error } = await supabase
     .from("integration_tokens")
-    .select("access_token, refresh_token, expires_at")
+    .select("id, access_token, refresh_token, expires_at")
     .eq("kind", kind)
+    .eq("user_id", resolvedUserId)
     .maybeSingle();
 
   if (error) throw new Error(`Failed to load ${kind} connection: ${error.message}`);
@@ -55,7 +71,12 @@ export async function getValidGoogleAccessToken(kind: "google-calendar" | "googl
   await supabase
     .from("integration_tokens")
     .update({ access_token: data2.access_token, expires_at: expiresAt, updated_at: new Date().toISOString() })
-    .eq("kind", kind);
+    .eq("id", row.id);
 
   return data2.access_token;
+}
+
+async function resolveAdminUserId(supabase: ReturnType<typeof createServiceRoleClient>): Promise<string | null> {
+  const { data } = await supabase.from("profiles").select("id").eq("role", "admin").maybeSingle();
+  return data?.id ?? null;
 }

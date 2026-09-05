@@ -35,7 +35,8 @@ import {
 } from "@/components/ui/select";
 import { TreatmentCombobox } from "@/components/patients/treatment-combobox";
 import { DoctorCombobox } from "@/components/patients/doctor-combobox";
-import type { Appointment, AppointmentStatus, PatientSource } from "@/types/patient";
+import type { Appointment, AppointmentStatus, PatientSource, PaymentMethod } from "@/types/patient";
+import { formatCurrency } from "@/lib/format";
 
 const SOURCES: { value: PatientSource; icon: LucideIcon }[] = [
   { value: "Marketing", icon: Megaphone },
@@ -55,9 +56,11 @@ type FormState = {
   treatment: string;
   price: string;
   reservation: string;
+  paymentMethod: PaymentMethod;
   status: AppointmentStatus;
   source: PatientSource;
   doctor: string;
+  doctorPercentage: string;
   notes: string;
 };
 
@@ -70,9 +73,11 @@ const EMPTY_FORM: FormState = {
   treatment: "",
   price: "",
   reservation: "",
+  paymentMethod: "Cash",
   status: "Scheduled",
   source: "Website",
   doctor: "",
+  doctorPercentage: "",
   notes: "",
 };
 
@@ -86,11 +91,20 @@ function toFormState(appointment: Appointment): FormState {
     treatment: appointment.treatment,
     price: String(appointment.price),
     reservation: String(appointment.reservation),
+    paymentMethod: appointment.paymentMethod ?? "Cash",
     status: appointment.status,
     source: appointment.source,
     doctor: appointment.doctor,
+    doctorPercentage: appointment.doctorPercentage != null ? String(appointment.doctorPercentage) : "",
     notes: appointment.notes ?? "",
   };
+}
+
+/** Net income = what the clinic keeps after the treating doctor's cut. Falls back to full price when no split is recorded. */
+function computeNetIncome(price: number, doctorPercentageInput: string): number {
+  const doctorPercentage = doctorPercentageInput.trim() === "" ? null : Number(doctorPercentageInput);
+  if (doctorPercentage == null || Number.isNaN(doctorPercentage)) return price;
+  return price * (1 - doctorPercentage / 100);
 }
 
 type AppointmentFormDialogProps = {
@@ -144,7 +158,9 @@ export function AppointmentFormDialog({
       treatment: form.treatment.trim(),
       price: Number(form.price),
       reservation: form.reservation === "" ? 0 : Number(form.reservation),
-      netRevenue: initialData?.netRevenue ?? Number(form.price),
+      paymentMethod: form.paymentMethod,
+      doctorPercentage: form.doctorPercentage.trim() === "" ? undefined : Number(form.doctorPercentage),
+      netIncome: computeNetIncome(Number(form.price), form.doctorPercentage),
       status: form.status,
       source: form.source,
       doctor: form.doctor.trim(),
@@ -271,9 +287,22 @@ export function AppointmentFormDialog({
               />
             </div>
 
-            <div className="col-span-2 flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1.5">
               <Label htmlFor="doctor">Doctor</Label>
               <DoctorCombobox value={form.doctor} onChange={(value) => update("doctor", value)} />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="doctorPercentage">Doctor&apos;s %</Label>
+              <Input
+                id="doctorPercentage"
+                type="number"
+                min={0}
+                max={100}
+                inputMode="numeric"
+                value={form.doctorPercentage}
+                onChange={(e) => update("doctorPercentage", e.target.value)}
+                placeholder="e.g. 60"
+              />
             </div>
 
             <div className="flex flex-col gap-1.5">
@@ -301,6 +330,26 @@ export function AppointmentFormDialog({
                 placeholder="0"
               />
             </div>
+            <div className="col-span-2 flex flex-col gap-1.5">
+              <Label htmlFor="paymentMethod">Form of payment</Label>
+              <Select value={form.paymentMethod} onValueChange={(v) => update("paymentMethod", v as PaymentMethod)}>
+                <SelectTrigger id="paymentMethod" className="w-full">
+                  <SelectValue>{form.paymentMethod}</SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Cash">Cash</SelectItem>
+                  <SelectItem value="Transfer">Transfer</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            {form.price !== "" && (
+              <div className="col-span-2 flex items-center justify-between rounded-md border border-border bg-muted/40 px-3 py-2 text-sm">
+                <span className="text-muted-foreground">Net income</span>
+                <span className="font-medium text-foreground">
+                  {formatCurrency(computeNetIncome(Number(form.price) || 0, form.doctorPercentage))}
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-1.5">

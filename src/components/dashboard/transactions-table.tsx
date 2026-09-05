@@ -89,7 +89,7 @@ export function TransactionsTable() {
                   />
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
-                  {formatCurrency(a.netRevenue)}
+                  {formatCurrency(a.netIncome)}
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 text-right">
                   <AppointmentActionsMenu

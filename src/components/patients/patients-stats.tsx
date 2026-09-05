@@ -14,7 +14,7 @@ export function PatientsStats({ appointments }: { appointments: Appointment[] })
       value: String(upcomingCount(appointments)),
     },
     {
-      label: "Net Revenue",
+      label: "Net Income",
       icon: Wallet,
       color: "green",
       value: formatCurrency(completedPayments(appointments)),

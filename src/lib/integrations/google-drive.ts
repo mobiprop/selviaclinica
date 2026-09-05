@@ -15,8 +15,8 @@ function escapeDriveQueryValue(value: string) {
   return value.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
 }
 
-export async function searchDriveFiles(query: string, limit: number): Promise<DriveFile[]> {
-  const accessToken = await getValidGoogleAccessToken("google-drive");
+export async function searchDriveFiles(query: string, limit: number, userId?: string): Promise<DriveFile[]> {
+  const accessToken = await getValidGoogleAccessToken("google-drive", userId);
   const q = `fullText contains '${escapeDriveQueryValue(query)}' and trashed = false`;
   const params = new URLSearchParams({
     q,
@@ -34,8 +34,11 @@ export async function searchDriveFiles(query: string, limit: number): Promise<Dr
 }
 
 /** Reads a Drive file's content as plain text — exports Sheets/Docs, downloads everything else directly. Truncated to a safe size for a tool result. */
-export async function readDriveFile(fileId: string): Promise<{ name: string; mimeType: string; content: string }> {
-  const accessToken = await getValidGoogleAccessToken("google-drive");
+export async function readDriveFile(
+  fileId: string,
+  userId?: string
+): Promise<{ name: string; mimeType: string; content: string }> {
+  const accessToken = await getValidGoogleAccessToken("google-drive", userId);
   const headers = { Authorization: `Bearer ${accessToken}` };
 
   const metaRes = await fetch(`${DRIVE_API}/files/${fileId}?fields=id,name,mimeType`, { headers });

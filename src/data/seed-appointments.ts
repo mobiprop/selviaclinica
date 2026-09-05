@@ -11,7 +11,7 @@ import type { Appointment } from "@/types/patient";
  * "venta productos arbell evento" lines (anonymous bulk product sales, not
  * patient appointments) are excluded.
  *
- * `netRevenue` is copied straight from each sheet's "INGRESO SELVIA" column
+ * `netIncome` is copied straight from each sheet's "INGRESO SELVIA" column
  * (the clinic's actual take after the professional's cut) — summing it
  * across a month's Completed rows reconciles against that sheet's own
  * "Ganancia en el mes" figure: March/April/May/September match exactly,
@@ -46,7 +46,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 124000,
+    netIncome: 124000,
   },
   {
     id: "12",
@@ -59,7 +59,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Returned",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: -75000,
+    netIncome: -75000,
     notes: "Deposit forfeited (\"Seña perdida Caro\").",
   },
   {
@@ -73,7 +73,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 19800,
+    netIncome: 19800,
   },
   {
     id: "14",
@@ -86,7 +86,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22200,
+    netIncome: 22200,
   },
   {
     id: "15",
@@ -99,7 +99,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "On account / comped (\"a cuenta, es un regalo\").",
   },
   {
@@ -113,7 +113,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 14500,
+    netIncome: 14500,
   },
   {
     id: "17",
@@ -126,7 +126,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 25000,
+    netIncome: 25000,
   },
   {
     id: "18",
@@ -139,7 +139,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 18000,
+    netIncome: 18000,
     notes: "50% deposit (\"Seña del 50%\") — balance owed.",
   },
   {
@@ -153,7 +153,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 65000,
+    netIncome: 65000,
   },
   {
     id: "20",
@@ -166,7 +166,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "21",
@@ -179,7 +179,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 20000,
+    netIncome: 20000,
   },
   {
     id: "22",
@@ -192,7 +192,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 42000,
+    netIncome: 42000,
     notes: "Used a $60.000 gift card from Javier Gentile; balance $80.000.",
   },
   {
@@ -206,7 +206,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci U",
-    netRevenue: 24000,
+    netIncome: 24000,
   },
   {
     id: "24",
@@ -219,7 +219,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "$200.000 cash + $15.000 transfer to Selvia.",
   },
   {
@@ -233,7 +233,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "26",
@@ -246,7 +246,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 1050000,
+    netIncome: 1050000,
   },
   {
     id: "27",
@@ -259,7 +259,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "28",
@@ -272,7 +272,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "29",
@@ -285,7 +285,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Gift card $60.000, deduct $40.000 for manos+OPI.",
   },
   {
@@ -299,7 +299,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Gift card $60.000, deduct $40.000 for manos+OPI.",
   },
   {
@@ -313,7 +313,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 116000,
+    netIncome: 116000,
     notes: "$50.000 to Selvia and $240.000 to Alexa.",
   },
   {
@@ -327,7 +327,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 42000,
+    netIncome: 42000,
   },
   {
     id: "33",
@@ -340,7 +340,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Gift card from Tobias Aguilar.",
   },
   {
@@ -354,7 +354,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Returned",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 5000,
+    netIncome: 5000,
     notes: "Deposit forfeited — client no-show.",
   },
   {
@@ -368,7 +368,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "36",
@@ -381,7 +381,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 100000,
+    netIncome: 100000,
   },
   {
     id: "37",
@@ -394,7 +394,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "38",
@@ -407,7 +407,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "39",
@@ -420,7 +420,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 20000,
+    netIncome: 20000,
   },
   {
     id: "40",
@@ -433,7 +433,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "41",
@@ -446,7 +446,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "42",
@@ -459,7 +459,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "43",
@@ -472,7 +472,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Andy",
-    netRevenue: 18000,
+    netIncome: 18000,
     notes: "Owes $10.000.",
   },
   {
@@ -486,7 +486,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22800,
+    netIncome: 22800,
   },
   {
     id: "45",
@@ -499,7 +499,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22800,
+    netIncome: 22800,
   },
   {
     id: "46",
@@ -512,7 +512,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "47",
@@ -525,7 +525,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "48",
@@ -538,7 +538,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 19800,
+    netIncome: 19800,
   },
   {
     id: "49",
@@ -551,7 +551,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 42000,
+    netIncome: 42000,
   },
   {
     id: "50",
@@ -564,7 +564,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 12000,
+    netIncome: 12000,
   },
   {
     id: "51",
@@ -577,7 +577,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "52",
@@ -590,7 +590,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci U",
-    netRevenue: 21000,
+    netIncome: 21000,
   },
   {
     id: "53",
@@ -603,7 +603,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 30000,
+    netIncome: 30000,
     notes: "Deposit taken 21/4; serviced 21/5.",
   },
   {
@@ -617,7 +617,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 18000,
+    netIncome: 18000,
     notes: "Deposit taken 21/4; serviced 21/5.",
   },
   {
@@ -631,7 +631,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 24000,
+    netIncome: 24000,
     notes: "Deposit taken 21/4; serviced 21/5.",
   },
   {
@@ -645,7 +645,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 30000,
+    netIncome: 30000,
     notes: "Deposit taken 21/4; serviced 21/5.",
   },
   {
@@ -659,7 +659,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 12000,
+    netIncome: 12000,
   },
   {
     id: "58",
@@ -672,7 +672,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "59",
@@ -685,7 +685,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 40000,
+    netIncome: 40000,
   },
   {
     id: "60",
@@ -698,7 +698,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 40000,
+    netIncome: 40000,
   },
   {
     id: "61",
@@ -711,7 +711,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci U",
-    netRevenue: 21000,
+    netIncome: 21000,
   },
   {
     id: "62",
@@ -724,7 +724,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Pay Eli $48.000; split 28 Selvia / 20 Ceci.",
   },
   {
@@ -738,7 +738,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 40000,
+    netIncome: 40000,
   },
   {
     id: "64",
@@ -751,7 +751,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 40000,
+    netIncome: 40000,
     notes: "Friend of the clinic (\"Amiga\").",
   },
   {
@@ -765,7 +765,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 40000,
+    netIncome: 40000,
   },
   {
     id: "66",
@@ -778,7 +778,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "67",
@@ -791,7 +791,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Última sesión (last of package).",
   },
   {
@@ -805,7 +805,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 124000,
+    netIncome: 124000,
   },
   {
     id: "69",
@@ -818,7 +818,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "70",
@@ -831,7 +831,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 42000,
+    netIncome: 42000,
   },
   {
     id: "71",
@@ -844,7 +844,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 30000,
+    netIncome: 30000,
     notes: "Gift card from Selvia.",
   },
   {
@@ -858,7 +858,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 18000,
+    netIncome: 18000,
     notes: "Gift card from Tobias Aguilar.",
   },
   {
@@ -872,7 +872,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 28000,
+    netIncome: 28000,
   },
   {
     id: "74",
@@ -885,7 +885,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 42000,
+    netIncome: 42000,
   },
   {
     id: "75",
@@ -898,7 +898,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 21000,
+    netIncome: 21000,
   },
   {
     id: "76",
@@ -911,7 +911,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 69000,
+    netIncome: 69000,
   },
   {
     id: "77",
@@ -924,7 +924,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
 
 // ===== March 2026 (Cash Flow 03-2026) =====
@@ -940,7 +940,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "79",
@@ -953,7 +953,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "80",
@@ -966,7 +966,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "81",
@@ -979,7 +979,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "82",
@@ -992,7 +992,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "83",
@@ -1005,7 +1005,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "84",
@@ -1018,7 +1018,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 11340,
+    netIncome: 11340,
   },
   {
     id: "85",
@@ -1031,7 +1031,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 51000,
+    netIncome: 51000,
   },
   {
     id: "86",
@@ -1044,7 +1044,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: -49000,
+    netIncome: -49000,
     notes: "Raffle prize — service comped, professional still paid.",
   },
   {
@@ -1058,7 +1058,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "88",
@@ -1071,7 +1071,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "89",
@@ -1084,7 +1084,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 78000,
+    netIncome: 78000,
     notes: "Session 2/3 (package).",
   },
   {
@@ -1098,7 +1098,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Magali",
-    netRevenue: 24000,
+    netIncome: 24000,
   },
   {
     id: "91",
@@ -1111,7 +1111,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "92",
@@ -1124,7 +1124,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Magali",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "93",
@@ -1137,7 +1137,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Magali",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "94",
@@ -1150,7 +1150,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 22944,
+    netIncome: 22944,
   },
   {
     id: "95",
@@ -1163,7 +1163,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Magali",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "96",
@@ -1176,7 +1176,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Magali",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "97",
@@ -1189,7 +1189,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22200,
+    netIncome: 22200,
   },
   {
     id: "98",
@@ -1202,7 +1202,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Magali",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "99",
@@ -1215,7 +1215,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22800,
+    netIncome: 22800,
   },
   {
     id: "100",
@@ -1228,7 +1228,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 9000,
+    netIncome: 9000,
     notes: "Ceci gave her a 15% discount.",
   },
   {
@@ -1242,7 +1242,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "102",
@@ -1255,7 +1255,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "103",
@@ -1268,7 +1268,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 24000,
+    netIncome: 24000,
   },
   {
     id: "104",
@@ -1281,7 +1281,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "105",
@@ -1294,7 +1294,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 8070,
+    netIncome: 8070,
   },
   {
     id: "106",
@@ -1307,7 +1307,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 8670,
+    netIncome: 8670,
   },
   {
     id: "107",
@@ -1320,7 +1320,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 2970,
+    netIncome: 2970,
   },
   {
     id: "108",
@@ -1333,7 +1333,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 2670,
+    netIncome: 2670,
   },
   {
     id: "109",
@@ -1346,7 +1346,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "110",
@@ -1359,7 +1359,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "111",
@@ -1372,7 +1372,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 24000,
+    netIncome: 24000,
   },
   {
     id: "112",
@@ -1385,7 +1385,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 34000,
+    netIncome: 34000,
     notes: "Owes $10.000.",
   },
   {
@@ -1399,7 +1399,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 8070,
+    netIncome: 8070,
   },
   {
     id: "114",
@@ -1412,7 +1412,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "No-show; paid only Ceci T's portion.",
   },
   {
@@ -1426,7 +1426,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Rocio",
-    netRevenue: 30000,
+    netIncome: 30000,
     notes: "Split: 50% Mercado Pago Selvia, 50% cash.",
   },
   {
@@ -1440,7 +1440,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 36000,
+    netIncome: 36000,
     notes: "Later used by Vanesa Alvarez.",
   },
   {
@@ -1454,7 +1454,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 78000,
+    netIncome: 78000,
   },
   {
     id: "118",
@@ -1467,7 +1467,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "119",
@@ -1480,7 +1480,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 6000,
+    netIncome: 6000,
   },
   {
     id: "120",
@@ -1493,7 +1493,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 8940,
+    netIncome: 8940,
   },
   {
     id: "121",
@@ -1506,7 +1506,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 10140,
+    netIncome: 10140,
   },
   {
     id: "122",
@@ -1519,7 +1519,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 5340,
+    netIncome: 5340,
   },
   {
     id: "123",
@@ -1532,7 +1532,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 7140,
+    netIncome: 7140,
   },
   {
     id: "124",
@@ -1545,7 +1545,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 10740,
+    netIncome: 10740,
   },
   {
     id: "125",
@@ -1558,7 +1558,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 17940,
+    netIncome: 17940,
   },
   {
     id: "126",
@@ -1571,7 +1571,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Rocio",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "127",
@@ -1584,7 +1584,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 27000,
+    netIncome: 27000,
   },
   {
     id: "128",
@@ -1597,7 +1597,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 17340,
+    netIncome: 17340,
   },
   {
     id: "129",
@@ -1610,7 +1610,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 24000,
+    netIncome: 24000,
     notes: "Paid partly in USD200; ~$19.000 left in her favor.",
   },
   {
@@ -1624,7 +1624,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 78000,
+    netIncome: 78000,
   },
   {
     id: "131",
@@ -1637,7 +1637,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 30600,
+    netIncome: 30600,
     notes: "Split: $15.000 Selvia, $36.000 Flor.",
   },
   {
@@ -1651,7 +1651,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "133",
@@ -1664,7 +1664,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "134",
@@ -1677,7 +1677,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "135",
@@ -1690,7 +1690,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22200,
+    netIncome: 22200,
   },
   {
     id: "136",
@@ -1703,7 +1703,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22200,
+    netIncome: 22200,
   },
   {
     id: "137",
@@ -1716,7 +1716,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "138",
@@ -1729,7 +1729,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22200,
+    netIncome: 22200,
   },
   {
     id: "139",
@@ -1742,7 +1742,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 11262,
+    netIncome: 11262,
   },
   {
     id: "140",
@@ -1755,7 +1755,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "141",
@@ -1768,7 +1768,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "142",
@@ -1781,7 +1781,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "143",
@@ -1794,7 +1794,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Trade (\"CANJE\"), not cash.",
   },
   {
@@ -1808,7 +1808,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Magali",
-    netRevenue: 10000,
+    netIncome: 10000,
   },
   {
     id: "145",
@@ -1821,7 +1821,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "146",
@@ -1834,7 +1834,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 126450,
+    netIncome: 126450,
   },
   {
     id: "147",
@@ -1847,7 +1847,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 66000,
+    netIncome: 66000,
   },
   {
     id: "148",
@@ -1860,7 +1860,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "149",
@@ -1873,7 +1873,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 45000,
+    netIncome: 45000,
   },
 
 // ===== May 2026 (05-2026 CASH FLOW) =====
@@ -1889,7 +1889,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "151",
@@ -1902,7 +1902,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 37000,
+    netIncome: 37000,
   },
   {
     id: "152",
@@ -1915,7 +1915,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 29400,
+    netIncome: 29400,
   },
   {
     id: "153",
@@ -1928,7 +1928,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Covered by gift card.",
   },
   {
@@ -1942,7 +1942,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 24000,
+    netIncome: 24000,
   },
   {
     id: "155",
@@ -1955,7 +1955,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 60000,
+    netIncome: 60000,
   },
   {
     id: "156",
@@ -1968,7 +1968,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 60000,
+    netIncome: 60000,
   },
   {
     id: "157",
@@ -1981,7 +1981,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 60000,
+    netIncome: 60000,
   },
   {
     id: "158",
@@ -1994,7 +1994,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 42000,
+    netIncome: 42000,
   },
   {
     id: "159",
@@ -2007,7 +2007,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "160",
@@ -2020,7 +2020,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "161",
@@ -2033,7 +2033,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "162",
@@ -2046,7 +2046,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "163",
@@ -2059,7 +2059,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 51000,
+    netIncome: 51000,
   },
   {
     id: "164",
@@ -2072,7 +2072,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 44400,
+    netIncome: 44400,
     notes: "Split: $30.000 Ceci, $44.000 Flor.",
   },
   {
@@ -2086,7 +2086,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 70200,
+    netIncome: 70200,
   },
   {
     id: "166",
@@ -2099,7 +2099,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 70000,
+    netIncome: 70000,
   },
   {
     id: "167",
@@ -2112,7 +2112,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 70000,
+    netIncome: 70000,
   },
   {
     id: "168",
@@ -2125,7 +2125,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 70000,
+    netIncome: 70000,
     notes: "Friend of Paula Reynoso.",
   },
   {
@@ -2139,7 +2139,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 70000,
+    netIncome: 70000,
   },
   {
     id: "170",
@@ -2152,7 +2152,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "171",
@@ -2165,7 +2165,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 42000,
+    netIncome: 42000,
   },
   {
     id: "172",
@@ -2178,7 +2178,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 38700,
+    netIncome: 38700,
   },
   {
     id: "173",
@@ -2191,7 +2191,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22800,
+    netIncome: 22800,
   },
   {
     id: "174",
@@ -2204,7 +2204,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "175",
@@ -2217,7 +2217,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "176",
@@ -2230,7 +2230,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 40000,
+    netIncome: 40000,
   },
   {
     id: "177",
@@ -2243,7 +2243,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Sergio",
-    netRevenue: 81150,
+    netIncome: 81150,
     notes: "Priced in USD 300 (rate 1435).",
   },
   {
@@ -2257,7 +2257,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "179",
@@ -2270,7 +2270,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 60000,
+    netIncome: 60000,
   },
   {
     id: "180",
@@ -2283,7 +2283,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "181",
@@ -2296,7 +2296,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 24000,
+    netIncome: 24000,
   },
   {
     id: "182",
@@ -2309,7 +2309,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 58500,
+    netIncome: 58500,
   },
   {
     id: "183",
@@ -2322,7 +2322,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 50640,
+    netIncome: 50640,
     notes: "Friend of Paula Reynoso.",
   },
   {
@@ -2336,7 +2336,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 20880,
+    netIncome: 20880,
     notes: "Friend of Paula Reynoso.",
   },
   {
@@ -2350,7 +2350,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 7140,
+    netIncome: 7140,
   },
   {
     id: "186",
@@ -2363,7 +2363,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "187",
@@ -2376,7 +2376,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 24000,
+    netIncome: 24000,
   },
   {
     id: "188",
@@ -2389,7 +2389,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22800,
+    netIncome: 22800,
   },
   {
     id: "189",
@@ -2402,7 +2402,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Date shown as 28/06 in sheet — corrected to month-end per daily total placement.",
   },
   {
@@ -2416,7 +2416,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 21000,
+    netIncome: 21000,
     notes: "Date shown as 28/06 in sheet — corrected to month-end per daily total placement.",
   },
 
@@ -2433,7 +2433,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 90000,
+    netIncome: 90000,
     notes: "2 facials, 2 massages, snacks, wine for a couple.",
   },
   {
@@ -2447,7 +2447,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 71100,
+    netIncome: 71100,
     notes: "Paid USD300 + change transferred.",
   },
   {
@@ -2461,7 +2461,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "195",
@@ -2474,7 +2474,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 69000,
+    netIncome: 69000,
   },
   {
     id: "196",
@@ -2487,7 +2487,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "197",
@@ -2500,7 +2500,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 48000,
+    netIncome: 48000,
   },
   {
     id: "198",
@@ -2513,7 +2513,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 42000,
+    netIncome: 42000,
   },
   {
     id: "199",
@@ -2526,7 +2526,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 48000,
+    netIncome: 48000,
   },
   {
     id: "200",
@@ -2539,7 +2539,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22800,
+    netIncome: 22800,
     notes: "Date shown as 03/06 in sheet — corrected (no June file/section exists).",
   },
   {
@@ -2553,7 +2553,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Date shown as 03/06 in sheet — corrected (no June file/section exists).",
   },
   {
@@ -2567,7 +2567,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "203",
@@ -2580,7 +2580,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Recorded under a separate \"Hair\" revenue line, not Selvia.",
   },
   {
@@ -2594,7 +2594,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 46000,
+    netIncome: 46000,
   },
   {
     id: "205",
@@ -2607,7 +2607,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22200,
+    netIncome: 22200,
   },
   {
     id: "206",
@@ -2620,7 +2620,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 21000,
+    netIncome: 21000,
   },
   {
     id: "207",
@@ -2633,7 +2633,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "208",
@@ -2646,7 +2646,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22800,
+    netIncome: 22800,
   },
   {
     id: "209",
@@ -2659,7 +2659,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 41100,
+    netIncome: 41100,
   },
   {
     id: "210",
@@ -2672,7 +2672,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "211",
@@ -2685,7 +2685,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "212",
@@ -2698,7 +2698,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 21000,
+    netIncome: 21000,
     notes: "Connie Lousteau's daughter.",
   },
   {
@@ -2712,7 +2712,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 96000,
+    netIncome: 96000,
   },
   {
     id: "214",
@@ -2725,7 +2725,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: -5000,
+    netIncome: -5000,
   },
   {
     id: "215",
@@ -2738,7 +2738,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 21000,
+    netIncome: 21000,
   },
   {
     id: "216",
@@ -2751,7 +2751,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 24000,
+    netIncome: 24000,
   },
   {
     id: "217",
@@ -2764,7 +2764,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "218",
@@ -2777,7 +2777,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "219",
@@ -2790,7 +2790,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "220",
@@ -2803,7 +2803,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "221",
@@ -2816,7 +2816,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci T",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "222",
@@ -2829,7 +2829,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "223",
@@ -2842,7 +2842,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 16320,
+    netIncome: 16320,
   },
   {
     id: "224",
@@ -2855,7 +2855,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 10800,
+    netIncome: 10800,
   },
   {
     id: "225",
@@ -2868,7 +2868,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Yae",
-    netRevenue: 15000,
+    netIncome: 15000,
   },
   {
     id: "226",
@@ -2881,7 +2881,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 60000,
+    netIncome: 60000,
   },
   {
     id: "227",
@@ -2894,7 +2894,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 50000,
+    netIncome: 50000,
   },
   {
     id: "228",
@@ -2907,7 +2907,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 130000,
+    netIncome: 130000,
   },
   {
     id: "229",
@@ -2920,7 +2920,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 110000,
+    netIncome: 110000,
   },
   {
     id: "230",
@@ -2933,7 +2933,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 130000,
+    netIncome: 130000,
   },
   {
     id: "231",
@@ -2946,7 +2946,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 31000,
+    netIncome: 31000,
   },
   {
     id: "232",
@@ -2959,7 +2959,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 130000,
+    netIncome: 130000,
   },
   {
     id: "233",
@@ -2972,7 +2972,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 24000,
+    netIncome: 24000,
   },
   {
     id: "234",
@@ -2985,7 +2985,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 42000,
+    netIncome: 42000,
   },
   {
     id: "235",
@@ -2998,7 +2998,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: -20000,
+    netIncome: -20000,
     notes: "Voucher from Padel Chic.",
   },
   {
@@ -3012,7 +3012,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "237",
@@ -3025,7 +3025,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "238",
@@ -3038,7 +3038,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "239",
@@ -3051,7 +3051,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "240",
@@ -3064,7 +3064,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: -200000,
+    netIncome: -200000,
     notes: "Equipment rental cost netted against the day's revenue — not a patient.",
   },
   {
@@ -3078,7 +3078,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "242",
@@ -3091,7 +3091,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "243",
@@ -3104,7 +3104,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 26000,
+    netIncome: 26000,
     notes: "Used a $40.000 credit balance.",
   },
   {
@@ -3118,7 +3118,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 26000,
+    netIncome: 26000,
   },
   {
     id: "245",
@@ -3131,7 +3131,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "246",
@@ -3144,7 +3144,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 17000,
+    netIncome: 17000,
   },
   {
     id: "247",
@@ -3157,7 +3157,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "248",
@@ -3170,7 +3170,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "249",
@@ -3183,7 +3183,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "250",
@@ -3196,7 +3196,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "251",
@@ -3209,7 +3209,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "252",
@@ -3222,7 +3222,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "253",
@@ -3235,7 +3235,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "254",
@@ -3248,7 +3248,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Scheduled",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Deposit for a future session.",
   },
   {
@@ -3262,7 +3262,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Scheduled",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Deposit for a future session.",
   },
   {
@@ -3276,7 +3276,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 24000,
+    netIncome: 24000,
   },
   {
     id: "257",
@@ -3289,7 +3289,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 13740,
+    netIncome: 13740,
   },
   {
     id: "258",
@@ -3302,7 +3302,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 117800,
+    netIncome: 117800,
   },
   {
     id: "259",
@@ -3315,7 +3315,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Yae",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "260",
@@ -3328,7 +3328,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Yae",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "261",
@@ -3341,7 +3341,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 21000,
+    netIncome: 21000,
   },
   {
     id: "262",
@@ -3354,7 +3354,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: -24000,
+    netIncome: -24000,
     notes: "Carteles/publicidad partner.",
   },
   {
@@ -3368,7 +3368,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "264",
@@ -3381,7 +3381,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Yae",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "265",
@@ -3394,7 +3394,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "266",
@@ -3407,7 +3407,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22200,
+    netIncome: 22200,
   },
   {
     id: "267",
@@ -3420,7 +3420,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22200,
+    netIncome: 22200,
   },
   {
     id: "268",
@@ -3433,7 +3433,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: -24000,
+    netIncome: -24000,
     notes: "Carlos Renteria's daughter.",
   },
   {
@@ -3447,7 +3447,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "270",
@@ -3460,7 +3460,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 90000,
+    netIncome: 90000,
     notes: "Paid USD400 + $20.000.",
   },
   {
@@ -3474,7 +3474,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Yae",
-    netRevenue: 15000,
+    netIncome: 15000,
   },
   {
     id: "272",
@@ -3487,7 +3487,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Consult comped; treatment scheduled later.",
   },
   {
@@ -3501,7 +3501,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 13240,
+    netIncome: 13240,
   },
   {
     id: "274",
@@ -3514,7 +3514,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 25500,
+    netIncome: 25500,
   },
   {
     id: "275",
@@ -3527,7 +3527,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 96000,
+    netIncome: 96000,
   },
   {
     id: "276",
@@ -3540,7 +3540,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: -49000,
+    netIncome: -49000,
     notes: "Traded for a video (\"Canje video\").",
   },
   {
@@ -3554,7 +3554,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Scheduled",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Deposit for a future session (Aug 8).",
   },
   {
@@ -3568,7 +3568,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Scheduled",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Deposit for a future session (Aug 3).",
   },
   {
@@ -3582,7 +3582,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 20000,
+    netIncome: 20000,
   },
 
 // ===== August 2026 (08-26 CASH FLOW), incl. Sep 1 spillover =====
@@ -3598,7 +3598,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "281",
@@ -3611,7 +3611,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "282",
@@ -3624,7 +3624,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "283",
@@ -3637,7 +3637,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "284",
@@ -3650,7 +3650,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "285",
@@ -3663,7 +3663,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 70000,
+    netIncome: 70000,
   },
   {
     id: "286",
@@ -3676,7 +3676,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "287",
@@ -3689,7 +3689,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "288",
@@ -3702,7 +3702,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "289",
@@ -3715,7 +3715,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 64200,
+    netIncome: 64200,
   },
   {
     id: "290",
@@ -3728,7 +3728,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 13500,
+    netIncome: 13500,
   },
   {
     id: "291",
@@ -3741,7 +3741,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 48000,
+    netIncome: 48000,
   },
   {
     id: "292",
@@ -3754,7 +3754,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "293",
@@ -3767,7 +3767,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 20000,
+    netIncome: 20000,
   },
   {
     id: "294",
@@ -3780,7 +3780,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "295",
@@ -3793,7 +3793,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "296",
@@ -3806,7 +3806,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "297",
@@ -3819,7 +3819,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "298",
@@ -3832,7 +3832,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "299",
@@ -3845,7 +3845,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 20000,
+    netIncome: 20000,
   },
   {
     id: "300",
@@ -3858,7 +3858,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "301",
@@ -3871,7 +3871,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "302",
@@ -3884,7 +3884,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 6000,
+    netIncome: 6000,
   },
   {
     id: "303",
@@ -3897,7 +3897,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 25500,
+    netIncome: 25500,
   },
   {
     id: "304",
@@ -3910,7 +3910,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 14000,
+    netIncome: 14000,
   },
   {
     id: "305",
@@ -3923,7 +3923,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "306",
@@ -3936,7 +3936,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 19800,
+    netIncome: 19800,
   },
   {
     id: "307",
@@ -3949,7 +3949,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "308",
@@ -3962,7 +3962,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Caro",
-    netRevenue: 34000,
+    netIncome: 34000,
   },
   {
     id: "309",
@@ -3975,7 +3975,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22800,
+    netIncome: 22800,
   },
   {
     id: "310",
@@ -3988,7 +3988,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 19800,
+    netIncome: 19800,
   },
   {
     id: "311",
@@ -4001,7 +4001,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "312",
@@ -4014,7 +4014,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "313",
@@ -4027,7 +4027,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 13500,
+    netIncome: 13500,
   },
   {
     id: "314",
@@ -4040,7 +4040,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "315",
@@ -4053,7 +4053,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 48000,
+    netIncome: 48000,
   },
   {
     id: "316",
@@ -4066,7 +4066,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "317",
@@ -4079,7 +4079,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "318",
@@ -4092,7 +4092,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 20000,
+    netIncome: 20000,
   },
   {
     id: "319",
@@ -4105,7 +4105,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "320",
@@ -4118,7 +4118,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "321",
@@ -4131,7 +4131,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 48000,
+    netIncome: 48000,
   },
   {
     id: "322",
@@ -4144,7 +4144,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "323",
@@ -4157,7 +4157,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "324",
@@ -4170,7 +4170,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "325",
@@ -4183,7 +4183,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "326",
@@ -4196,7 +4196,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "327",
@@ -4209,7 +4209,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Priced in USD200 (rate ~1535); discount given re: prior mix-up with Sergio.",
   },
   {
@@ -4223,7 +4223,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 98000,
+    netIncome: 98000,
   },
   {
     id: "329",
@@ -4236,7 +4236,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Priced in USD200 (rate ~1535).",
   },
   {
@@ -4250,7 +4250,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "331",
@@ -4263,7 +4263,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "332",
@@ -4276,7 +4276,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Alexa",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "333",
@@ -4289,7 +4289,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Priced in USD125 (rate 1535).",
   },
   {
@@ -4303,7 +4303,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 24000,
+    netIncome: 24000,
   },
   {
     id: "335",
@@ -4316,7 +4316,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "336",
@@ -4329,7 +4329,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "337",
@@ -4342,7 +4342,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 18000,
+    netIncome: 18000,
   },
   {
     id: "338",
@@ -4355,7 +4355,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 21600,
+    netIncome: 21600,
   },
   {
     id: "339",
@@ -4368,7 +4368,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "340",
@@ -4381,7 +4381,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22800,
+    netIncome: 22800,
     notes: "Deposit ($15.000) taken 20/8; serviced 24/8.",
   },
   {
@@ -4395,7 +4395,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "342",
@@ -4408,7 +4408,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 19800,
+    netIncome: 19800,
   },
   {
     id: "343",
@@ -4421,7 +4421,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "344",
@@ -4434,7 +4434,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 13500,
+    netIncome: 13500,
   },
   {
     id: "345",
@@ -4447,7 +4447,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "346",
@@ -4460,7 +4460,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 130000,
+    netIncome: 130000,
   },
   {
     id: "347",
@@ -4473,7 +4473,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 130000,
+    netIncome: 130000,
   },
   {
     id: "348",
@@ -4486,7 +4486,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 130000,
+    netIncome: 130000,
   },
   {
     id: "349",
@@ -4499,7 +4499,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 130000,
+    netIncome: 130000,
   },
   {
     id: "350",
@@ -4512,7 +4512,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "351",
@@ -4525,7 +4525,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: 25500,
+    netIncome: 25500,
   },
   {
     id: "352",
@@ -4538,7 +4538,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Beti",
-    netRevenue: -200000,
+    netIncome: -200000,
     notes: "Equipment rental cost netted against the day's revenue — not a patient.",
   },
   {
@@ -4552,7 +4552,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "354",
@@ -4565,7 +4565,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "355",
@@ -4578,7 +4578,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: -24000,
+    netIncome: -24000,
   },
   {
     id: "356",
@@ -4591,7 +4591,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 36000,
+    netIncome: 36000,
   },
   {
     id: "357",
@@ -4604,7 +4604,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "358",
@@ -4617,7 +4617,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 19800,
+    netIncome: 19800,
   },
   {
     id: "359",
@@ -4630,7 +4630,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 26800,
+    netIncome: 26800,
   },
   {
     id: "360",
@@ -4643,7 +4643,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Caro",
-    netRevenue: 34000,
+    netIncome: 34000,
   },
   {
     id: "361",
@@ -4656,7 +4656,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Caro",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "362",
@@ -4669,7 +4669,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Arbell",
-    netRevenue: 21800,
+    netIncome: 21800,
   },
   {
     id: "363",
@@ -4682,7 +4682,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 20000,
+    netIncome: 20000,
   },
   {
     id: "364",
@@ -4695,7 +4695,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22800,
+    netIncome: 22800,
   },
   {
     id: "365",
@@ -4708,7 +4708,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 22800,
+    netIncome: 22800,
   },
   {
     id: "366",
@@ -4721,7 +4721,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Ceci U",
-    netRevenue: 10000,
+    netIncome: 10000,
   },
   {
     id: "367",
@@ -4734,7 +4734,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "368",
@@ -4747,7 +4747,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Edgardo",
-    netRevenue: 13500,
+    netIncome: 13500,
   },
   {
     id: "369",
@@ -4760,7 +4760,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Angi",
-    netRevenue: 32000,
+    netIncome: 32000,
   },
   {
     id: "370",
@@ -4773,7 +4773,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 64800,
+    netIncome: 64800,
   },
   {
     id: "371",
@@ -4786,7 +4786,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Angi",
-    netRevenue: 32000,
+    netIncome: 32000,
   },
   {
     id: "372",
@@ -4799,7 +4799,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "373",
@@ -4812,7 +4812,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Angi",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "374",
@@ -4825,7 +4825,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Flor",
-    netRevenue: 19800,
+    netIncome: 19800,
     notes: "Staff member (Angélica), also a client here.",
   },
 
@@ -4842,7 +4842,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Coty",
-    netRevenue: 21000,
+    netIncome: 21000,
     notes: "Missed in the earlier Aug->Sep spillover batch; added here.",
   },
   {
@@ -4856,7 +4856,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Angi",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "379",
@@ -4869,7 +4869,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Angi",
-    netRevenue: 30000,
+    netIncome: 30000,
   },
   {
     id: "380",
@@ -4882,7 +4882,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Angi",
-    netRevenue: 24000,
+    netIncome: 24000,
   },
   {
     id: "381",
@@ -4895,7 +4895,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Completed",
     source: "Website",
     doctor: "Angi",
-    netRevenue: 0,
+    netIncome: 0,
   },
   {
     id: "382",
@@ -4908,7 +4908,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Scheduled",
     source: "Website",
     doctor: "Elizabeth",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Deposit for a future session.",
   },
   {
@@ -4922,7 +4922,7 @@ export const SEED_APPOINTMENTS: Appointment[] = [
     status: "Scheduled",
     source: "Website",
     doctor: "Selvia",
-    netRevenue: 0,
+    netIncome: 0,
     notes: "Deposit for a future session.",
   },
 ];

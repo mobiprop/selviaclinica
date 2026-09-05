@@ -14,7 +14,7 @@ export function incomingRevenue(appointments: Appointment[]): number {
 export function completedPayments(appointments: Appointment[]): number {
   return appointments
     .filter((a) => a.status === "Completed")
-    .reduce((sum, a) => sum + a.netRevenue, 0);
+    .reduce((sum, a) => sum + a.netIncome, 0);
 }
 
 export function upcomingCount(appointments: Appointment[]): number {

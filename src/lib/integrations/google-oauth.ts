@@ -5,9 +5,14 @@
 // Calendar uses the events-only (not full "calendar") scope: it can
 // create/edit/delete events without also being able to manage or delete
 // the calendars themselves.
+// Drive uses the file-scoped (not "readonly", which Google classifies as a
+// restricted scope requiring a security assessment to verify) drive.file
+// scope: it can only see files the user explicitly hands over via the Drive
+// Picker (see the "Select files" flow on the Integrations page), not their
+// whole Drive.
 export const GOOGLE_SCOPES = {
   "google-calendar": "https://www.googleapis.com/auth/calendar.events email",
-  "google-drive": "https://www.googleapis.com/auth/drive.readonly email",
+  "google-drive": "https://www.googleapis.com/auth/drive.file email",
 };
 
 export function buildGoogleAuthorizeUrl(kind: "google-calendar" | "google-drive") {
