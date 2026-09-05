@@ -41,18 +41,23 @@ export function PatientsTable({ appointments }: { appointments: Appointment[] })
   // opens straight into that patient's edit form, then clears the param so a
   // refresh or back-navigation doesn't reopen it. Looks up against every
   // appointment (not the page's currently period-filtered `appointments`
-  // prop), since search itself runs across every period.
-  useEffect(() => {
-    const editId = searchParams.get("edit");
-    if (!editId) return;
-    const match = allAppointments.find((a) => a.id === editId);
+  // prop), since search itself runs across every period. Checked during
+  // render (not an effect) so it naturally keeps retrying while Supabase's
+  // initial fetch is still in flight, self-terminating once `editing` matches.
+  const editIdParam = searchParams.get("edit");
+  if (editIdParam && editing?.id !== editIdParam) {
+    const match = allAppointments.find((a) => a.id === editIdParam);
     if (match) {
       setEditing(match);
       setDialogOpen(true);
     }
-    router.replace("/patients");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }
+
+  useEffect(() => {
+    if (editIdParam && editing?.id === editIdParam) {
+      router.replace("/patients");
+    }
+  }, [editIdParam, editing, router]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();

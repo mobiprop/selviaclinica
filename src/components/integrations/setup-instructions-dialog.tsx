@@ -32,8 +32,8 @@ const SETUP_INFO: Partial<Record<IntegrationKind, SetupInfo>> = {
       "APIs & Services → Library → enable the Google Calendar API.",
       "APIs & Services → OAuth consent screen → set it up (External is fine) and add your own Google account under Test users.",
       "APIs & Services → Credentials → Create Credentials → OAuth client ID → Application type: Web application.",
-      "Under Authorized JavaScript origins, add http://localhost:3000 (add your production domain later).",
-      "Copy the Client ID and set it as NEXT_PUBLIC_GOOGLE_CLIENT_ID in .env.local, then restart the dev server.",
+      "Under Authorized redirect URIs, add http://localhost:3000/api/integrations/google/callback (add your production URL later).",
+      "Copy the Client ID and Client Secret. Set NEXT_PUBLIC_GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env.local, then restart the dev server. The secret never reaches the browser — it's only used server-side to complete the connection.",
     ],
   },
   "google-drive": {
@@ -46,8 +46,8 @@ const SETUP_INFO: Partial<Record<IntegrationKind, SetupInfo>> = {
       "APIs & Services → Library → enable the Google Drive API.",
       "APIs & Services → OAuth consent screen → set it up (External is fine) and add your own Google account under Test users.",
       "APIs & Services → Credentials → Create Credentials → OAuth client ID → Application type: Web application.",
-      "Under Authorized JavaScript origins, add http://localhost:3000 (add your production domain later).",
-      "Copy the Client ID and set it as NEXT_PUBLIC_GOOGLE_CLIENT_ID in .env.local, then restart the dev server. (Same client ID as Google Calendar — one Google OAuth client can cover both.)",
+      "Under Authorized redirect URIs, add http://localhost:3000/api/integrations/google/callback (add your production URL later).",
+      "Copy the Client ID and Client Secret. Set NEXT_PUBLIC_GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env.local, then restart the dev server. (Same Google OAuth client as Calendar covers both.)",
     ],
   },
   "meta-ads": {
@@ -58,9 +58,9 @@ const SETUP_INFO: Partial<Record<IntegrationKind, SetupInfo>> = {
     steps: [
       "Create an app at developers.facebook.com/apps (type: Business).",
       "Add the Facebook Login product to the app.",
-      "Facebook Login → Settings → add http://localhost:3000 under Allowed Domains for the JavaScript SDK.",
+      "Facebook Login → Settings → add http://localhost:3000/api/integrations/meta/callback under Valid OAuth Redirect URIs.",
       "App Roles → Roles → make sure your own Facebook account is listed (needed while the app is in Development mode).",
-      "Copy the App ID from the dashboard and set it as NEXT_PUBLIC_META_APP_ID in .env.local, then restart the dev server.",
+      "Settings → Basic → copy the App ID and App Secret. Set NEXT_PUBLIC_META_APP_ID and META_APP_SECRET in .env.local, then restart the dev server.",
       "This works immediately for your own ad account in Development mode. Reaching other users' ad accounts needs Meta App Review for ads_read.",
     ],
   },
@@ -84,8 +84,8 @@ export function SetupInstructionsDialog({
         <DialogHeader>
           <DialogTitle>{info.title}</DialogTitle>
           <DialogDescription>
-            This needs a one-time setup step in your own developer account before it can connect —
-            the ID it produces isn&apos;t a secret, so it&apos;s safe to paste into this project.
+            This needs a one-time setup step in your own developer account before it can connect. The
+            secret it produces stays server-side and is never sent to the browser.
           </DialogDescription>
         </DialogHeader>
 

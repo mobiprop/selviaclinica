@@ -1,19 +1,47 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { createServiceRoleClient } from "@/lib/supabase/server";
+import { appointmentFromRow, supplyFromRow, type AppointmentRow, type SupplyRow } from "@/lib/supabase/mappers";
 import { SEED_APPOINTMENTS } from "@/data/seed-appointments";
 import { SEED_SUPPLIES } from "@/data/seed-supplies";
 
 /**
  * Builds a fresh MCP server per request (stateless mode — see /api/mcp/route.ts).
  *
- * Data note: this reads the same seed data bundled into the app, not whatever
- * a browser session has added/edited in memory — there's no shared backend
- * yet (appointments/supplies live in client-side React state until the
- * planned Supabase migration), so this reflects the clinic's data as of the
- * last import, not live edits made in an open dashboard tab.
+ * Reads live data straight from Supabase using the service-role client (this
+ * runs only inside the already Bearer-key-authenticated /api/mcp route, never
+ * in the browser). Falls back to the bundled seed data if Supabase isn't
+ * configured yet, so the tools still work before the production migration
+ * finishes.
  */
 export function createSelviaMcpServer() {
   const server = new McpServer({ name: "selvia-clinica", version: "1.0.0" });
+
+  async function loadAppointments() {
+    const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+    if (!configured) return SEED_APPOINTMENTS;
+    try {
+      const supabase = createServiceRoleClient();
+      const { data, error } = await supabase.from("appointments").select("*");
+      if (error || !data) return SEED_APPOINTMENTS;
+      return (data as AppointmentRow[]).map(appointmentFromRow);
+    } catch {
+      return SEED_APPOINTMENTS;
+    }
+  }
+
+  async function loadSupplies() {
+    const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+    if (!configured) return SEED_SUPPLIES;
+    try {
+      const supabase = createServiceRoleClient();
+      const { data, error } = await supabase.from("supplies").select("*");
+      if (error || !data) return SEED_SUPPLIES;
+      return (data as SupplyRow[]).map(supplyFromRow);
+    } catch {
+      return SEED_SUPPLIES;
+    }
+  }
 
   server.registerTool(
     "list_upcoming_appointments",
@@ -23,7 +51,8 @@ export function createSelviaMcpServer() {
       inputSchema: { limit: z.number().int().min(1).max(50).default(10) },
     },
     async ({ limit }) => {
-      const upcoming = SEED_APPOINTMENTS
+      const appointments = await loadAppointments();
+      const upcoming = appointments
         .filter((a) => a.status === "Scheduled")
         .sort((a, b) => a.appointmentDate.localeCompare(b.appointmentDate))
         .slice(0, limit)
@@ -46,8 +75,9 @@ export function createSelviaMcpServer() {
       inputSchema: { query: z.string().min(1), limit: z.number().int().min(1).max(50).default(10) },
     },
     async ({ query, limit }) => {
+      const supplies = await loadSupplies();
       const q = query.toLowerCase();
-      const matches = SEED_SUPPLIES
+      const matches = supplies
         .filter((s) => `${s.name} ${s.unit}`.toLowerCase().includes(q))
         .slice(0, limit)
         .map((s) => ({ name: s.name, unit: s.unit, usage: s.usage, currency: s.currency }));
@@ -63,7 +93,8 @@ export function createSelviaMcpServer() {
       inputSchema: {},
     },
     async () => {
-      const completed = SEED_APPOINTMENTS.filter((a) => a.status === "Completed");
+      const appointments = await loadAppointments();
+      const completed = appointments.filter((a) => a.status === "Completed");
       const totalNetRevenue = completed.reduce((sum, a) => sum + a.netRevenue, 0);
       const summary = {
         completedAppointments: completed.length,

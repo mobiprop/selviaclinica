@@ -1,9 +1,18 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Search, Bell, Contact, Package } from "lucide-react";
+import { Search, Bell, Contact, Package, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import { useAppointments } from "@/lib/appointments-context";
 import { useSupplies } from "@/lib/supplies-context";
 import { formatDate, titleCase } from "@/lib/format";
@@ -15,11 +24,33 @@ type SearchResult =
   | { kind: "supply"; id: string; title: string; subtitle: string };
 
 export function DashboardTopbar() {
+  const router = useRouter();
   const { appointments } = useAppointments();
   const { supplies } = useSupplies();
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const blurTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return;
+    (async () => {
+      const { createClient } = await import("@/lib/supabase/client");
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUserEmail(user?.email ?? null);
+    })();
+  }, []);
+
+  async function handleSignOut() {
+    const { createClient } = await import("@/lib/supabase/client");
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.replace("/login");
+    router.refresh();
+  }
 
   // Searches patients and supplies together, across every period — this is a
   // global lookup, not scoped to whichever range the current page has selected.
@@ -125,12 +156,24 @@ export function DashboardTopbar() {
           <Bell className="h-4 w-4" />
           <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-primary" />
         </button>
-        <Avatar className="h-7 w-7">
-          <AvatarImage src="" alt="User" />
-          <AvatarFallback className="bg-primary text-xs text-primary-foreground">
-            MU
-          </AvatarFallback>
-        </Avatar>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="rounded-full">
+            <Avatar className="h-7 w-7">
+              <AvatarImage src="" alt="User" />
+              <AvatarFallback className="bg-primary text-xs text-primary-foreground">
+                {userEmail ? userEmail.slice(0, 2).toUpperCase() : "MU"}
+              </AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {userEmail && <DropdownMenuLabel>{userEmail}</DropdownMenuLabel>}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleSignOut}>
+              <LogOut className="h-3.5 w-3.5" />
+              Sign out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

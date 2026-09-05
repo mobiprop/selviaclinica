@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
 import { DashboardTopbar } from "@/components/dashboard/topbar";
 import { SuppliesStats } from "@/components/insumos/supplies-stats";
@@ -17,7 +18,9 @@ export default function InsumosPage() {
         <main className="flex-1 overflow-y-auto">
           <div className="mx-auto flex max-w-[1400px] flex-col gap-6 p-4 sm:p-6">
             <SuppliesStats supplies={supplies} />
-            <SuppliesTable supplies={supplies} />
+            <Suspense fallback={null}>
+              <SuppliesTable supplies={supplies} />
+            </Suspense>
           </div>
         </main>
       </div>

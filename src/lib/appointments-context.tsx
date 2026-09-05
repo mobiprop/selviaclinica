@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 import type { Appointment } from "@/types/patient";
-import { SEED_APPOINTMENTS } from "@/data/seed-appointments";
+import { appointmentFromRow, appointmentToRow, type AppointmentRow } from "@/lib/supabase/mappers";
 
 type AppointmentsContextValue = {
   appointments: Appointment[];
@@ -15,41 +15,91 @@ type AppointmentsContextValue = {
 const AppointmentsContext = createContext<AppointmentsContextValue | null>(null);
 
 const DEFAULT_MONTHLY_TARGET = 2000000;
-const MONTHLY_TARGET_STORAGE_KEY = "selvia.monthlyTarget";
+const MONTHLY_TARGET_KEY = "monthly_target";
 
 export function AppointmentsProvider({ children }: { children: ReactNode }) {
-  const [appointments, setAppointments] = useState<Appointment[]>(SEED_APPOINTMENTS);
-  // Starts at the default on every render (server and first client render must
-  // match), then hydrates from localStorage right after mount — otherwise an
-  // edited target silently reverts on every page reload since nothing else
-  // persists it yet (full persistence is pending the Supabase migration).
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [monthlyTarget, setMonthlyTargetState] = useState<number>(DEFAULT_MONTHLY_TARGET);
 
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(MONTHLY_TARGET_STORAGE_KEY);
-      const parsed = stored ? Number(stored) : NaN;
-      if (!Number.isNaN(parsed) && parsed > 0) setMonthlyTargetState(parsed);
-    } catch {
-      // localStorage unavailable (private browsing, etc.) — fall back to default.
+    let cancelled = false;
+
+    async function load() {
+      const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+      if (!configured) return;
+
+      try {
+        const { createClient } = await import("@/lib/supabase/client");
+        const supabase = createClient();
+
+        const [{ data: rows, error: appointmentsError }, { data: settingsRow }] = await Promise.all([
+          supabase.from("appointments").select("*"),
+          supabase.from("app_settings").select("value").eq("key", MONTHLY_TARGET_KEY).maybeSingle(),
+        ]);
+
+        if (cancelled) return;
+
+        if (appointmentsError) {
+          console.error("Failed to load appointments", appointmentsError);
+        } else if (rows) {
+          setAppointments((rows as AppointmentRow[]).map(appointmentFromRow));
+        }
+
+        if (settingsRow?.value != null) {
+          setMonthlyTargetState(Number(settingsRow.value));
+        }
+      } catch (err) {
+        console.error("Supabase unavailable, appointments not loaded", err);
+      }
     }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  function setMonthlyTarget(value: number) {
-    setMonthlyTargetState(value);
+  async function addAppointment(appointment: Appointment) {
+    setAppointments((prev) => [appointment, ...prev]);
     try {
-      window.localStorage.setItem(MONTHLY_TARGET_STORAGE_KEY, String(value));
-    } catch {
-      // Ignore write failures — the in-memory value still updates for this session.
+      const { createClient } = await import("@/lib/supabase/client");
+      const supabase = createClient();
+      const { error } = await supabase.from("appointments").insert(appointmentToRow(appointment));
+      if (error) console.error("Failed to save appointment", error);
+    } catch (err) {
+      console.error("Supabase unavailable, appointment kept locally only", err);
     }
   }
 
-  function addAppointment(appointment: Appointment) {
-    setAppointments((prev) => [appointment, ...prev]);
+  async function updateAppointment(id: string, patch: Partial<Appointment>) {
+    setAppointments((prev) => prev.map((a) => (a.id === id ? { ...a, ...patch } : a)));
+    try {
+      const { createClient } = await import("@/lib/supabase/client");
+      const supabase = createClient();
+      const current = appointments.find((a) => a.id === id);
+      const merged = current ? { ...current, ...patch, id } : null;
+      if (!merged) return;
+      const row: Partial<ReturnType<typeof appointmentToRow>> = appointmentToRow(merged as Appointment);
+      delete row.id;
+      const { error } = await supabase.from("appointments").update(row).eq("id", id);
+      if (error) console.error("Failed to update appointment", error);
+    } catch (err) {
+      console.error("Supabase unavailable, update kept locally only", err);
+    }
   }
 
-  function updateAppointment(id: string, patch: Partial<Appointment>) {
-    setAppointments((prev) => prev.map((a) => (a.id === id ? { ...a, ...patch } : a)));
+  async function setMonthlyTarget(value: number) {
+    setMonthlyTargetState(value);
+    try {
+      const { createClient } = await import("@/lib/supabase/client");
+      const supabase = createClient();
+      const { error } = await supabase
+        .from("app_settings")
+        .upsert({ key: MONTHLY_TARGET_KEY, value, updated_at: new Date().toISOString() });
+      if (error) console.error("Failed to save monthly target", error);
+    } catch (err) {
+      console.error("Supabase unavailable, monthly target kept locally only", err);
+    }
   }
 
   return (

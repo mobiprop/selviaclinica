@@ -8,12 +8,13 @@ import { SetupInstructionsDialog } from "@/components/integrations/setup-instruc
 import { McpConnectDialog } from "@/components/integrations/mcp-connect-dialog";
 import { ManageConnectionDialog } from "@/components/integrations/manage-connection-dialog";
 import { useIntegrations } from "@/lib/integrations-context";
-import { requestGoogleAccessToken, fetchGoogleAccountEmail, GOOGLE_SCOPES } from "@/lib/integrations/google-oauth";
-import { requestMetaAccessToken, fetchMetaAccountName } from "@/lib/integrations/meta-oauth";
+import { openOAuthPopup } from "@/lib/integrations/oauth-popup";
+import { buildGoogleAuthorizeUrl } from "@/lib/integrations/google-oauth";
+import { buildMetaAuthorizeUrl } from "@/lib/integrations/meta-oauth";
 import type { Integration } from "@/data/integrations";
 
 export function IntegrationCard({ integration }: { integration: Integration }) {
-  const { isConnected, getConnection, connect, disconnect } = useIntegrations();
+  const { isConnected, getConnection, connectMcp, disconnect, refresh } = useIntegrations();
   const connected = isConnected(integration.id);
 
   const [connecting, setConnecting] = useState(false);
@@ -37,22 +38,21 @@ export function IntegrationCard({ integration }: { integration: Integration }) {
         const endpointUrl = `${window.location.origin}${data.endpoint}`;
         setMcpData({ apiKey: data.apiKey, endpointUrl });
         setMcpDialogOpen(true);
-        connect("mcp", { connectedAt: new Date().toISOString() });
+        await connectMcp();
         return;
       }
 
       if (integration.id === "google-calendar" || integration.id === "google-drive") {
-        const scope = integration.id === "google-calendar" ? GOOGLE_SCOPES.calendar : GOOGLE_SCOPES.drive;
-        const accessToken = await requestGoogleAccessToken(scope);
-        const email = await fetchGoogleAccountEmail(accessToken);
-        connect(integration.id, { connectedAt: new Date().toISOString(), accountLabel: email });
+        const authorizeUrl = buildGoogleAuthorizeUrl(integration.id);
+        await openOAuthPopup(authorizeUrl);
+        await refresh();
         return;
       }
 
       if (integration.id === "meta-ads") {
-        const accessToken = await requestMetaAccessToken("ads_read");
-        const name = await fetchMetaAccountName(accessToken);
-        connect(integration.id, { connectedAt: new Date().toISOString(), accountLabel: name });
+        const authorizeUrl = buildMetaAuthorizeUrl();
+        await openOAuthPopup(authorizeUrl);
+        await refresh();
         return;
       }
     } catch (err) {

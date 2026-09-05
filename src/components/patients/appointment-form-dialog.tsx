@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import {
   CheckCircle2,
   Clock,
@@ -109,11 +109,14 @@ export function AppointmentFormDialog({
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const isEditing = initialData !== null;
 
-  useEffect(() => {
-    if (open) {
-      setForm(initialData ? toFormState(initialData) : EMPTY_FORM);
-    }
-  }, [open, initialData]);
+  // Reset the form whenever the dialog transitions to open, using React's
+  // "adjust state during render" pattern instead of an effect, so the reset
+  // is visible in the very first render of the open dialog.
+  const [wasOpen, setWasOpen] = useState(open);
+  if (open !== wasOpen) {
+    setWasOpen(open);
+    if (open) setForm(initialData ? toFormState(initialData) : EMPTY_FORM);
+  }
 
   const isValid =
     form.firstName.trim() !== "" &&

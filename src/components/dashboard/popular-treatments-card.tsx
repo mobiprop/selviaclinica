@@ -64,8 +64,18 @@ export function PopularTreatmentsCard() {
   const total = ranked.reduce((sum, [, count]) => sum + count, 0);
 
   const slices = useMemo(() => {
+    const result: {
+      key: string;
+      treatment: string;
+      count: number;
+      fraction: number;
+      path: string;
+      color: string;
+      labelAngle: number;
+    }[] = [];
     let angle = 0;
-    return ranked.map(([key, count], i) => {
+    for (let i = 0; i < ranked.length; i++) {
+      const [key, count] = ranked[i];
       const fraction = total > 0 ? count / total : 0;
       const startAngle = angle;
       const endAngle = angle + fraction * 360;
@@ -78,7 +88,7 @@ export function PopularTreatmentsCard() {
           ? `M ${CENTER} ${CENTER - RADIUS} A ${RADIUS} ${RADIUS} 0 1 1 ${CENTER - 0.01} ${CENTER - RADIUS} Z`
           : `M ${CENTER},${CENTER} L ${x1},${y1} A ${RADIUS} ${RADIUS} 0 ${largeArc} 1 ${x2},${y2} Z`;
       const midAngle = (startAngle + endAngle) / 2;
-      return {
+      result.push({
         key,
         treatment: capitalize(key),
         count,
@@ -86,8 +96,9 @@ export function PopularTreatmentsCard() {
         path,
         color: SLICE_COLORS[i % SLICE_COLORS.length],
         labelAngle: midAngle,
-      };
-    });
+      });
+    }
+    return result;
   }, [ranked, total]);
 
   return (

@@ -10,47 +10,87 @@ export type IntegrationConnection = {
 
 type ConnectionsMap = Partial<Record<IntegrationKind, IntegrationConnection>>;
 
+type ConnectionRow = {
+  kind: IntegrationKind;
+  connected_at: string;
+  account_label: string | null;
+};
+
 type IntegrationsContextValue = {
   connections: ConnectionsMap;
   isConnected: (id: IntegrationKind) => boolean;
   getConnection: (id: IntegrationKind) => IntegrationConnection | undefined;
-  connect: (id: IntegrationKind, connection: IntegrationConnection) => void;
-  disconnect: (id: IntegrationKind) => void;
+  connectMcp: () => Promise<void>;
+  disconnect: (id: IntegrationKind) => Promise<void>;
+  refresh: () => Promise<void>;
 };
 
 const IntegrationsContext = createContext<IntegrationsContextValue | null>(null);
 
-const STORAGE_KEY = "selvia.integrationConnections";
+async function fetchConnections(): Promise<ConnectionsMap> {
+  const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  if (!configured) return {};
+
+  try {
+    const { createClient } = await import("@/lib/supabase/client");
+    const supabase = createClient();
+    const { data: rows, error } = await supabase.from("integration_connections").select("*");
+    if (error) {
+      console.error("Failed to load integration connections", error);
+      return {};
+    }
+    const next: ConnectionsMap = {};
+    for (const row of (rows ?? []) as ConnectionRow[]) {
+      next[row.kind] = { connectedAt: row.connected_at, accountLabel: row.account_label ?? undefined };
+    }
+    return next;
+  } catch (err) {
+    console.error("Supabase unavailable, integration connections not loaded", err);
+    return {};
+  }
+}
 
 export function IntegrationsProvider({ children }: { children: ReactNode }) {
   const [connections, setConnections] = useState<ConnectionsMap>({});
 
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (stored) setConnections(JSON.parse(stored));
-    } catch {
-      // localStorage unavailable or corrupt — start from an empty state.
-    }
+    let cancelled = false;
+    fetchConnections().then((next) => {
+      if (!cancelled) setConnections(next);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  function persist(next: ConnectionsMap) {
-    setConnections(next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
-      // Ignore write failures — the in-memory value still updates for this session.
+  async function refresh() {
+    setConnections(await fetchConnections());
+  }
+
+  async function connectMcp() {
+    const res = await fetch("/api/integrations/connections", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ kind: "mcp" }),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error ?? "Failed to mark MCP connected");
     }
+    await refresh();
   }
 
-  function connect(id: IntegrationKind, connection: IntegrationConnection) {
-    persist({ ...connections, [id]: connection });
-  }
-
-  function disconnect(id: IntegrationKind) {
-    const next = { ...connections };
-    delete next[id];
-    persist(next);
+  async function disconnect(id: IntegrationKind) {
+    const res = await fetch("/api/integrations/connections", {
+      method: "DELETE",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ kind: id }),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error ?? "Failed to disconnect");
+    }
+    await refresh();
   }
 
   return (
@@ -59,8 +99,9 @@ export function IntegrationsProvider({ children }: { children: ReactNode }) {
         connections,
         isConnected: (id) => Boolean(connections[id]),
         getConnection: (id) => connections[id],
-        connect,
+        connectMcp,
         disconnect,
+        refresh,
       }}
     >
       {children}

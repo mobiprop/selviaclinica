@@ -21,18 +21,23 @@ export function SuppliesTable({ supplies }: { supplies: Supply[] }) {
 
   // Supports being deep-linked from the global topbar search: /insumos?edit=<id>
   // opens straight into that supply's edit form, then clears the param so a
-  // refresh or back-navigation doesn't reopen it.
-  useEffect(() => {
-    const editId = searchParams.get("edit");
-    if (!editId) return;
-    const match = supplies.find((s) => s.id === editId);
+  // refresh or back-navigation doesn't reopen it. Checked during render (not
+  // an effect) so it naturally keeps retrying while Supabase's initial fetch
+  // is still in flight, self-terminating once `editing` matches.
+  const editIdParam = searchParams.get("edit");
+  if (editIdParam && editing?.id !== editIdParam) {
+    const match = supplies.find((s) => s.id === editIdParam);
     if (match) {
       setEditing(match);
       setDialogOpen(true);
     }
-    router.replace("/insumos");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }
+
+  useEffect(() => {
+    if (editIdParam && editing?.id === editIdParam) {
+      router.replace("/insumos");
+    }
+  }, [editIdParam, editing, router]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
 import { DashboardTopbar } from "@/components/dashboard/topbar";
 import { PatientsStats } from "@/components/patients/patients-stats";
@@ -29,7 +29,9 @@ export default function PatientsPage() {
               <PeriodSelect value={range} onChange={setRange} />
             </div>
             <PatientsStats appointments={filtered} />
-            <PatientsTable appointments={filtered} />
+            <Suspense fallback={null}>
+              <PatientsTable appointments={filtered} />
+            </Suspense>
           </div>
         </main>
       </div>
