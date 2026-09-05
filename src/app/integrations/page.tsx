@@ -1,6 +1,6 @@
 "use client";
 
-import { Plug, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
 import { DashboardTopbar } from "@/components/dashboard/topbar";
 import { IntegrationsStats } from "@/components/integrations/integrations-stats";
@@ -12,7 +12,7 @@ export default function IntegrationsPage() {
     <div className="flex h-screen w-full bg-muted/30">
       <DashboardSidebar />
       <div className="flex min-w-0 flex-1 flex-col">
-        <DashboardTopbar title="Integrations" icon={Plug} />
+        <DashboardTopbar />
         <main className="flex-1 overflow-y-auto">
           <div className="mx-auto flex max-w-[1400px] flex-col gap-6 p-4 sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-3">

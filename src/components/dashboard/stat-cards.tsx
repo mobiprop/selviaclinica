@@ -47,13 +47,26 @@ export function DashboardStatCards({ range }: { range: DashboardRange }) {
   const avgNow = patientsNow > 0 ? revenueNow / patientsNow : 0;
   const avgPrev = patientsPrev > 0 ? revenuePrev / patientsPrev : 0;
 
+  // Margin = how much of what the patient paid the clinic actually keeps as
+  // net income, averaged per completed appointment (netRevenue / price).
+  const billableNow = completedNow.filter((a) => a.price > 0);
+  const billablePrev = completedPrev.filter((a) => a.price > 0);
+  const marginNow =
+    billableNow.length > 0
+      ? (billableNow.reduce((sum, a) => sum + a.netRevenue / a.price, 0) / billableNow.length) * 100
+      : 0;
+  const marginPrev =
+    billablePrev.length > 0
+      ? (billablePrev.reduce((sum, a) => sum + a.netRevenue / a.price, 0) / billablePrev.length) * 100
+      : 0;
+
   const stats: Stat[] = [
     {
-      label: "Revenue",
+      label: "Average Net Revenue",
       icon: DollarSign,
       color: "green",
-      value: formatCurrency(revenueNow),
-      delta: isAllTime ? null : percentDelta(revenueNow, revenuePrev),
+      value: formatCurrency(Math.round(avgNow)),
+      delta: isAllTime ? null : percentDelta(avgNow, avgPrev),
     },
     {
       label: "Patients",
@@ -63,11 +76,11 @@ export function DashboardStatCards({ range }: { range: DashboardRange }) {
       delta: isAllTime ? null : percentDelta(patientsNow, patientsPrev),
     },
     {
-      label: "Avg. treatment value",
+      label: "Average Margin",
       icon: CreditCard,
       color: "violet",
-      value: formatCurrency(Math.round(avgNow)),
-      delta: isAllTime ? null : percentDelta(avgNow, avgPrev),
+      value: `${marginNow.toFixed(1)}%`,
+      delta: isAllTime ? null : percentDelta(marginNow, marginPrev),
     },
     {
       label: "Conversion rate",

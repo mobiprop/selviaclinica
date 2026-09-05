@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Users, Search, Mail, Phone, Plus } from "lucide-react";
 import { AppointmentFormDialog } from "@/components/patients/appointment-form-dialog";
 import { AppointmentActionsMenu } from "@/components/patients/appointment-actions-menu";
@@ -29,10 +30,29 @@ function avatarColor(name: string) {
 }
 
 export function PatientsTable({ appointments }: { appointments: Appointment[] }) {
-  const { addAppointment, updateAppointment } = useAppointments();
+  const { appointments: allAppointments, addAppointment, updateAppointment } = useAppointments();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [query, setQuery] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Appointment | null>(null);
+
+  // Supports being deep-linked from the global topbar search: /patients?edit=<id>
+  // opens straight into that patient's edit form, then clears the param so a
+  // refresh or back-navigation doesn't reopen it. Looks up against every
+  // appointment (not the page's currently period-filtered `appointments`
+  // prop), since search itself runs across every period.
+  useEffect(() => {
+    const editId = searchParams.get("edit");
+    if (!editId) return;
+    const match = allAppointments.find((a) => a.id === editId);
+    if (match) {
+      setEditing(match);
+      setDialogOpen(true);
+    }
+    router.replace("/patients");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -98,7 +118,7 @@ export function PatientsTable({ appointments }: { appointments: Appointment[] })
               <th className="px-3 py-3 font-medium">Reservation</th>
               <th className="px-3 py-3 font-medium">Balance</th>
               <th className="px-3 py-3 font-medium">Status</th>
-              <th className="w-10 px-3 py-3 text-right font-medium">Actions</th>
+              <th className="w-10 px-3 py-3 text-right font-medium"></th>
             </tr>
           </thead>
           <tbody>

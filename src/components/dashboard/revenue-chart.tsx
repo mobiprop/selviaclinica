@@ -1,14 +1,13 @@
 "use client";
 
 import { useMemo, useState, useRef, type MouseEvent } from "react";
-import { Pencil, Check, DollarSign, Target } from "lucide-react";
+import { Pencil, Check, DollarSign, Target, TrendingDown } from "lucide-react";
 import { useAppointments } from "@/lib/appointments-context";
 import { rangeStart, rangeEnd, type DashboardRange } from "@/lib/dashboard-range";
 import { formatCurrency } from "@/lib/format";
 
 const WIDTH = 1200;
 const HEIGHT = 280;
-const DAILY_TARGET_RATE_DIVISOR = 30;
 
 function formatCompact(value: number) {
   if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(1)}M`;
@@ -55,15 +54,15 @@ export function RevenueChart({ range }: { range: DashboardRange }) {
       days.push(new Date(d));
     }
 
-    const dailyTarget = monthlyTarget / DAILY_TARGET_RATE_DIVISOR;
     let runningActual = 0;
-    let runningTarget = 0;
 
     // Seed the series with an explicit $0 point at the start date itself, so the
     // line visibly starts grounded at the origin instead of floating above it
-    // when the very first day already has revenue.
+    // when the very first day already has revenue. The target line stays flat
+    // at the full monthly target the whole way across — it is a goal, not a
+    // daily quota, so it never gets prorated across the days of the period.
     const actualValues: number[] = [0];
-    const targetValues: number[] = [0];
+    const targetValues: number[] = [monthlyTarget];
     const dayLabels: string[] = [
       days[0]?.toLocaleDateString("en-US", { month: "short", day: "numeric" }) ?? "",
     ];
@@ -75,10 +74,9 @@ export function RevenueChart({ range }: { range: DashboardRange }) {
         .reduce((sum, a) => sum + a.netRevenue, 0);
 
       runningActual += dayRevenue;
-      runningTarget += dailyTarget;
 
       actualValues.push(runningActual);
-      targetValues.push(runningTarget);
+      targetValues.push(monthlyTarget);
       dayLabels.push(day.toLocaleDateString("en-US", { month: "short", day: "numeric" }));
     }
 
@@ -238,28 +236,68 @@ export function RevenueChart({ range }: { range: DashboardRange }) {
               </g>
             )}
           </svg>
-          {hoverIndex !== null && tooltipLeftPct !== null && (
-            <div
-              className="pointer-events-none absolute top-2 z-10 w-max max-w-[200px] -translate-x-1/2 rounded-md border border-border bg-popover px-3 py-2 text-xs shadow-md"
-              style={{ left: `${tooltipLeftPct}%` }}
-            >
-              <div className="mb-1.5 font-medium text-foreground">{labels[hoverIndex]}</div>
-              <div className="flex items-center gap-1.5">
-                <span className="flex h-4 w-4 items-center justify-center rounded-full" style={{ backgroundColor: `${revenueColor}1A` }}>
-                  <DollarSign className="h-2.5 w-2.5" style={{ color: revenueColor }} />
-                </span>
-                <span className="text-muted-foreground">Revenue:</span>
-                <span className="font-medium text-foreground">{formatCurrency(Math.round(actual[hoverIndex]))}</span>
+          {hoverIndex !== null && tooltipLeftPct !== null && (() => {
+            const revenueValue = Math.round(actual[hoverIndex]);
+            const targetValue = Math.round(target[hoverIndex]);
+            const remainder = Math.max(targetValue - revenueValue, 0);
+            const rows = [
+              {
+                key: "revenue",
+                label: "Revenue",
+                value: formatCurrency(revenueValue),
+                icon: DollarSign,
+                iconColor: revenueColor,
+                dotColor: revenueColor,
+              },
+              {
+                key: "target",
+                label: "Target",
+                value: formatCurrency(targetValue),
+                icon: Target,
+                iconColor: "#57534E",
+                dotColor: "#57534E",
+              },
+              {
+                key: "remainder",
+                label: "Remainder to target",
+                value: formatCurrency(remainder),
+                icon: TrendingDown,
+                iconColor: "#D97706",
+                dotColor: "#D97706",
+              },
+            ];
+            return (
+              <div
+                className="pointer-events-none absolute top-2 z-10 w-max min-w-[220px] max-w-[260px] -translate-x-1/2 rounded-2xl border border-border bg-popover p-4 shadow-lg"
+                style={{ left: `${tooltipLeftPct}%` }}
+              >
+                <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                  {labels[hoverIndex]}
+                </div>
+                <div className="my-2.5 h-px bg-border" />
+                <div className="flex flex-col gap-2.5">
+                  {rows.map((row) => (
+                    <div key={row.key} className="flex items-center gap-2.5">
+                      <span
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl"
+                        style={{ backgroundColor: `${row.iconColor}1A` }}
+                      >
+                        <row.icon className="h-4 w-4" style={{ color: row.iconColor }} />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs text-muted-foreground">{row.label}</div>
+                        <div className="text-sm font-bold text-foreground">{row.value}</div>
+                      </div>
+                      <span
+                        className="h-2 w-2 shrink-0 rounded-full"
+                        style={{ backgroundColor: row.dotColor }}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="mt-1 flex items-center gap-1.5">
-                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-muted">
-                  <Target className="h-2.5 w-2.5 text-muted-foreground" />
-                </span>
-                <span className="text-muted-foreground">Target:</span>
-                <span className="font-medium text-foreground">{formatCurrency(Math.round(target[hoverIndex]))}</span>
-              </div>
-            </div>
-          )}
+            );
+          })()}
           <div className="mt-2 flex justify-between text-xs text-muted-foreground">
             {visibleLabels.map((label, i) => (
               <span key={i}>{label}</span>

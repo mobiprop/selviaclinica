@@ -2,7 +2,7 @@ import { Users, CalendarClock, Wallet, TrendingUp } from "lucide-react";
 import { IconBadge, type IconBadgeColor } from "@/components/ui/icon-badge";
 import type { Appointment } from "@/types/patient";
 import { formatCurrency } from "@/lib/format";
-import { expectedRevenue, completedPayments, upcomingCount } from "@/lib/metrics";
+import { expectedRevenue, averageNetRevenue, upcomingCount } from "@/lib/metrics";
 
 export function PatientsStats({ appointments }: { appointments: Appointment[] }) {
   const stats: { label: string; icon: typeof Users; color: IconBadgeColor; value: string }[] = [
@@ -14,13 +14,13 @@ export function PatientsStats({ appointments }: { appointments: Appointment[] })
       value: String(upcomingCount(appointments)),
     },
     {
-      label: "Completed Payments",
+      label: "Average Net Revenue",
       icon: Wallet,
       color: "green",
-      value: formatCurrency(completedPayments(appointments)),
+      value: formatCurrency(Math.round(averageNetRevenue(appointments))),
     },
     {
-      label: "Expected Revenue",
+      label: "Forecast",
       icon: TrendingUp,
       color: "violet",
       value: formatCurrency(expectedRevenue(appointments)),

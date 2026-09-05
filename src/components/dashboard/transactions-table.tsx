@@ -59,7 +59,7 @@ export function TransactionsTable() {
               <th className="px-3 py-3 font-medium">Date</th>
               <th className="px-3 py-3 font-medium">Status</th>
               <th className="px-3 py-3 font-medium">Total Revenue</th>
-              <th className="w-10 px-3 py-3 text-right font-medium">Actions</th>
+              <th className="w-10 px-3 py-3 text-right font-medium"></th>
             </tr>
           </thead>
           <tbody>

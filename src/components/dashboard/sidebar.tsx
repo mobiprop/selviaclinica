@@ -6,6 +6,7 @@ import {
   ChevronsUpDown,
   LayoutGrid,
   Users,
+  Package,
   BarChart3,
   Briefcase,
   Plug,
@@ -19,6 +20,7 @@ import { IconBadge, type IconBadgeColor } from "@/components/ui/icon-badge";
 const platformItems: { label: string; icon: typeof LayoutGrid; href: string; chevron: boolean; color: IconBadgeColor }[] = [
   { label: "Dashboard", icon: LayoutGrid, href: "/", chevron: false, color: "blue" },
   { label: "Patients", icon: Users, href: "/patients", chevron: false, color: "violet" },
+  { label: "Insumos", icon: Package, href: "/insumos", chevron: false, color: "orange" },
   { label: "Analytics", icon: BarChart3, href: "#", chevron: false, color: "amber" },
   { label: "Projects", icon: Briefcase, href: "#", chevron: true, color: "cyan" },
   { label: "Integrations", icon: Plug, href: "/integrations", chevron: false, color: "green" },
