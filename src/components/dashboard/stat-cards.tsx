@@ -25,16 +25,19 @@ function percentDelta(current: number, previous: number): number | null {
 
 export function DashboardStatCards({ range }: { range: DashboardRange }) {
   const { appointments } = useAppointments();
+  const isAllTime = range === "all-time";
 
   const current = appointments.filter((a) => isWithinDashboardRange(a.appointmentDate, range));
   const previousWindow = previousRangeWindow(range);
-  const previous = appointments.filter((a) => isWithinWindow(a.appointmentDate, previousWindow));
+  const previous = isAllTime
+    ? []
+    : appointments.filter((a) => isWithinWindow(a.appointmentDate, previousWindow));
 
   const completedNow = current.filter((a) => a.status === "Completed");
   const completedPrev = previous.filter((a) => a.status === "Completed");
 
-  const revenueNow = completedNow.reduce((sum, a) => sum + a.price, 0);
-  const revenuePrev = completedPrev.reduce((sum, a) => sum + a.price, 0);
+  const revenueNow = completedNow.reduce((sum, a) => sum + a.netRevenue, 0);
+  const revenuePrev = completedPrev.reduce((sum, a) => sum + a.netRevenue, 0);
 
   const patientsNow = completedNow.length;
   const patientsPrev = completedPrev.length;
@@ -47,25 +50,25 @@ export function DashboardStatCards({ range }: { range: DashboardRange }) {
       label: "Revenue",
       icon: DollarSign,
       value: formatCurrency(revenueNow),
-      delta: percentDelta(revenueNow, revenuePrev),
+      delta: isAllTime ? null : percentDelta(revenueNow, revenuePrev),
     },
     {
       label: "Patients",
       icon: Users,
       value: String(patientsNow),
-      delta: percentDelta(patientsNow, patientsPrev),
+      delta: isAllTime ? null : percentDelta(patientsNow, patientsPrev),
     },
     {
       label: "Avg. treatment value",
       icon: CreditCard,
       value: formatCurrency(Math.round(avgNow)),
-      delta: percentDelta(avgNow, avgPrev),
+      delta: isAllTime ? null : percentDelta(avgNow, avgPrev),
     },
     {
       label: "Conversion rate",
       icon: Filter,
       value: "2.93%",
-      delta: -21.7,
+      delta: isAllTime ? null : -21.7,
     },
   ];
 

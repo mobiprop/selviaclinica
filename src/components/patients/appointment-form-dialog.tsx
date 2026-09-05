@@ -16,6 +16,7 @@ import type { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
@@ -33,6 +34,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TreatmentCombobox } from "@/components/patients/treatment-combobox";
+import { DoctorCombobox } from "@/components/patients/doctor-combobox";
 import type { Appointment, AppointmentStatus, PatientSource } from "@/types/patient";
 
 const SOURCES: { value: PatientSource; icon: LucideIcon }[] = [
@@ -55,6 +57,8 @@ type FormState = {
   reservation: string;
   status: AppointmentStatus;
   source: PatientSource;
+  doctor: string;
+  notes: string;
 };
 
 const EMPTY_FORM: FormState = {
@@ -68,6 +72,8 @@ const EMPTY_FORM: FormState = {
   reservation: "",
   status: "Scheduled",
   source: "Website",
+  doctor: "",
+  notes: "",
 };
 
 function toFormState(appointment: Appointment): FormState {
@@ -82,6 +88,8 @@ function toFormState(appointment: Appointment): FormState {
     reservation: String(appointment.reservation),
     status: appointment.status,
     source: appointment.source,
+    doctor: appointment.doctor,
+    notes: appointment.notes ?? "",
   };
 }
 
@@ -133,8 +141,11 @@ export function AppointmentFormDialog({
       treatment: form.treatment.trim(),
       price: Number(form.price),
       reservation: form.reservation === "" ? 0 : Number(form.reservation),
+      netRevenue: initialData?.netRevenue ?? Number(form.price),
       status: form.status,
       source: form.source,
+      doctor: form.doctor.trim(),
+      notes: form.notes.trim() || undefined,
     });
 
     onOpenChange(false);
@@ -142,7 +153,7 @@ export function AppointmentFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg sm:max-w-lg">
+      <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto sm:max-w-lg">
         <form onSubmit={handleSubmit} className="contents">
           <DialogHeader>
             <DialogTitle>{isEditing ? "Edit Appointment" : "Add Appointment"}</DialogTitle>
@@ -257,6 +268,11 @@ export function AppointmentFormDialog({
               />
             </div>
 
+            <div className="col-span-2 flex flex-col gap-1.5">
+              <Label htmlFor="doctor">Doctor</Label>
+              <DoctorCombobox value={form.doctor} onChange={(value) => update("doctor", value)} />
+            </div>
+
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="price">Price to pay</Label>
               <Input
@@ -282,6 +298,17 @@ export function AppointmentFormDialog({
                 placeholder="0"
               />
             </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="notes">Notes</Label>
+            <Textarea
+              id="notes"
+              value={form.notes}
+              onChange={(e) => update("notes", e.target.value)}
+              placeholder="Internal notes for staff — allergies, preferences, follow-ups..."
+              rows={3}
+            />
           </div>
 
           <DialogFooter>

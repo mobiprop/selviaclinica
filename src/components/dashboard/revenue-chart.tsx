@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { Pencil, Check } from "lucide-react";
 import { useAppointments } from "@/lib/appointments-context";
-import { rangeStart, type DashboardRange } from "@/lib/dashboard-range";
+import { rangeStart, rangeEnd, type DashboardRange } from "@/lib/dashboard-range";
 
 const WIDTH = 1200;
 const HEIGHT = 280;
@@ -32,9 +32,23 @@ export function RevenueChart({ range }: { range: DashboardRange }) {
 
   const { actual, target, labels } = useMemo(() => {
     const today = new Date();
-    const start = rangeStart(range, today);
+    let start = rangeStart(range, today);
+    // The chart tracks revenue earned to date, so even though "All Time" the
+    // stat cards include future-dated Scheduled appointments, the trend line
+    // itself stops at today rather than stretching to the range's nominal
+    // (far-future) end.
+    const end = range === "all-time" ? today : rangeEnd(range, today);
+
+    if (range === "all-time" && appointments.length > 0) {
+      const earliest = appointments.reduce(
+        (min, a) => (a.appointmentDate < min ? a.appointmentDate : min),
+        appointments[0].appointmentDate
+      );
+      const earliestDate = new Date(`${earliest}T00:00:00`);
+      if (earliestDate > start) start = earliestDate;
+    }
     const days: Date[] = [];
-    for (let d = new Date(start); d <= today; d.setDate(d.getDate() + 1)) {
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
       days.push(new Date(d));
     }
 
@@ -50,7 +64,7 @@ export function RevenueChart({ range }: { range: DashboardRange }) {
       const dateStr = day.toISOString().slice(0, 10);
       const dayRevenue = appointments
         .filter((a) => a.status === "Completed" && a.appointmentDate === dateStr)
-        .reduce((sum, a) => sum + a.price, 0);
+        .reduce((sum, a) => sum + a.netRevenue, 0);
 
       runningActual += dayRevenue;
       runningTarget += dailyTarget;

@@ -1,24 +1,64 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { useAppointments } from "@/lib/appointments-context";
 import { isWithinDashboardRange, type DashboardRange } from "@/lib/dashboard-range";
 
+const SLICE_COLORS = ["#4D5C45", "#71816A", "#96A38F", "#B8C2B2", "#D6DCD1", "#E9ECE6"];
+const SIZE = 160;
+const RADIUS = 70;
+const CENTER = SIZE / 2;
+
+function toXY(angleDeg: number, radius = RADIUS) {
+  const rad = ((angleDeg - 90) * Math.PI) / 180;
+  return [CENTER + radius * Math.cos(rad), CENTER + radius * Math.sin(rad)] as const;
+}
+
 export function PopularTreatmentsCard({ range }: { range: DashboardRange }) {
   const { appointments } = useAppointments();
+  const [hovered, setHovered] = useState<number | null>(null);
+
   const inRange = appointments.filter((a) => isWithinDashboardRange(a.appointmentDate, range));
   const source = inRange.length > 0 ? inRange : appointments;
 
-  const counts = new Map<string, number>();
-  for (const a of source) {
-    counts.set(a.treatment, (counts.get(a.treatment) ?? 0) + 1);
-  }
+  const ranked = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const a of source) {
+      counts.set(a.treatment, (counts.get(a.treatment) ?? 0) + 1);
+    }
+    return Array.from(counts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6);
+  }, [source]);
 
-  const ranked = Array.from(counts.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 6);
+  const total = ranked.reduce((sum, [, count]) => sum + count, 0);
 
-  const max = ranked.length > 0 ? ranked[0][1] : 1;
+  const slices = useMemo(() => {
+    let angle = 0;
+    return ranked.map(([treatment, count], i) => {
+      const fraction = total > 0 ? count / total : 0;
+      const startAngle = angle;
+      const endAngle = angle + fraction * 360;
+      angle = endAngle;
+      const [x1, y1] = toXY(startAngle);
+      const [x2, y2] = toXY(endAngle);
+      const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+      const path =
+        fraction >= 0.9995
+          ? `M ${CENTER} ${CENTER - RADIUS} A ${RADIUS} ${RADIUS} 0 1 1 ${CENTER - 0.01} ${CENTER - RADIUS} Z`
+          : `M ${CENTER},${CENTER} L ${x1},${y1} A ${RADIUS} ${RADIUS} 0 ${largeArc} 1 ${x2},${y2} Z`;
+      const midAngle = (startAngle + endAngle) / 2;
+      return {
+        treatment,
+        count,
+        fraction,
+        path,
+        color: SLICE_COLORS[i % SLICE_COLORS.length],
+        labelAngle: midAngle,
+      };
+    });
+  }, [ranked, total]);
 
   return (
     <div className="flex flex-1 flex-col rounded-xl border border-border bg-card p-5 shadow-sm">
@@ -41,21 +81,64 @@ export function PopularTreatmentsCard({ range }: { range: DashboardRange }) {
           No treatments in this period yet.
         </div>
       ) : (
-        <div className="flex flex-1 flex-col justify-center gap-3">
-          {ranked.map(([treatment, count]) => (
-            <div key={treatment} className="flex items-center gap-3">
-              <span className="w-32 shrink-0 truncate text-xs text-muted-foreground sm:w-40" title={treatment}>
-                {treatment}
-              </span>
-              <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
-                <div
-                  className="h-full rounded-full bg-[#4D5C45]"
-                  style={{ width: `${Math.max((count / max) * 100, 6)}%` }}
+        <div className="relative flex flex-1 items-center gap-5" data-chart-root>
+          <div className="relative shrink-0">
+            <svg
+              width={SIZE}
+              height={SIZE}
+              viewBox={`0 0 ${SIZE} ${SIZE}`}
+              onMouseLeave={() => setHovered(null)}
+            >
+              {slices.map((slice, i) => (
+                <path
+                  key={slice.treatment}
+                  d={slice.path}
+                  fill={slice.color}
+                  stroke="var(--card)"
+                  strokeWidth={2}
+                  opacity={hovered === null || hovered === i ? 1 : 0.45}
+                  onMouseEnter={() => setHovered(i)}
+                  className="cursor-pointer transition-opacity"
                 />
+              ))}
+            </svg>
+            {hovered !== null && (() => {
+              const [tx, ty] = toXY(slices[hovered].labelAngle, RADIUS * 0.62);
+              return (
+                <div
+                  className="pointer-events-none absolute z-10 w-max max-w-[160px] -translate-x-1/2 -translate-y-1/2 rounded-md border border-border bg-popover px-2.5 py-1.5 text-xs shadow-md"
+                  style={{ left: tx, top: ty }}
+                >
+                  <div className="font-medium text-foreground">{slices[hovered].treatment}</div>
+                  <div className="text-muted-foreground">
+                    {slices[hovered].count} patients ({Math.round(slices[hovered].fraction * 100)}%)
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+
+          <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+            {slices.map((slice, i) => (
+              <div
+                key={slice.treatment}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
+                className={`flex cursor-default items-center gap-2 rounded-sm px-1 py-0.5 text-xs transition-colors ${
+                  hovered === i ? "bg-accent" : ""
+                }`}
+              >
+                <span
+                  className="h-2.5 w-2.5 shrink-0 rounded-full"
+                  style={{ backgroundColor: slice.color }}
+                />
+                <span className="min-w-0 flex-1 truncate text-muted-foreground" title={slice.treatment}>
+                  {slice.treatment}
+                </span>
+                <span className="shrink-0 font-medium text-foreground">{slice.count}</span>
               </div>
-              <span className="w-5 shrink-0 text-right text-xs font-medium text-foreground">{count}</span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
     </div>

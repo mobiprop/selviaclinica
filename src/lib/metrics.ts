@@ -9,13 +9,13 @@ import type { Appointment } from "@/types/patient";
 export function expectedRevenue(appointments: Appointment[]): number {
   return appointments
     .filter((a) => a.status === "Scheduled")
-    .reduce((sum, a) => sum + a.price, 0);
+    .reduce((sum, a) => sum + a.netRevenue, 0);
 }
 
 export function completedPayments(appointments: Appointment[]): number {
   return appointments
     .filter((a) => a.status === "Completed")
-    .reduce((sum, a) => sum + a.price, 0);
+    .reduce((sum, a) => sum + a.netRevenue, 0);
 }
 
 export function upcomingCount(appointments: Appointment[]): number {
