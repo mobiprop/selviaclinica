@@ -1,15 +1,14 @@
 import type { Appointment } from "@/types/patient";
 
 /**
- * Revenue buckets follow the appointment's current status, so moving a
- * record between statuses automatically moves it between buckets — a
- * Scheduled appointment counts as pipeline (expected) revenue, a Completed
- * one counts as realized revenue, and a Returned one counts toward neither.
+ * Total billed price of appointments that haven't happened yet. Once an
+ * appointment is Completed (or Returned) it's no longer "incoming", so it
+ * drops out of this figure entirely.
  */
-export function expectedRevenue(appointments: Appointment[]): number {
+export function incomingRevenue(appointments: Appointment[]): number {
   return appointments
     .filter((a) => a.status === "Scheduled")
-    .reduce((sum, a) => sum + a.netRevenue, 0);
+    .reduce((sum, a) => sum + a.price, 0);
 }
 
 export function completedPayments(appointments: Appointment[]): number {

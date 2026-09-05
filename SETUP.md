@@ -84,7 +84,16 @@ soon as the app is running.
 6. This works immediately for your own ad account in Development mode.
    Reaching other users' ad accounts needs Meta App Review for `ads_read`.
 
-## 8. Restart and verify
+## 8. AI Data (optional)
+
+1. Get an API key at [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys).
+2. Set it as `ANTHROPIC_API_KEY` in `.env.local`.
+3. The AI Data page lets staff ask questions about patients, revenue, and
+   supplies in a Claude-style chat — it calls the same Supabase tables
+   directly (as the signed-in user, so the same row-level security applies),
+   not the MCP endpoint.
+
+## 9. Restart and verify
 
 ```bash
 npm run dev
@@ -97,6 +106,8 @@ npm run dev
 - Integrations page: MCP Connection should connect immediately; Google/Meta
   show setup instructions until steps 6/7 are done, then run a real OAuth
   popup.
+- AI Data page: shows setup instructions until step 8 is done, then answers
+  questions using your real data.
 
 ## Deploying
 
