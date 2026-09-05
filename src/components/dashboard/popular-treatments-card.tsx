@@ -47,9 +47,14 @@ export function PopularTreatmentsCard() {
   const source = inRange.length > 0 ? inRange : appointments;
 
   const ranked = useMemo(() => {
+    // Group by a case/whitespace-normalized key so "manos semi" and "Manos
+    // Semi" merge into one slice instead of splitting the count (and
+    // colliding as duplicate React keys once both title-case to the same
+    // display label).
     const counts = new Map<string, number>();
     for (const a of source) {
-      counts.set(a.treatment, (counts.get(a.treatment) ?? 0) + 1);
+      const key = a.treatment.trim().toLowerCase();
+      counts.set(key, (counts.get(key) ?? 0) + 1);
     }
     return Array.from(counts.entries())
       .sort((a, b) => b[1] - a[1])
@@ -60,7 +65,7 @@ export function PopularTreatmentsCard() {
 
   const slices = useMemo(() => {
     let angle = 0;
-    return ranked.map(([treatment, count], i) => {
+    return ranked.map(([key, count], i) => {
       const fraction = total > 0 ? count / total : 0;
       const startAngle = angle;
       const endAngle = angle + fraction * 360;
@@ -74,7 +79,8 @@ export function PopularTreatmentsCard() {
           : `M ${CENTER},${CENTER} L ${x1},${y1} A ${RADIUS} ${RADIUS} 0 ${largeArc} 1 ${x2},${y2} Z`;
       const midAngle = (startAngle + endAngle) / 2;
       return {
-        treatment: capitalize(treatment),
+        key,
+        treatment: capitalize(key),
         count,
         fraction,
         path,
@@ -133,7 +139,7 @@ export function PopularTreatmentsCard() {
             >
               {slices.map((slice, i) => (
                 <path
-                  key={slice.treatment}
+                  key={slice.key}
                   d={slice.path}
                   fill={slice.color}
                   stroke="var(--card)"
@@ -163,7 +169,7 @@ export function PopularTreatmentsCard() {
           <div className="flex min-w-0 flex-1 flex-col gap-1.5">
             {slices.map((slice, i) => (
               <div
-                key={slice.treatment}
+                key={slice.key}
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
                 className={`flex cursor-default items-center gap-2 rounded-sm px-1 py-0.5 text-xs transition-colors ${

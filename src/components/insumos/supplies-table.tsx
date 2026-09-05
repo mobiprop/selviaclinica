@@ -8,6 +8,7 @@ import { SupplyActionsMenu } from "@/components/insumos/supply-actions-menu";
 import { Button } from "@/components/ui/button";
 import { IconBadge } from "@/components/ui/icon-badge";
 import { useSupplies } from "@/lib/supplies-context";
+import { titleCase } from "@/lib/format";
 import type { Supply } from "@/types/supply";
 
 export function SuppliesTable({ supplies }: { supplies: Supply[] }) {
@@ -103,7 +104,7 @@ export function SuppliesTable({ supplies }: { supplies: Supply[] }) {
             {filtered.map((s) => (
               <tr key={s.id} className="border-b border-border last:border-0 hover:bg-accent/40">
                 <td className="max-w-[320px] truncate px-5 py-3 font-medium text-foreground" title={s.name}>
-                  {s.name}
+                  {titleCase(s.name)}
                 </td>
                 <td className="max-w-[220px] truncate px-3 py-3 text-muted-foreground" title={s.unit}>
                   {s.unit}

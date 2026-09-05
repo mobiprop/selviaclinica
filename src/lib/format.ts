@@ -16,3 +16,8 @@ export function formatDate(value: string) {
 export function initials(firstName: string, lastName: string) {
   return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
 }
+
+/** Display-only title case (e.g. "ACEITE JOHNSON" -> "Aceite Johnson") — doesn't mutate stored data. */
+export function titleCase(value: string) {
+  return value.toLowerCase().replace(/(^|[\s\-/])([a-záéíóúñ])/gi, (_, sep, char) => sep + char.toUpperCase());
+}

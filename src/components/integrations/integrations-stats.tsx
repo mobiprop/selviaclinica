@@ -1,10 +1,14 @@
+"use client";
+
 import { Grid2x2, Plug, Zap, CalendarCheck } from "lucide-react";
 import { IconBadge } from "@/components/ui/icon-badge";
 import { INTEGRATIONS } from "@/data/integrations";
+import { useIntegrations } from "@/lib/integrations-context";
 
 export function IntegrationsStats() {
+  const { isConnected } = useIntegrations();
   const total = INTEGRATIONS.length;
-  const connected = INTEGRATIONS.filter((i) => i.status === "connected").length;
+  const connected = INTEGRATIONS.filter((i) => isConnected(i.id)).length;
   const available = total - connected;
 
   const stats = [

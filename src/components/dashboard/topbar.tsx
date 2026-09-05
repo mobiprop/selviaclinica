@@ -6,7 +6,7 @@ import { Search, Bell, Contact, Package } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAppointments } from "@/lib/appointments-context";
 import { useSupplies } from "@/lib/supplies-context";
-import { formatDate } from "@/lib/format";
+import { formatDate, titleCase } from "@/lib/format";
 
 const MAX_RESULTS = 6;
 
@@ -45,7 +45,7 @@ export function DashboardTopbar() {
       .map((s) => ({
         kind: "supply" as const,
         id: s.id,
-        title: s.name,
+        title: titleCase(s.name),
         subtitle: `${s.unit} · ${s.usage} · ${s.currency}`,
       }));
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat, Geist_Mono } from "next/font/google";
 import { AppointmentsProvider } from "@/lib/appointments-context";
 import { SuppliesProvider } from "@/lib/supplies-context";
+import { IntegrationsProvider } from "@/lib/integrations-context";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -28,7 +29,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <AppointmentsProvider>
-          <SuppliesProvider>{children}</SuppliesProvider>
+          <SuppliesProvider>
+            <IntegrationsProvider>{children}</IntegrationsProvider>
+          </SuppliesProvider>
         </AppointmentsProvider>
       </body>
     </html>
