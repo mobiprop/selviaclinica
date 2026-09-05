@@ -6,9 +6,27 @@ import { AppointmentFormDialog } from "@/components/patients/appointment-form-di
 import { AppointmentActionsMenu } from "@/components/patients/appointment-actions-menu";
 import { StatusSelect } from "@/components/patients/status-select";
 import { Button } from "@/components/ui/button";
+import { IconBadge } from "@/components/ui/icon-badge";
 import { useAppointments } from "@/lib/appointments-context";
 import type { Appointment } from "@/types/patient";
 import { formatCurrency, formatDate, initials } from "@/lib/format";
+
+const AVATAR_COLORS = [
+  "bg-blue-50 text-blue-600",
+  "bg-violet-50 text-violet-600",
+  "bg-amber-50 text-amber-600",
+  "bg-emerald-50 text-emerald-600",
+  "bg-pink-50 text-pink-600",
+  "bg-cyan-50 text-cyan-600",
+  "bg-orange-50 text-orange-600",
+  "bg-indigo-50 text-indigo-600",
+];
+
+function avatarColor(name: string) {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) % AVATAR_COLORS.length;
+  return AVATAR_COLORS[Math.abs(hash)];
+}
 
 export function PatientsTable({ appointments }: { appointments: Appointment[] }) {
   const { addAppointment, updateAppointment } = useAppointments();
@@ -48,7 +66,7 @@ export function PatientsTable({ appointments }: { appointments: Appointment[] })
     <div className="rounded-xl border border-border bg-card shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-          <Users className="h-4 w-4 text-muted-foreground" />
+          <IconBadge icon={Users} color="blue" size="sm" />
           Patients
         </div>
         <div className="flex items-center gap-2">
@@ -95,7 +113,11 @@ export function PatientsTable({ appointments }: { appointments: Appointment[] })
               <tr key={a.id} className="border-b border-border last:border-0 hover:bg-accent/40">
                 <td className="whitespace-nowrap px-5 py-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#4D5C45]/10 text-xs font-medium text-[#4D5C45]">
+                    <div
+                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-medium ${avatarColor(
+                        `${a.firstName} ${a.lastName}`
+                      )}`}
+                    >
                       {initials(a.firstName, a.lastName)}
                     </div>
                     <span className="font-medium text-foreground">

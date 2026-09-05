@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { UserPlus, ArrowRight, ArrowUp, ArrowDown } from "lucide-react";
+import { IconBadge } from "@/components/ui/icon-badge";
 import { useAppointments } from "@/lib/appointments-context";
 
 const WINDOW_DAYS = 30;
@@ -61,7 +62,7 @@ export function NewLeadsCard() {
     <div className="flex flex-1 flex-col rounded-xl border border-border bg-card p-5 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-          <UserPlus className="h-4 w-4 text-muted-foreground" />
+          <IconBadge icon={UserPlus} color="cyan" size="sm" />
           New Leads / Day
         </div>
         <a
@@ -96,15 +97,15 @@ export function NewLeadsCard() {
         >
           <defs>
             <linearGradient id="leadsFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#4D5C45" stopOpacity="0.18" />
-              <stop offset="100%" stopColor="#4D5C45" stopOpacity="0" />
+              <stop offset="0%" stopColor="#0891B2" stopOpacity="0.18" />
+              <stop offset="100%" stopColor="#0891B2" stopOpacity="0" />
             </linearGradient>
           </defs>
           <path d={areaPath} fill="url(#leadsFill)" stroke="none" />
           <path
             d={linePath}
             fill="none"
-            stroke="#4D5C45"
+            stroke="#0891B2"
             strokeWidth={1.5}
             strokeLinejoin="round"
             strokeLinecap="round"

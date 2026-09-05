@@ -14,13 +14,14 @@ import {
   HelpCircle,
 } from "lucide-react";
 import { SelviaLogoBadge } from "@/components/dashboard/logo";
+import { IconBadge, type IconBadgeColor } from "@/components/ui/icon-badge";
 
-const platformItems = [
-  { label: "Dashboard", icon: LayoutGrid, href: "/", chevron: false },
-  { label: "Patients", icon: Users, href: "/patients", chevron: false },
-  { label: "Analytics", icon: BarChart3, href: "#", chevron: false },
-  { label: "Projects", icon: Briefcase, href: "#", chevron: true },
-  { label: "Integrations", icon: Plug, href: "#", chevron: false },
+const platformItems: { label: string; icon: typeof LayoutGrid; href: string; chevron: boolean; color: IconBadgeColor }[] = [
+  { label: "Dashboard", icon: LayoutGrid, href: "/", chevron: false, color: "blue" },
+  { label: "Patients", icon: Users, href: "/patients", chevron: false, color: "violet" },
+  { label: "Analytics", icon: BarChart3, href: "#", chevron: false, color: "amber" },
+  { label: "Projects", icon: Briefcase, href: "#", chevron: true, color: "cyan" },
+  { label: "Integrations", icon: Plug, href: "/integrations", chevron: false, color: "green" },
 ];
 
 export function DashboardSidebar() {
@@ -55,11 +56,11 @@ export function DashboardSidebar() {
               href={item.href}
               className={`flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition-colors ${
                 active
-                  ? "bg-[#4D5C45]/10 font-medium text-[#4D5C45]"
+                  ? "bg-accent font-medium text-foreground"
                   : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
               }`}
             >
-              <item.icon className="h-4 w-4" />
+              <IconBadge icon={item.icon} color={item.color} size="xs" />
               <span className="flex-1">{item.label}</span>
               {item.chevron && <ChevronRight className="h-3.5 w-3.5" />}
             </Link>

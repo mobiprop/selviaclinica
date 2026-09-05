@@ -2,10 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { Sparkles, ArrowRight } from "lucide-react";
+import { IconBadge } from "@/components/ui/icon-badge";
 import { useAppointments } from "@/lib/appointments-context";
 import { isWithinDashboardRange, type DashboardRange } from "@/lib/dashboard-range";
 
-const SLICE_COLORS = ["#4D5C45", "#71816A", "#96A38F", "#B8C2B2", "#D6DCD1", "#E9ECE6"];
+const SLICE_COLORS = ["#60A5FA", "#7DD3FC", "#93C5FD", "#BAE6FD", "#BFDBFE", "#DBEAFE"];
 const SIZE = 160;
 const RADIUS = 70;
 const CENTER = SIZE / 2;
@@ -13,6 +14,11 @@ const CENTER = SIZE / 2;
 function toXY(angleDeg: number, radius = RADIUS) {
   const rad = ((angleDeg - 90) * Math.PI) / 180;
   return [CENTER + radius * Math.cos(rad), CENTER + radius * Math.sin(rad)] as const;
+}
+
+function capitalize(label: string) {
+  if (!label) return label;
+  return label.charAt(0).toUpperCase() + label.slice(1);
 }
 
 export function PopularTreatmentsCard({ range }: { range: DashboardRange }) {
@@ -50,7 +56,7 @@ export function PopularTreatmentsCard({ range }: { range: DashboardRange }) {
           : `M ${CENTER},${CENTER} L ${x1},${y1} A ${RADIUS} ${RADIUS} 0 ${largeArc} 1 ${x2},${y2} Z`;
       const midAngle = (startAngle + endAngle) / 2;
       return {
-        treatment,
+        treatment: capitalize(treatment),
         count,
         fraction,
         path,
@@ -64,7 +70,7 @@ export function PopularTreatmentsCard({ range }: { range: DashboardRange }) {
     <div className="flex flex-1 flex-col rounded-xl border border-border bg-card p-5 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-          <Sparkles className="h-4 w-4 text-muted-foreground" />
+          <IconBadge icon={Sparkles} color="pink" size="sm" />
           Most Popular Treatments
         </div>
         <a

@@ -2,6 +2,7 @@
 
 import { DollarSign, Users, CreditCard, Filter, ArrowUp, ArrowDown } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { IconBadge, type IconBadgeColor } from "@/components/ui/icon-badge";
 import { useAppointments } from "@/lib/appointments-context";
 import { formatCurrency } from "@/lib/format";
 import {
@@ -14,6 +15,7 @@ import {
 type Stat = {
   label: string;
   icon: LucideIcon;
+  color: IconBadgeColor;
   value: string;
   delta: number | null;
 };
@@ -49,24 +51,28 @@ export function DashboardStatCards({ range }: { range: DashboardRange }) {
     {
       label: "Revenue",
       icon: DollarSign,
+      color: "green",
       value: formatCurrency(revenueNow),
       delta: isAllTime ? null : percentDelta(revenueNow, revenuePrev),
     },
     {
       label: "Patients",
       icon: Users,
+      color: "blue",
       value: String(patientsNow),
       delta: isAllTime ? null : percentDelta(patientsNow, patientsPrev),
     },
     {
       label: "Avg. treatment value",
       icon: CreditCard,
+      color: "violet",
       value: formatCurrency(Math.round(avgNow)),
       delta: isAllTime ? null : percentDelta(avgNow, avgPrev),
     },
     {
       label: "Conversion rate",
       icon: Filter,
+      color: "amber",
       value: "2.93%",
       delta: isAllTime ? null : -21.7,
     },
@@ -79,7 +85,7 @@ export function DashboardStatCards({ range }: { range: DashboardRange }) {
         return (
           <div key={stat.label} className="flex flex-col gap-4 p-5">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <stat.icon className="h-4 w-4" />
+              <IconBadge icon={stat.icon} color={stat.color} size="sm" />
               {stat.label}
             </div>
             <div className="flex items-center justify-between">

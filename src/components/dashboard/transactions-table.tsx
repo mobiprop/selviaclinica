@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Receipt, Search } from "lucide-react";
+import { IconBadge } from "@/components/ui/icon-badge";
 import { AppointmentFormDialog } from "@/components/patients/appointment-form-dialog";
 import { AppointmentActionsMenu } from "@/components/patients/appointment-actions-menu";
 import { StatusSelect } from "@/components/patients/status-select";
@@ -32,7 +33,7 @@ export function TransactionsTable() {
     <div className="rounded-xl border border-border bg-card shadow-sm">
       <div className="flex items-center justify-between gap-3 border-b border-border p-5">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-          <Receipt className="h-4 w-4 text-muted-foreground" />
+          <IconBadge icon={Receipt} color="orange" size="sm" />
           Recent Transactions
         </div>
         <div className="flex items-center gap-2">

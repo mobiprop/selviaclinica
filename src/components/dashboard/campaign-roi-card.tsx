@@ -1,11 +1,12 @@
 import { CircleDollarSign, ArrowRight } from "lucide-react";
+import { IconBadge } from "@/components/ui/icon-badge";
 
 export function CampaignRoiCard() {
   return (
     <div className="flex flex-1 flex-col rounded-xl border border-border bg-card p-5 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-          <CircleDollarSign className="h-4 w-4 text-muted-foreground" />
+          <IconBadge icon={CircleDollarSign} color="green" size="sm" />
           Campaign ROI Snapshot
         </div>
         <a
@@ -38,13 +39,13 @@ export function CampaignRoiCard() {
           <span className="font-medium text-foreground">20% / 80%</span>
         </div>
         <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-muted">
-          <div className="h-full bg-[#4D5C45]" style={{ width: "20%" }} />
+          <div className="h-full bg-primary" style={{ width: "20%" }} />
           <div className="h-full bg-muted-foreground/30" style={{ width: "80%" }} />
         </div>
 
         <div className="mt-4 flex items-center gap-6">
           <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-[#4D5C45]" />
+            <span className="h-2 w-2 rounded-full bg-primary" />
             <div>
               <div className="text-xs text-muted-foreground">Ad spend</div>
               <div className="text-sm font-medium text-foreground">$43K</div>
