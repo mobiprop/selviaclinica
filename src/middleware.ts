@@ -36,8 +36,11 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
   const isAuthRoute = pathname.startsWith("/login");
-  // Authenticates via its own Bearer key, not a browser session.
-  const isMcpRoute = pathname.startsWith("/api/mcp");
+  // Exact match only — this is the MCP protocol endpoint itself, which
+  // authenticates via its own Bearer key instead of a browser session.
+  // Everything else under /api/mcp/* (like /api/mcp/token) must still go
+  // through the normal cookie-session check below.
+  const isMcpRoute = pathname === "/api/mcp";
 
   if (!user && !isAuthRoute && !isMcpRoute) {
     const url = request.nextUrl.clone();
