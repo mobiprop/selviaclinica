@@ -1,5 +1,6 @@
 import type { Appointment, AppointmentStatus, PatientSource } from "@/types/patient";
 import type { Supply, SupplyCurrency, SupplyUsageType } from "@/types/supply";
+import type { Profile } from "@/types/profile";
 
 export type AppointmentRow = {
   id: string;
@@ -81,5 +82,31 @@ export function supplyToRow(supply: Supply): SupplyRow {
     unit: supply.unit,
     usage: supply.usage,
     currency: supply.currency,
+  };
+}
+
+export type ProfileRow = {
+  id: string;
+  first_name: string | null;
+  last_name: string | null;
+  phone: string | null;
+  bio: string | null;
+  avatar_url: string | null;
+  language: string;
+  timezone: string;
+  date_format: string;
+};
+
+export function profileFromRow(row: ProfileRow): Profile {
+  return {
+    id: row.id,
+    firstName: row.first_name ?? "",
+    lastName: row.last_name ?? "",
+    phone: row.phone ?? "",
+    bio: row.bio ?? "",
+    avatarUrl: row.avatar_url,
+    language: row.language,
+    timezone: row.timezone,
+    dateFormat: row.date_format,
   };
 }

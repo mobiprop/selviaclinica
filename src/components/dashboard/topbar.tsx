@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Search, Bell, Contact, Package, LogOut } from "lucide-react";
+import { Search, Bell, Contact, Package, LogOut, Settings } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -30,6 +30,8 @@ export function DashboardTopbar() {
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [initials, setInitials] = useState<string | null>(null);
   const blurTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -41,6 +43,16 @@ export function DashboardTopbar() {
         data: { user },
       } = await supabase.auth.getUser();
       setUserEmail(user?.email ?? null);
+      if (!user) return;
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("first_name, last_name, avatar_url")
+        .eq("id", user.id)
+        .maybeSingle();
+      setAvatarUrl(profile?.avatar_url ?? null);
+      const nameInitials = `${profile?.first_name?.charAt(0) ?? ""}${profile?.last_name?.charAt(0) ?? ""}`;
+      setInitials(nameInitials || (user.email ? user.email.slice(0, 2).toUpperCase() : null));
     })();
   }, []);
 
@@ -159,15 +171,19 @@ export function DashboardTopbar() {
         <DropdownMenu>
           <DropdownMenuTrigger className="rounded-full">
             <Avatar className="h-7 w-7">
-              <AvatarImage src="" alt="User" />
+              <AvatarImage src={avatarUrl ?? ""} alt="User" />
               <AvatarFallback className="bg-primary text-xs text-primary-foreground">
-                {userEmail ? userEmail.slice(0, 2).toUpperCase() : "MU"}
+                {initials ?? "MU"}
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {userEmail && <DropdownMenuLabel>{userEmail}</DropdownMenuLabel>}
             <DropdownMenuSeparator />
+            <DropdownMenuItem render={<Link href="/settings" />}>
+              <Settings className="h-3.5 w-3.5" />
+              Settings
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={handleSignOut}>
               <LogOut className="h-3.5 w-3.5" />
               Sign out

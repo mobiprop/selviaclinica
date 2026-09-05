@@ -8,6 +8,7 @@ import {
   Users,
   Package,
   Sparkles,
+  CalendarDays,
   BarChart3,
   Briefcase,
   Plug,
@@ -22,6 +23,7 @@ const platformItems: { label: string; icon: typeof LayoutGrid; href: string; che
   { label: "Dashboard", icon: LayoutGrid, href: "/", chevron: false, color: "blue" },
   { label: "Patients", icon: Users, href: "/patients", chevron: false, color: "violet" },
   { label: "Insumos", icon: Package, href: "/insumos", chevron: false, color: "orange" },
+  { label: "Calendar", icon: CalendarDays, href: "/calendar", chevron: false, color: "indigo" },
   { label: "AI Data", icon: Sparkles, href: "/ai-data", chevron: false, color: "pink" },
   { label: "Analytics", icon: BarChart3, href: "#", chevron: false, color: "amber" },
   { label: "Projects", icon: Briefcase, href: "#", chevron: true, color: "cyan" },
@@ -76,14 +78,18 @@ export function DashboardSidebar() {
         System
       </div>
       <nav className="flex flex-col gap-0.5">
-        <a
-          href="#"
-          className="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent/60 hover:text-foreground"
+        <Link
+          href="/settings"
+          className={`flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition-colors ${
+            pathname === "/settings"
+              ? "bg-accent font-medium text-foreground"
+              : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
+          }`}
         >
           <Settings className="h-4 w-4" />
           <span className="flex-1">Settings</span>
           <ChevronRight className="h-3.5 w-3.5" />
-        </a>
+        </Link>
       </nav>
 
       <div className="mt-auto flex flex-col gap-3 pt-6">
