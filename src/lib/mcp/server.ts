@@ -2,6 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createServiceRoleClient } from "@/lib/supabase/server";
 import { appointmentFromRow, supplyFromRow, type AppointmentRow, type SupplyRow } from "@/lib/supabase/mappers";
+import { searchDriveFiles, readDriveFile } from "@/lib/integrations/google-drive";
 import { SEED_APPOINTMENTS } from "@/data/seed-appointments";
 import { SEED_SUPPLIES } from "@/data/seed-supplies";
 
@@ -102,6 +103,46 @@ export function createSelviaMcpServer() {
         averageNetRevenue: completed.length > 0 ? Math.round(totalNetRevenue / completed.length) : 0,
       };
       return { content: [{ type: "text", text: JSON.stringify(summary, null, 2) }] };
+    }
+  );
+
+  server.registerTool(
+    "search_drive_files",
+    {
+      title: "Search Google Drive",
+      description:
+        "Full-text search over the clinic's connected Google Drive (file names and content). Requires Google Drive to be connected from the Integrations page.",
+      inputSchema: { query: z.string().min(1), limit: z.number().int().min(1).max(25).default(10) },
+    },
+    async ({ query, limit }) => {
+      try {
+        const files = await searchDriveFiles(query, limit);
+        return { content: [{ type: "text", text: JSON.stringify(files, null, 2) }] };
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Google Drive search failed";
+        return { content: [{ type: "text", text: message }], isError: true };
+      }
+    }
+  );
+
+  server.registerTool(
+    "read_drive_file",
+    {
+      title: "Read a Google Drive file",
+      description:
+        "Reads a Google Drive file's content by its file ID (from search_drive_files). Google Sheets export as CSV (first sheet only), Google Docs as plain text, other file types are read directly. Requires Google Drive to be connected.",
+      inputSchema: { fileId: z.string().min(1) },
+    },
+    async ({ fileId }) => {
+      try {
+        const file = await readDriveFile(fileId);
+        return {
+          content: [{ type: "text", text: `# ${file.name} (${file.mimeType})\n\n${file.content}` }],
+        };
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Failed to read Drive file";
+        return { content: [{ type: "text", text: message }], isError: true };
+      }
     }
   );
 
