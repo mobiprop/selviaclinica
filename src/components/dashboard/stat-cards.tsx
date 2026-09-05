@@ -5,12 +5,7 @@ import type { LucideIcon } from "lucide-react";
 import { IconBadge, type IconBadgeColor } from "@/components/ui/icon-badge";
 import { useAppointments } from "@/lib/appointments-context";
 import { formatCurrency } from "@/lib/format";
-import {
-  isWithinDashboardRange,
-  isWithinWindow,
-  previousRangeWindow,
-  type DashboardRange,
-} from "@/lib/dashboard-range";
+import { isWithinDashboardRange, isWithinWindow, type DashboardRange } from "@/lib/dashboard-range";
 
 type Stat = {
   label: string;
@@ -27,67 +22,76 @@ function percentDelta(current: number, previous: number): number | null {
 
 export function DashboardStatCards({ range }: { range: DashboardRange }) {
   const { appointments } = useAppointments();
-  const isAllTime = range === "all-time";
 
   const current = appointments.filter((a) => isWithinDashboardRange(a.appointmentDate, range));
-  const previousWindow = previousRangeWindow(range);
-  const previous = isAllTime
-    ? []
-    : appointments.filter((a) => isWithinWindow(a.appointmentDate, previousWindow));
+
+  // Every card's delta compares against last calendar month specifically —
+  // not the previous window of whatever length the selected range happens to
+  // be — so the comparison basis stays fixed regardless of which period the
+  // dashboard is showing.
+  const today = new Date();
+  const lastMonthStart = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+  const lastMonthEnd = new Date(today.getFullYear(), today.getMonth(), 0);
+  const lastMonth = appointments.filter((a) =>
+    isWithinWindow(a.appointmentDate, { start: lastMonthStart, end: lastMonthEnd })
+  );
 
   const completedNow = current.filter((a) => a.status === "Completed");
-  const completedPrev = previous.filter((a) => a.status === "Completed");
+  const completedLastMonth = lastMonth.filter((a) => a.status === "Completed");
 
   const revenueNow = completedNow.reduce((sum, a) => sum + a.netRevenue, 0);
-  const revenuePrev = completedPrev.reduce((sum, a) => sum + a.netRevenue, 0);
+  const revenueLastMonth = completedLastMonth.reduce((sum, a) => sum + a.netRevenue, 0);
 
   const patientsNow = completedNow.length;
-  const patientsPrev = completedPrev.length;
-
-  const avgNow = patientsNow > 0 ? revenueNow / patientsNow : 0;
-  const avgPrev = patientsPrev > 0 ? revenuePrev / patientsPrev : 0;
+  const patientsLastMonth = completedLastMonth.length;
 
   // Margin = how much of what the patient paid the clinic actually keeps as
   // net income, averaged per completed appointment (netRevenue / price).
   const billableNow = completedNow.filter((a) => a.price > 0);
-  const billablePrev = completedPrev.filter((a) => a.price > 0);
+  const billableLastMonth = completedLastMonth.filter((a) => a.price > 0);
   const marginNow =
     billableNow.length > 0
       ? (billableNow.reduce((sum, a) => sum + a.netRevenue / a.price, 0) / billableNow.length) * 100
       : 0;
-  const marginPrev =
-    billablePrev.length > 0
-      ? (billablePrev.reduce((sum, a) => sum + a.netRevenue / a.price, 0) / billablePrev.length) * 100
+  const marginLastMonth =
+    billableLastMonth.length > 0
+      ? (billableLastMonth.reduce((sum, a) => sum + a.netRevenue / a.price, 0) / billableLastMonth.length) * 100
       : 0;
+
+  // Conversion rate = of every appointment booked in the period (any status),
+  // how many actually completed.
+  const conversionNow = current.length > 0 ? (completedNow.length / current.length) * 100 : 0;
+  const conversionLastMonth =
+    lastMonth.length > 0 ? (completedLastMonth.length / lastMonth.length) * 100 : 0;
 
   const stats: Stat[] = [
     {
-      label: "Average Net Revenue",
+      label: "Net Revenue",
       icon: DollarSign,
       color: "green",
-      value: formatCurrency(Math.round(avgNow)),
-      delta: isAllTime ? null : percentDelta(avgNow, avgPrev),
+      value: formatCurrency(revenueNow),
+      delta: percentDelta(revenueNow, revenueLastMonth),
     },
     {
       label: "Patients",
       icon: Users,
       color: "blue",
       value: String(patientsNow),
-      delta: isAllTime ? null : percentDelta(patientsNow, patientsPrev),
+      delta: percentDelta(patientsNow, patientsLastMonth),
     },
     {
       label: "Average Margin",
       icon: CreditCard,
       color: "violet",
       value: `${marginNow.toFixed(1)}%`,
-      delta: isAllTime ? null : percentDelta(marginNow, marginPrev),
+      delta: percentDelta(marginNow, marginLastMonth),
     },
     {
       label: "Conversion rate",
       icon: Filter,
       color: "amber",
-      value: "2.93%",
-      delta: isAllTime ? null : -21.7,
+      value: `${conversionNow.toFixed(1)}%`,
+      delta: percentDelta(conversionNow, conversionLastMonth),
     },
   ];
 
@@ -101,19 +105,22 @@ export function DashboardStatCards({ range }: { range: DashboardRange }) {
               <IconBadge icon={stat.icon} color={stat.color} size="sm" />
               {stat.label}
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-end justify-between">
               <span className="text-2xl font-semibold tracking-tight text-foreground">
                 {stat.value}
               </span>
               {stat.delta !== null && (
-                <span
-                  className={`inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-xs font-medium ${
-                    positive ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-600"
-                  }`}
-                >
-                  {positive ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
-                  {Math.abs(stat.delta).toFixed(1)}%
-                </span>
+                <div className="flex flex-col items-end gap-1">
+                  <span
+                    className={`inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-xs font-medium ${
+                      positive ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-600"
+                    }`}
+                  >
+                    {positive ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
+                    {Math.abs(stat.delta).toFixed(1)}%
+                  </span>
+                  <span className="text-[10px] text-muted-foreground">from last month</span>
+                </div>
               )}
             </div>
           </div>

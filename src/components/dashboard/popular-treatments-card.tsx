@@ -1,8 +1,15 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { Sparkles, ArrowRight, CalendarRange } from "lucide-react";
 import { IconBadge } from "@/components/ui/icon-badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useAppointments } from "@/lib/appointments-context";
 import { isWithinDashboardRange, type DashboardRange } from "@/lib/dashboard-range";
 
@@ -10,6 +17,16 @@ const SLICE_COLORS = ["#60A5FA", "#7DD3FC", "#93C5FD", "#BAE6FD", "#BFDBFE", "#D
 const SIZE = 160;
 const RADIUS = 70;
 const CENTER = SIZE / 2;
+
+// This card tracks its own period, independent of the dashboard's shared
+// range selector — it only ever needs these five options.
+const TREATMENTS_RANGE_OPTIONS: { value: DashboardRange; label: string }[] = [
+  { value: "all-time", label: "All Time" },
+  { value: "current-month", label: "Current Month" },
+  { value: "days-30", label: "Last 30 Days" },
+  { value: "days-60", label: "Last 60 Days" },
+  { value: "days-90", label: "Last 90 Days" },
+];
 
 function toXY(angleDeg: number, radius = RADIUS) {
   const rad = ((angleDeg - 90) * Math.PI) / 180;
@@ -21,8 +38,9 @@ function capitalize(label: string) {
   return label.charAt(0).toUpperCase() + label.slice(1);
 }
 
-export function PopularTreatmentsCard({ range }: { range: DashboardRange }) {
+export function PopularTreatmentsCard() {
   const { appointments } = useAppointments();
+  const [range, setRange] = useState<DashboardRange>("current-month");
   const [hovered, setHovered] = useState<number | null>(null);
 
   const inRange = appointments.filter((a) => isWithinDashboardRange(a.appointmentDate, range));
@@ -68,7 +86,7 @@ export function PopularTreatmentsCard({ range }: { range: DashboardRange }) {
 
   return (
     <div className="flex flex-1 flex-col rounded-xl border border-border bg-card p-5 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
           <IconBadge icon={Sparkles} color="pink" size="sm" />
           Most Popular Treatments
@@ -80,6 +98,24 @@ export function PopularTreatmentsCard({ range }: { range: DashboardRange }) {
           View patients
           <ArrowRight className="h-3 w-3" />
         </a>
+      </div>
+
+      <div className="mb-4">
+        <Select value={range} onValueChange={(v) => setRange(v as DashboardRange)}>
+          <SelectTrigger className="h-7 w-full gap-1.5 text-xs">
+            <CalendarRange className="h-3 w-3 text-muted-foreground" />
+            <SelectValue>
+              {TREATMENTS_RANGE_OPTIONS.find((o) => o.value === range)?.label}
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            {TREATMENTS_RANGE_OPTIONS.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {ranked.length === 0 ? (

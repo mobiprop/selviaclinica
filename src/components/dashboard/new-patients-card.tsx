@@ -4,46 +4,71 @@ import { useMemo } from "react";
 import { UserPlus, ArrowRight, ArrowUp, ArrowDown } from "lucide-react";
 import { IconBadge } from "@/components/ui/icon-badge";
 import { useAppointments } from "@/lib/appointments-context";
+import {
+  isWithinDashboardRange,
+  isWithinWindow,
+  previousRangeWindow,
+  rangeStart,
+  rangeEnd,
+  rangeLabel,
+  type DashboardRange,
+} from "@/lib/dashboard-range";
 
-const WINDOW_DAYS = 30;
 const WIDTH = 400;
 const HEIGHT = 90;
 
-function startOfDay(date: Date) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+function patientKey(firstName: string, lastName: string) {
+  return `${firstName.trim().toLowerCase()} ${lastName.trim().toLowerCase()}`;
 }
 
-export function NewLeadsCard() {
+export function NewPatientsCard({ range }: { range: DashboardRange }) {
   const { appointments } = useAppointments();
 
   const { total, deltaPct, points } = useMemo(() => {
-    const today = startOfDay(new Date());
-    const windowStart = new Date(today);
-    windowStart.setDate(windowStart.getDate() - (WINDOW_DAYS - 1));
-    const prevStart = new Date(windowStart);
-    prevStart.setDate(prevStart.getDate() - WINDOW_DAYS);
-    const prevEnd = new Date(windowStart);
-    prevEnd.setDate(prevEnd.getDate() - 1);
+    const today = new Date();
 
-    const counts = new Array(WINDOW_DAYS).fill(0);
-    let currentTotal = 0;
-    let prevTotal = 0;
-
+    // A patient's "new patient" moment is the earliest appointment on record
+    // for them, across the whole dataset — not just within the selected range.
+    const firstSeen = new Map<string, string>();
     for (const a of appointments) {
-      const date = new Date(`${a.appointmentDate}T00:00:00`);
-      if (date >= windowStart && date <= today) {
-        const dayIndex = Math.round((date.getTime() - windowStart.getTime()) / (1000 * 60 * 60 * 24));
-        counts[dayIndex] += 1;
-        currentTotal += 1;
-      } else if (date >= prevStart && date <= prevEnd) {
-        prevTotal += 1;
-      }
+      const key = patientKey(a.firstName, a.lastName);
+      const existing = firstSeen.get(key);
+      if (!existing || a.appointmentDate < existing) firstSeen.set(key, a.appointmentDate);
+    }
+    const firstSeenDates = Array.from(firstSeen.values());
+
+    const currentTotal = firstSeenDates.filter((d) => isWithinDashboardRange(d, range, today)).length;
+    const isAllTime = range === "all-time";
+    const prevTotal = isAllTime
+      ? 0
+      : firstSeenDates.filter((d) => isWithinWindow(d, previousRangeWindow(range, today))).length;
+
+    const delta = isAllTime
+      ? null
+      : prevTotal === 0
+        ? currentTotal > 0
+          ? 100
+          : null
+        : ((currentTotal - prevTotal) / prevTotal) * 100;
+
+    // Spark line across the range's own days, clamped to today so "All Time"
+    // doesn't try to render decades of empty future days.
+    let start = rangeStart(range, today);
+    const end = range === "all-time" ? today : rangeEnd(range, today);
+    if (isAllTime && firstSeenDates.length > 0) {
+      const earliest = firstSeenDates.reduce((min, d) => (d < min ? d : min), firstSeenDates[0]);
+      const earliestDate = new Date(`${earliest}T00:00:00`);
+      if (earliestDate > start) start = earliestDate;
     }
 
-    const delta = prevTotal === 0 ? (currentTotal > 0 ? 100 : null) : ((currentTotal - prevTotal) / prevTotal) * 100;
+    const days: string[] = [];
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      days.push(d.toISOString().slice(0, 10));
+    }
+    const counts = days.map((dateStr) => firstSeenDates.filter((d) => d === dateStr).length);
 
-    return { total: currentTotal, deltaPct: delta, points: counts };
-  }, [appointments]);
+    return { total: currentTotal, deltaPct: delta, points: counts.length > 0 ? counts : [0] };
+  }, [appointments, range]);
 
   const max = Math.max(...points, 1);
   const linePoints = points.map((v, i) => {
@@ -63,13 +88,13 @@ export function NewLeadsCard() {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
           <IconBadge icon={UserPlus} color="cyan" size="sm" />
-          New Leads / Day
+          New Patients
         </div>
         <a
           href="/patients"
           className="flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground"
         >
-          View leads
+          View patients
           <ArrowRight className="h-3 w-3" />
         </a>
       </div>
@@ -87,7 +112,7 @@ export function NewLeadsCard() {
           </span>
         )}
       </div>
-      <div className="mb-2 text-xs text-muted-foreground">leads in last {WINDOW_DAYS} days</div>
+      <div className="mb-2 text-xs text-muted-foreground">{rangeLabel(range)}</div>
 
       <div className="mt-auto">
         <svg

@@ -2,7 +2,9 @@ export type DashboardRange =
   | "all-time"
   | "current-month"
   | "days-7"
+  | "days-30"
   | "days-60"
+  | "days-90"
   | "days-180"
   | `month-${number}`;
 
@@ -60,8 +62,16 @@ export function rangeStart(range: DashboardRange, today = new Date()): Date {
     start.setDate(start.getDate() - 6);
     return start;
   }
+  if (range === "days-30") {
+    start.setDate(start.getDate() - 29);
+    return start;
+  }
   if (range === "days-60") {
     start.setDate(start.getDate() - 59);
+    return start;
+  }
+  if (range === "days-90") {
+    start.setDate(start.getDate() - 89);
     return start;
   }
   start.setDate(start.getDate() - 179);

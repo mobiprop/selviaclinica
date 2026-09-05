@@ -7,7 +7,7 @@ import { DashboardToolbar } from "@/components/dashboard/toolbar";
 import { DashboardStatCards } from "@/components/dashboard/stat-cards";
 import { RevenueChart } from "@/components/dashboard/revenue-chart";
 import { PopularTreatmentsCard } from "@/components/dashboard/popular-treatments-card";
-import { NewLeadsCard } from "@/components/dashboard/new-leads-card";
+import { NewPatientsCard } from "@/components/dashboard/new-patients-card";
 import { CampaignRoiCard } from "@/components/dashboard/campaign-roi-card";
 import { TransactionsTable } from "@/components/dashboard/transactions-table";
 import type { DashboardRange } from "@/lib/dashboard-range";
@@ -26,8 +26,8 @@ export default function Home() {
             <DashboardStatCards range={range} />
             <RevenueChart range={range} />
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-              <PopularTreatmentsCard range={range} />
-              <NewLeadsCard />
+              <PopularTreatmentsCard />
+              <NewPatientsCard range={range} />
               <CampaignRoiCard />
             </div>
             <TransactionsTable />

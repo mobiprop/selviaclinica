@@ -18,12 +18,6 @@ export function completedPayments(appointments: Appointment[]): number {
     .reduce((sum, a) => sum + a.netRevenue, 0);
 }
 
-export function averageNetRevenue(appointments: Appointment[]): number {
-  const completed = appointments.filter((a) => a.status === "Completed");
-  if (completed.length === 0) return 0;
-  return completedPayments(completed) / completed.length;
-}
-
 export function upcomingCount(appointments: Appointment[]): number {
   return appointments.filter((a) => a.status === "Scheduled").length;
 }
