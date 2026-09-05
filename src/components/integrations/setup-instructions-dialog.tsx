@@ -48,6 +48,7 @@ const SETUP_INFO: Partial<Record<IntegrationKind, SetupInfo>> = {
       "APIs & Services → Credentials → Create Credentials → OAuth client ID → Application type: Web application.",
       "Under Authorized redirect URIs, add http://localhost:3000/api/integrations/google/callback (add your production URL later).",
       "Copy the Client ID and Client Secret. Set NEXT_PUBLIC_GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env.local, then restart the dev server. (Same Google OAuth client as Calendar covers both.)",
+      "APIs & Services → Library → also enable the Google Picker API, then Credentials → Create Credentials → API key. Restrict it to the Picker API and your domain, then set NEXT_PUBLIC_GOOGLE_PICKER_API_KEY. Drive only searches files a user explicitly shares through that Picker.",
     ],
   },
   "meta-ads": {

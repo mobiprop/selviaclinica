@@ -20,7 +20,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ ev
   }
 
   try {
-    const event = await updateCalendarEvent(eventId, {
+    const event = await updateCalendarEvent(user.id, eventId, {
       summary: body.summary,
       description: body.description,
       start: body.start,
@@ -39,7 +39,7 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
 
   const { eventId } = await params;
   try {
-    await deleteCalendarEvent(eventId);
+    await deleteCalendarEvent(user.id, eventId);
     return Response.json({ ok: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed to delete event";

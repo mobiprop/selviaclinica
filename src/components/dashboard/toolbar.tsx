@@ -31,7 +31,7 @@ export function DashboardToolbar({
 
   const currentMonthRevenue = appointments
     .filter((a) => a.status === "Completed" && isWithinDashboardRange(a.appointmentDate, "current-month"))
-    .reduce((sum, a) => sum + a.netRevenue, 0);
+    .reduce((sum, a) => sum + a.netIncome, 0);
 
   const gap = monthlyTarget - currentMonthRevenue;
   const perDay = gap > 0 ? gap / Math.max(daysLeft, 1) : 0;

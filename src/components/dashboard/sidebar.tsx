@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -32,6 +33,25 @@ const platformItems: { label: string; icon: typeof LayoutGrid; href: string; che
 
 export function DashboardSidebar() {
   const pathname = usePathname();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return;
+    let cancelled = false;
+    (async () => {
+      const { createClient } = await import("@/lib/supabase/client");
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
+      if (!cancelled) setIsAdmin(profile?.role === "admin");
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-sidebar px-3 py-4 md:flex">
@@ -78,6 +98,20 @@ export function DashboardSidebar() {
         System
       </div>
       <nav className="flex flex-col gap-0.5">
+        {isAdmin && (
+          <Link
+            href="/users"
+            className={`flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition-colors ${
+              pathname === "/users"
+                ? "bg-accent font-medium text-foreground"
+                : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
+            }`}
+          >
+            <Users className="h-4 w-4" />
+            <span className="flex-1">Users</span>
+            <ChevronRight className="h-3.5 w-3.5" />
+          </Link>
+        )}
         <Link
           href="/settings"
           className={`flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition-colors ${

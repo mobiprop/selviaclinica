@@ -10,25 +10,42 @@ type StoreConnectionInput = {
   expiresAt?: string;
 };
 
-/** Writes the token (service-role only table) and the user-visible connection record. Called only from OAuth callback Route Handlers, after verifying the caller's session. */
+/**
+ * Writes the token (service-role only table) and the user-visible connection
+ * record. Called only from OAuth callback Route Handlers, after verifying
+ * the caller's session. Calendar/Drive are personal connections — each row
+ * is scoped to `userId`, so different people connecting doesn't clobber each
+ * other's tokens.
+ */
 export async function storeIntegrationConnection(input: StoreConnectionInput) {
   const supabase = createServiceRoleClient();
 
-  const { error: tokenError } = await supabase.from("integration_tokens").upsert({
-    kind: input.kind,
-    access_token: input.accessToken,
-    refresh_token: input.refreshToken ?? null,
-    expires_at: input.expiresAt ?? null,
-    updated_at: new Date().toISOString(),
-  });
+  const { error: tokenError } = await supabase
+    .from("integration_tokens")
+    .upsert(
+      {
+        kind: input.kind,
+        user_id: input.userId,
+        access_token: input.accessToken,
+        refresh_token: input.refreshToken ?? null,
+        expires_at: input.expiresAt ?? null,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "kind,user_id" }
+    );
   if (tokenError) throw tokenError;
 
-  const { error: connectionError } = await supabase.from("integration_connections").upsert({
-    kind: input.kind,
-    connected_by: input.userId,
-    account_label: input.accountLabel ?? null,
-    connected_at: new Date().toISOString(),
-  });
+  const { error: connectionError } = await supabase
+    .from("integration_connections")
+    .upsert(
+      {
+        kind: input.kind,
+        user_id: input.userId,
+        account_label: input.accountLabel ?? null,
+        connected_at: new Date().toISOString(),
+      },
+      { onConflict: "kind,user_id" }
+    );
   if (connectionError) throw connectionError;
 }
 

@@ -90,17 +90,17 @@ export function createSelviaMcpServer() {
     "get_revenue_summary",
     {
       title: "Get revenue summary",
-      description: "Aggregate net revenue and patient counts across every completed appointment on record.",
+      description: "Aggregate net income and patient counts across every completed appointment on record.",
       inputSchema: {},
     },
     async () => {
       const appointments = await loadAppointments();
       const completed = appointments.filter((a) => a.status === "Completed");
-      const totalNetRevenue = completed.reduce((sum, a) => sum + a.netRevenue, 0);
+      const totalNetIncome = completed.reduce((sum, a) => sum + a.netIncome, 0);
       const summary = {
         completedAppointments: completed.length,
-        totalNetRevenue,
-        averageNetRevenue: completed.length > 0 ? Math.round(totalNetRevenue / completed.length) : 0,
+        totalNetIncome,
+        averageNetIncome: completed.length > 0 ? Math.round(totalNetIncome / completed.length) : 0,
       };
       return { content: [{ type: "text", text: JSON.stringify(summary, null, 2) }] };
     }

@@ -45,8 +45,8 @@ function fromGoogleEvent(raw: {
   };
 }
 
-async function googleFetch(url: string, init?: RequestInit) {
-  const accessToken = await getValidGoogleAccessToken("google-calendar");
+async function googleFetch(userId: string, url: string, init?: RequestInit) {
+  const accessToken = await getValidGoogleAccessToken("google-calendar", userId);
   const res = await fetch(url, {
     ...init,
     headers: {
@@ -58,7 +58,7 @@ async function googleFetch(url: string, init?: RequestInit) {
   return res;
 }
 
-export async function listCalendarEvents(timeMin: string, timeMax: string): Promise<CalendarEvent[]> {
+export async function listCalendarEvents(userId: string, timeMin: string, timeMax: string): Promise<CalendarEvent[]> {
   const params = new URLSearchParams({
     timeMin,
     timeMax,
@@ -66,14 +66,14 @@ export async function listCalendarEvents(timeMin: string, timeMax: string): Prom
     orderBy: "startTime",
     maxResults: "100",
   });
-  const res = await googleFetch(`${CALENDAR_API}?${params.toString()}`);
+  const res = await googleFetch(userId, `${CALENDAR_API}?${params.toString()}`);
   const data = await res.json();
   if (!res.ok) throw new Error(data.error?.message ?? "Failed to load Google Calendar events");
   return (data.items ?? []).map(fromGoogleEvent);
 }
 
-export async function createCalendarEvent(input: EventInput): Promise<CalendarEvent> {
-  const res = await googleFetch(CALENDAR_API, {
+export async function createCalendarEvent(userId: string, input: EventInput): Promise<CalendarEvent> {
+  const res = await googleFetch(userId, CALENDAR_API, {
     method: "POST",
     body: JSON.stringify(toGoogleEvent(input)),
   });
@@ -82,8 +82,8 @@ export async function createCalendarEvent(input: EventInput): Promise<CalendarEv
   return fromGoogleEvent(data);
 }
 
-export async function updateCalendarEvent(eventId: string, input: EventInput): Promise<CalendarEvent> {
-  const res = await googleFetch(`${CALENDAR_API}/${encodeURIComponent(eventId)}`, {
+export async function updateCalendarEvent(userId: string, eventId: string, input: EventInput): Promise<CalendarEvent> {
+  const res = await googleFetch(userId, `${CALENDAR_API}/${encodeURIComponent(eventId)}`, {
     method: "PATCH",
     body: JSON.stringify(toGoogleEvent(input)),
   });
@@ -92,8 +92,8 @@ export async function updateCalendarEvent(eventId: string, input: EventInput): P
   return fromGoogleEvent(data);
 }
 
-export async function deleteCalendarEvent(eventId: string): Promise<void> {
-  const res = await googleFetch(`${CALENDAR_API}/${encodeURIComponent(eventId)}`, { method: "DELETE" });
+export async function deleteCalendarEvent(userId: string, eventId: string): Promise<void> {
+  const res = await googleFetch(userId, `${CALENDAR_API}/${encodeURIComponent(eventId)}`, { method: "DELETE" });
   if (!res.ok && res.status !== 410) {
     const data = await res.json().catch(() => ({}));
     throw new Error(data.error?.message ?? "Failed to delete event");

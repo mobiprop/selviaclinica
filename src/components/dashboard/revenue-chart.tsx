@@ -71,7 +71,7 @@ export function RevenueChart({ range }: { range: DashboardRange }) {
       const dateStr = day.toISOString().slice(0, 10);
       const dayRevenue = appointments
         .filter((a) => a.status === "Completed" && a.appointmentDate === dateStr)
-        .reduce((sum, a) => sum + a.netRevenue, 0);
+        .reduce((sum, a) => sum + a.netIncome, 0);
 
       runningActual += dayRevenue;
 

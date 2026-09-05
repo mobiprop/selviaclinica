@@ -1,4 +1,4 @@
-import type { Appointment, AppointmentStatus, PatientSource } from "@/types/patient";
+import type { Appointment, AppointmentStatus, PatientSource, PaymentMethod } from "@/types/patient";
 import type { Supply, SupplyCurrency, SupplyUsageType } from "@/types/supply";
 import type { Profile } from "@/types/profile";
 
@@ -12,7 +12,9 @@ export type AppointmentRow = {
   treatment: string;
   price: number;
   reservation: number;
-  net_revenue: number;
+  payment_method: string | null;
+  doctor_percentage: number | null;
+  net_income: number;
   status: string;
   source: string;
   doctor: string;
@@ -30,7 +32,9 @@ export function appointmentFromRow(row: AppointmentRow): Appointment {
     treatment: row.treatment,
     price: Number(row.price),
     reservation: Number(row.reservation),
-    netRevenue: Number(row.net_revenue),
+    paymentMethod: (row.payment_method as PaymentMethod | null) ?? undefined,
+    doctorPercentage: row.doctor_percentage != null ? Number(row.doctor_percentage) : undefined,
+    netIncome: Number(row.net_income),
     status: row.status as AppointmentStatus,
     source: row.source as PatientSource,
     doctor: row.doctor,
@@ -49,7 +53,9 @@ export function appointmentToRow(appointment: Appointment): AppointmentRow {
     treatment: appointment.treatment,
     price: appointment.price,
     reservation: appointment.reservation,
-    net_revenue: appointment.netRevenue,
+    payment_method: appointment.paymentMethod ?? null,
+    doctor_percentage: appointment.doctorPercentage ?? null,
+    net_income: appointment.netIncome,
     status: appointment.status,
     source: appointment.source,
     doctor: appointment.doctor,

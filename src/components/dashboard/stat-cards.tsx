@@ -39,23 +39,23 @@ export function DashboardStatCards({ range }: { range: DashboardRange }) {
   const completedNow = current.filter((a) => a.status === "Completed");
   const completedLastMonth = lastMonth.filter((a) => a.status === "Completed");
 
-  const revenueNow = completedNow.reduce((sum, a) => sum + a.netRevenue, 0);
-  const revenueLastMonth = completedLastMonth.reduce((sum, a) => sum + a.netRevenue, 0);
+  const revenueNow = completedNow.reduce((sum, a) => sum + a.netIncome, 0);
+  const revenueLastMonth = completedLastMonth.reduce((sum, a) => sum + a.netIncome, 0);
 
   const patientsNow = completedNow.length;
   const patientsLastMonth = completedLastMonth.length;
 
   // Margin = how much of what the patient paid the clinic actually keeps as
-  // net income, averaged per completed appointment (netRevenue / price).
+  // net income, averaged per completed appointment (netIncome / price).
   const billableNow = completedNow.filter((a) => a.price > 0);
   const billableLastMonth = completedLastMonth.filter((a) => a.price > 0);
   const marginNow =
     billableNow.length > 0
-      ? (billableNow.reduce((sum, a) => sum + a.netRevenue / a.price, 0) / billableNow.length) * 100
+      ? (billableNow.reduce((sum, a) => sum + a.netIncome / a.price, 0) / billableNow.length) * 100
       : 0;
   const marginLastMonth =
     billableLastMonth.length > 0
-      ? (billableLastMonth.reduce((sum, a) => sum + a.netRevenue / a.price, 0) / billableLastMonth.length) * 100
+      ? (billableLastMonth.reduce((sum, a) => sum + a.netIncome / a.price, 0) / billableLastMonth.length) * 100
       : 0;
 
   // Conversion rate = of every appointment booked in the period (any status),
@@ -66,7 +66,7 @@ export function DashboardStatCards({ range }: { range: DashboardRange }) {
 
   const stats: Stat[] = [
     {
-      label: "Net Revenue",
+      label: "Net Income",
       icon: DollarSign,
       color: "green",
       value: formatCurrency(revenueNow),

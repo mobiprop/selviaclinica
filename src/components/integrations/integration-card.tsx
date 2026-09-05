@@ -117,6 +117,7 @@ export function IntegrationCard({ integration }: { integration: Integration }) {
           name={integration.name}
           connection={connection}
           onDisconnect={() => disconnect(integration.id)}
+          showDrivePicker={integration.id === "google-drive"}
         />
       )}
     </div>

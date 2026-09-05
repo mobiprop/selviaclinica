@@ -21,7 +21,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const events = await listCalendarEvents(timeMin, timeMax);
+    const events = await listCalendarEvents(user.id, timeMin, timeMax);
     return Response.json({ events });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed to load events";
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const event = await createCalendarEvent({
+    const event = await createCalendarEvent(user.id, {
       summary: body.summary,
       description: body.description,
       start: body.start,
